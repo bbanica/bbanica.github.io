@@ -1,0 +1,697 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>paycom - in-system guidance</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="ef927773-d9fd-480d-baf7-18be4d741001" class="page sans"><header><div class="page-header-icon undefined"><h3 class="highlight-gray"><a href="../index.html">← home</a></h3></div><h1 class="page-title">💳 paycom - in-system guidance</h1><p class="page-description"></p></header><div class="page-body"><figure id="bdd9a5cf-904b-4a57-9d5b-71042462ed56" class="image"><a href="./images/PORTFOLIO-BANNER-PAYCOM.jpg"><img style="width:4320px" src="./images/PORTFOLIO-BANNER-PAYCOM.jpg"/></a></figure><h3 id="a5c04aac-d606-4968-b2e3-ea563bbd3912" class="">Context</h3><p id="fd34ffa3-82ab-4e1c-8265-3ecc7a5aacd2" class="">From May 22nd to August 18th 2023, I was a Product Design Intern at Paycom in Oklahoma City. My project partner, Zia Kim and I, worked on a project we named &quot;In-system Guidance/ISG,&quot; initially named &quot;Contextual In-System Help/Tutorials&quot;. The project was assigned to us by our leader/manager, and we had roughly 8 weeks after onboarding and introductory work to complete the project. The purpose of the project was to allow for ways to make sure developers and designers can roll out work-in-progress features and give the users a helping hand while they dialed in the intuitive and revamped UX behind the scenes.</p><h3 id="bad78722-463a-480d-934d-e508f5f16793" class="">The finished product</h3><p id="2dff52bf-a983-4216-8e74-bf9420ad6226" class="">We designed and documented a design standard along with 3 separate tiers of customizable Figma/React components that allows users, upon toggling it, to get more contextual information about the things on the pages they&#x27;re looking at - be it key words, actions they need to take, or just general FAQs.</p><figure id="5d21a719-2f75-46cc-ad01-ace99c05e896" class="image"><a href="./images/Untitled.png"><img style="width:1280px" src="./images/Untitled.png"/></a></figure><figure id="525a21c5-b99a-497f-a41a-bec91eefae5a" class="image"><a href="./images/Untitled%201.png"><img style="width:708px" src="./images/Untitled%201.png"/></a></figure><figure id="32ba99bc-44d4-4650-a5e7-7df9b1d2bb98" class="image"><a href="./images/Untitled%202.png"><img style="width:1280px" src="./images/Untitled%202.png"/></a></figure><figure id="1f8ccbf0-1522-4c1f-9814-6e3ad6c12276" class="image"><a href="./images/Untitled%203.png"><img style="width:708px" src="./images/Untitled%203.png"/></a></figure><figure id="ed422055-8c90-432d-adba-97a7f0edf5e9" class="image"><a href="./images/Untitled%204.png"><img style="width:1280px" src="./images/Untitled%204.png"/></a></figure><figure id="e35aeb16-2e2b-4730-b4ef-f6c759eaed92" class="image"><a href="./images/Untitled%205.png"><img style="width:1280px" src="./images/Untitled%205.png"/></a></figure><p id="de37f747-4c8d-4a51-8bef-a2f64848d49b" class=""><em>Software used:</em></p><p id="b4dc57f0-3b7d-4f35-849c-b815c38c91cb" class=""><em>Figma, FigJam, Adobe Illustrator, Jira, Confluence, Excel, PowerPoint, Zoom</em></p><h3 id="9bb05377-77dd-421e-8d06-ea0fff4bb956" class="">Disclaimer:</h3><p id="e4600e36-30a5-40ec-abea-7b5bf0b86a43" class="">Though this case study is a cut down version of a 65-page document, it is still a <strong>very comprehensive breakdown of my design process for this project.</strong> For this reason, I&#x27;ve left a table of contents below. If you’d like something shorter, with a smaller scope, and with more visual interest rather than super heavy documentation, check out my other projects.</p><p id="37db5f2d-34e5-4105-a5cb-9d0baf3f961e" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="8aea318e-2ab5-444a-ba20-8966e00066b1"><div style="font-size:1.5em"><span class="icon">🔎</span></div><div style="width:100%">I’ve labeled the sections that have cool visuals with a camera 📷 emoji if you don’t feel like reading.</div></figure><p id="8c09023b-b2ee-44f0-9817-c4ebbb6fceb1" class="">
+</p><p id="table_of_contents" class=""><strong>Table of contents:</strong></p><div id="c41c250f-aa41-403b-a158-dc1af5885310" class="column-list"><div id="c89f1841-9cf9-473c-a34f-2cf308b895ca" style="width:50%" class="column"><p id="de995ef5-7b83-4072-9f48-770e452467db" class=""><a href="#problem_statement">Problem statement</a></p><p id="07ed6d17-607c-4672-b818-033ad68f7688" class=""><a href="#methodology_and_timeline">Methodology &amp; timeline</a></p><p id="dd79541c-8d20-4b02-a3f6-c486079c1f1a" class=""><a href="#stakeholder_interviews">Stakeholder interviews</a></p><p id="3297b51c-0f7c-472c-a5a8-74b3e89cb6e4" class=""><a href="#foundational_research">Foundational research</a></p><p id="b1c556fd-6442-4a04-964b-cdd6b337ec2e" class=""><a href="#assumption_mapping">Assumption mapping</a></p><p id="6b00b88e-bd6c-4e98-8b4e-50ac9fc717cb" class=""><a href="#user_research">User research</a></p><p id="09d62e24-e51f-4315-a394-34da16febc96" class=""><a href="#journey_mapping">Journey mapping</a></p><p id="a825442b-1640-489b-a870-27ae71bf6bf5" class=""><a href="#affinity_mapping">Affinity mapping 📷</a></p></div><div id="f2ecbf00-3812-4e33-a18b-0a9a245192f6" style="width:50%" class="column"><p id="a30d0c48-0750-41be-a1f2-0bb40edc992b" class=""><a href="#sketching">Sketching 📷</a></p><p id="aa0404a8-d103-4ed8-b170-e0e2d6bfce06" class=""><a href="#design_iteration_1">Design iteration #1 📷</a></p><p id="104e4f1d-190e-4c14-87af-c17a2c55aafa" class=""><a href="#prototyping">Prototyping &amp; usability testing 📷</a></p><p id="29624d6b-c49c-4b81-984a-b7da80d715f3" class=""><a href="#design_iteration_2">Design iteration #2 📷</a></p><p id="65f93c35-98fe-4daf-9e63-826c9c964b34" class=""><a href="#design_solution">Design solution 📷</a></p><p id="fa08677c-5135-4832-84bb-4b1783224528" class=""><a href="#handoff">Handoff</a></p><p id="de8ecf24-be68-4141-9f54-9f98a68b88df" class=""><a href="#reflection">Reflection</a></p></div></div><h2 id="problem_statement" class="">Problem statement</h2><p id="e7a07b21-a6f4-4fb2-86b4-c768a30a846b" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><h3 id="54ab36b7-a67a-461e-8462-57d2a473a090" class="">Introduction</h3><p id="ef27bb6f-4ffe-4f32-b7c2-e497e0193268" class="">Our company has identified the need to improve our In-System Guidance (ISG) and onboarding process for new features and products. We aim to provide better contextual help and recommended actions in a scalable format across our system, which will have a significant impact on our users&#x27; experience.</p><h3 id="086b9cfc-e9a7-4da1-9053-cd222aa6f84a" class="">Objective</h3><p id="9b85186b-fea7-42e9-b147-2d9ae0e24203" class="">The objective of this project is to improve the user’s usage of our products by offering more &quot;smart suggestions&quot; and contextually relevant help when they need it, in a non-intrusive manner. We aim to increase user satisfaction, reduce support requests, and improve task performance.</p><p id="055b73e7-321e-4c61-ab1e-81a75860aba3" class="">Along with the general guidance, we also aim to provide a learning experience that allows the users to dig in deeper into certain products. We aim to answer some specific questions the users may have, and to assist them in any potential interactions with our products.</p><h2 id="methodology_and_timeline" class="">Methodology &amp; timeline</h2><p id="fe4b122c-ee45-4ea0-be11-36e9c7e3cc07" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="013a07da-bcf0-454a-9b1b-8beb3893596a" class="">To achieve our objective, the project was broken down into four phases with research, design, testing, and evaluation. This report will encapsulate the first three steps for comprehensive handoff of the project to the evaluation stage, including further refinement and performance measurement.</p><figure id="29cb18a3-505a-4390-91b2-f750d9807075" class="image"><a href="./images/Untitled%206.png"><img style="width:1280px" src="./images/Untitled%206.png"/></a></figure><h3 id="de165397-313f-4769-960b-bfb4879ed557" class="">Phase 1 - Research</h3><p id="26dee46b-0f9d-4f34-b220-20c5d3fadef1" class="">To achieve our objective, we conducted a comprehensive review of existing literature on onboarding tutorials and contextual help. We explored best practices by interviewing experts in various subject matters, while analyzing case studies from leading companies in our industry and beyond.</p><p id="3fa90e7b-ff6e-4bd4-b78d-f5645af9bfd5" class="">We then conducted user research to understand their pain points and challenges during the onboarding processes, as well as their preferences for receiving help and guidance. The user research was performed based on three distinct tiers of complexity. Custom ESS and Enrollment Hub (internal tools for clients) tools were utilized as sample products representing each tiers.</p><h3 id="0e01c008-8140-4541-afbe-7321ffa89537" class="">Phase 2 - Design &amp; test</h3><p id="4f91f942-9988-44df-83e0-889dd6f18917" class="">Based on our research, we developed a set of principles for three tiers of guidance. Then, we started designing components and guidelines for our sample products, ensuring that the iteration processes were recorded clearly.</p><h3 id="7806a0d4-8474-4749-a0a5-5e74d932206e" class="">Phase 3 - Testing &amp; design revisions</h3><p id="ef6fa69d-789b-478b-bde4-09548827b336" class="">Based on the designs, we have then conducted usability testing to evaluate the effectiveness of our new guidance system, and iteratively refined it based on user and designer feedback.</p><h3 id="620b9dad-5ab2-40b4-ae50-85a99f0feee4" class="">Phase 4 - Evaluate</h3><p id="843d8c62-bd54-4a06-b59e-8f47020c3204" class="">The testing and the iterations should continue as the project gets implemented. Our project scope ended before this stage, but our documentation serves as a reference point for furthering the evaluation and refinement of the project.</p><h2 id="stakeholder_interviews" class="">Stakeholder interviews</h2><p id="38ea7522-2a6d-49c1-b38c-b0bb886387e5" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="643f9025-b256-4314-9a8d-88f2f99b40ab" class="">To better understand the project, we conducted interviews with our stakeholders concerning the project scope and expectations. As a result, following outlines were made.</p><h3 id="fb8a49fb-73eb-4ad5-8e1d-2acf1ee75e7f" class="">Project scope</h3><p id="8040f5b4-356e-47a5-9e88-d3dbe9e3afd1" class="">The project will have a global scope, which means that it will potentially be implemented to many different Paycom products. Therefore, the project goal isn’t to create an ISG for a specific product. Rather, it is to create a system of expectations and best practices for the usage of In-System Guidance in potential global implementations.</p><h3 id="7440bf69-c843-4d6f-bcc8-18da884c1913" class="">Users</h3><p id="1e18c7aa-b923-4401-bd34-1b54980baf76" class="">The users of this project include both internal and external end users. The internal user can refer to the product designers, who would utilize our system to create an ISG for a specific product of their interest. The external or end users refer to the actual users of Paycom products who will be interacting with the ISGs created by the standards created by this project.</p><h3 id="8c5746ef-4f2d-416e-928e-a2d713cf3421" class="">Success criterion</h3><p id="cd0c3838-5d33-48a6-acd8-809d68dd3269" class="">The project success will be defined by a decrease in IT support requests, since users wouldn’t have to contact their service representatives to understand our products. This would mean higher rate of user comprehension, or better reviews coming from the end users.</p><h3 id="5d5eb802-1d92-49f6-b762-25b5c65ac233" class="">Tiered approach</h3><p id="b2a0f356-bcb0-4c74-82c7-9cf9e1af3cca" class="">We will have a three tiered approach to our products that will utilize ISG. Each tier will consist of different UI patterns and strategies involving learning theory. Following was the first rough definition of tiers that was outlined by the stakeholders:</p><p id="304becef-87b3-4bea-92ba-3cecc1633b53" class="">
+</p><ul id="447997dd-fa63-444e-9f6d-86f8323a4c2f" class="bulleted-list"><li style="list-style-type:disc">First tier: onboarding tutorials</li></ul><ul id="f63a6216-1261-4449-94bf-39798ac7dded" class="bulleted-list"><li style="list-style-type:disc">Second tier: on-page step throughs contained within page</li></ul><ul id="d7439116-f15b-423f-bc32-f5cdbcda4178" class="bulleted-list"><li style="list-style-type:disc">Third tier: large, complex walkthroughs that allow user exploration</li></ul><h2 id="foundational_research" class="">Foundational research</h2><p id="2466348c-7646-43cb-bea6-85169de6a8c9" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><h3 id="f2b5f874-38dc-4f52-b97d-ef0758a60945" class="">What is a product tour?</h3><p id="9a8646a1-6b54-4a0f-a051-3dcb5265e571" class="">A product tour is an onboarding UX pattern used to guide users through the basics and necessary features of a product. Product tours are meant to be definite, clear, and simple.</p><h3 id="5b994932-5d1f-46b8-82b5-6995d8efb0a1" class="">Why use a product tour?</h3><ul id="521c7a26-fdff-4f71-8537-4952024efad5" class="bulleted-list"><li style="list-style-type:disc">Compel users to take specific, meaningful actions</li></ul><ul id="6cd9ace6-310d-4f37-9484-c848b1850330" class="bulleted-list"><li style="list-style-type:disc">Guide users toward their aha moment</li></ul><ul id="57fa6dc4-1540-465d-be5e-3d95f2f428f1" class="bulleted-list"><li style="list-style-type:disc">Can be simple to build and experiment with</li></ul><h3 id="d413313b-18a1-4d64-b7d1-28f30a23e653" class="">Common features of product tours</h3><p id="e70f970c-678d-4e8c-afea-84415827b053" class="">Diverse UI patterns</p><p id="42adac73-7f60-4512-b612-0e5e03c1f1e5" class=""><em>Flows, tooltips, checklists, resource centers, and more</em></p><figure id="ca6d78af-8fb0-43be-bed3-6b8b2a5f9807" class="image"><a href="./images/Untitled%207.png"><img style="width:1280px" src="./images/Untitled%207.png"/></a></figure><p id="ff7ede42-ecfa-48aa-8b9c-e805bfc4b2cf" class="">Triggering options</p><p id="5efb0da9-3ccf-40d6-bcfa-c2b2299d908a" class=""><em>Non-linear, interactive tours and real-time, event-based triggering</em></p><figure id="247b446f-73c4-43a5-a4b7-09939b429d8c" class="image"><a href="./images/Untitled%208.png"><img style="width:1280px" src="./images/Untitled%208.png"/></a></figure><p id="73ec77b6-9a87-4988-bc50-cf5eb3603845" class="">A/B Testing</p><p id="16820281-6c40-42d1-b960-0962f2999849" class=""><em>Marketing experiment for most optimal product experience</em></p><figure id="4e78eec8-b7ba-4871-9de8-7bdeecdf9adc" class="image"><a href="./images/Untitled%209.png"><img style="width:9467px" src="./images/Untitled%209.png"/></a></figure><p id="4d894cbb-ee43-4bdc-824f-63bc82cec415" class="">Analytics</p><p id="25e46154-1b4b-4b38-b684-22b4d5582d87" class=""><em>Completion rates of each steps as success metrics</em></p><figure id="c122dc70-57a6-4b84-9db6-ada2c3cfdd99" class="image"><a href="./images/Untitled%2010.png"><img style="width:708px" src="./images/Untitled%2010.png"/></a></figure><h3 id="3dbcdab2-2ee6-40a1-a324-5c91b4fe8c49" class="">UI patterns</h3><p id="a69ade9d-1746-4f32-a6a9-bcaf62acace3" class=""><strong>Modals</strong></p><figure id="f15e0abf-f6df-4167-8d0b-8be46551b2df" class="image"><a href="./images/Untitled%2011.png"><img style="width:1280px" src="./images/Untitled%2011.png"/></a></figure><p id="ef304c73-7561-4a9b-8eb1-607411c6451a" class="">Modal windows, or overlays, are large UI elements that sit on top of an application’s main window. To return to the application’s main interface, users must interact with the modal layer. The modals are inherently and deliberatively disruptive.</p><p id="c946cf69-3175-4f22-a5c9-6869246e232a" class="">Use cases:</p><ul id="1cb82d81-08b4-4714-a244-8ba8c1137add" class="bulleted-list"><li style="list-style-type:disc">User onboarding, welcome message</li></ul><ul id="f8df6f5b-8229-467b-a68a-8de3a35aca8b" class="bulleted-list"><li style="list-style-type:disc">Feature announcements</li></ul><ul id="e1582737-7fb2-4e0d-9cbc-64f49950dc26" class="bulleted-list"><li style="list-style-type:disc">Additional user input</li></ul><p id="348bdce4-6403-4a66-ac55-d5a172618469" class="">Best practices:</p><ul id="f5771bc6-ff9c-4cab-961e-0e052515b107" class="bulleted-list"><li style="list-style-type:disc">Modal windows are disruptive, so it is better to stick to more subtle UI patterns for small announcements.</li></ul><ul id="8d99e1fd-eea2-4199-852c-2207831d1222" class="bulleted-list"><li style="list-style-type:disc">Placement can be centered for immediate attention, but can also be based depending on the modal content, size, and the user’s workflow.</li></ul><ul id="a8399bf1-76fb-4253-9070-d42e9be5c21d" class="bulleted-list"><li style="list-style-type:disc">When utilizing multi-modal flows, utilize progress indicators to motivate users.</li></ul><ul id="8b0a15da-4b1f-4dd7-9f7e-13a773f29595" class="bulleted-list"><li style="list-style-type:disc">It should be easy for users to leave the modal window. Actively utilize x button or call to action to exit.</li></ul><p id="5e41f134-a0a1-4cbf-a164-b4c9588c310e" class="">Use graphics, such as images, micro videos, or GIFs for attention grabbing.</p><p id="a553e7ad-b178-46f7-8eab-ef1a372c031b" class="">
+</p><p id="6386dae4-3f1b-48e5-ac65-bff36f4f3716" class=""><strong>Tool tips</strong></p><figure id="526037fa-f40e-4320-84d4-10701947330e" class="image"><a href="./images/Untitled%2012.png"><img style="width:1280px" src="./images/Untitled%2012.png"/></a></figure><p id="adf47ca6-aab0-441b-a921-ebde2255dd6c" class="">Tool tips are brief, informative UI elements that appear when a user interacts with an element in a product. They are generally related to any active element on a page, meaning they are highly contextual and specific, and are not for the bigger picture or an entire task flow.</p><p id="f6832a37-2950-4c8d-9fec-cbd2c721ddd6" class="">Use cases:</p><ul id="32cba61e-79ca-487e-858f-27ba98122d83" class="bulleted-list"><li style="list-style-type:disc">Feature announcements</li></ul><ul id="18c63559-bfd5-47e9-9ba8-77f4a2f0d056" class="bulleted-list"><li style="list-style-type:disc">Providing additional information in-context</li></ul><ul id="ace3021d-7646-4ba0-b13d-99a5c23c77c5" class="bulleted-list"><li style="list-style-type:disc">Fall-safe for users when they can’t understand a feature</li></ul><p id="c0c76be8-4c05-49e2-ab60-98389136f552" class="">Best practices:</p><ul id="d543fe2f-756f-4638-8d6d-717dbd8650f8" class="bulleted-list"><li style="list-style-type:disc">Do not use for vital or redundant information.</li></ul><ul id="3bd840af-494a-4a4e-aee2-828782323cac" class="bulleted-list"><li style="list-style-type:disc">Keep the information brief as a micro content.</li></ul><ul id="68d9d20d-0b92-4da6-a700-f439da67dcfe" class="bulleted-list"><li style="list-style-type:disc">Ensure to have moderate contrast against the background.</li></ul><ul id="499b90f1-d442-491b-bb41-536b44f418b7" class="bulleted-list"><li style="list-style-type:disc">Position so they don’t block related content.</li></ul><p id="964d50fa-d358-48c1-af5f-778025d33e17" class="">Allow confirm or exit.</p><p id="6d8be07b-2904-4691-be5d-d27c5a681eda" class="">
+</p><p id="4b6d02bf-0a7f-472f-b568-ba48df78df29" class=""><strong>Walkthroughs</strong></p><figure id="a5025fc8-4bcf-4e96-b121-38e3791cba44" class="image"><a href="./images/Untitled%2013.png"><img style="width:708px" src="./images/Untitled%2013.png"/></a></figure><p id="a62f4ff0-921a-4e62-865f-b0ea37f46288" class="">Interactive Walkthroughs are on-screen tutorials that show users how to use a product through in-app guidance. It provides the contextual guidance, in the flow of work, to drive adoption. It involves the users as an active part of the process, and lets them interact with and discover the product. Product walkthrough may involve multiple patterns, including modals, tooltips, and other elements.</p><p id="d77e5453-8e0b-4dce-8623-7727204a8c2e" class="">Use cases:</p><ul id="2a7a2cfc-4ce2-41a0-8921-d2adcd213d5d" class="bulleted-list"><li style="list-style-type:disc">Introducing many changes are made at once in a product</li></ul><ul id="d6339ef0-da62-4194-89a5-4556f6dd621b" class="bulleted-list"><li style="list-style-type:disc">Onboarding, redesigning, or doing a complex feature release</li></ul><ul id="74ef6549-92f9-460c-9bdb-268bcac938be" class="bulleted-list"><li style="list-style-type:disc">Best practices:</li></ul><ul id="06d086c9-f213-491e-8998-7b12979fb9c9" class="bulleted-list"><li style="list-style-type:disc">Highlight any next steps, or present a clear call to action.</li></ul><ul id="34e7feb1-4c3b-4323-a2c0-3bcd57c0bb3d" class="bulleted-list"><li style="list-style-type:disc">Build experience flows for the product’s walkthrough</li></ul><ul id="fdb3907e-2cb9-4520-a2cf-bb837efcdcc6" class="bulleted-list"><li style="list-style-type:disc">Allow the walkthroughs to be optional. It should be easy for users to leave the flow, using an exit or dismiss button.</li></ul><p id="4dd3de6f-fb89-4638-a0d3-b2da3bd904f1" class="">Incorporate usability by considering keyboard hovers.</p><h2 id="fe526799-ab55-40bb-8c69-3174c1815f45" class="">Subject matter expert (SME) interviews</h2><p id="2e18eac6-9732-43aa-8516-ee55c58b0cf0" class="">Based on the outline of the project laid out by the stakeholder interviews and the market expectations of product tours, we reached out to experts of subjects that closely relate to this project. We specifically <strong>deep dove into accessibility and learning theory</strong> for this project.</p><h3 id="8a67ea40-9d00-4ab5-8bec-991c60d5780a" class="">Accessibility (a11y)</h3><p id="6a8b83ed-8e70-4c7c-94df-cf7c2a9ccc67" class="">Accessible design is a design process in which the needs of people with disabilities are specifically considered. It allows users of all abilities to understand, use and enjoy the product we create. One of the core values of Paycom is &quot;We Care.&quot; We create solutions to make life better for all. In order to attend to this value, Paycom products conform to WCAGS 2.1 (Level AA) accessibility standards, with four major standards: perceivable, operable, understandable, and robust.</p><h3 id="70c22b6d-7b0b-40be-b561-87ddfbe0baba" class="">Types of disabilities &amp; accommodations</h3><p id="38d43bd6-fca8-4a51-8fdf-ea8cd1e9fdae" class="">Physical disabilities: amputation, muscular dystrophy, or other physical limitations may require accommodations that allow products to be used with mouse or with keyboard only.</p><p id="f5103430-fe9c-4ced-aebe-21f8e862f776" class="">Visual disabilities: those with vision impairment will need to use screen readers or similar programs that distinguish between inputs. (buttons, selections, drop downs, etc.) Descriptions like alt text are needed for images and interactions.</p><p id="e14fca37-476a-4260-b41f-499b5807304d" class="">Auditory disabilities: captions should be available for materials involving audio. Closed captioning is preferred over live captioning.</p><p id="acd0a4a9-c598-47d4-bca1-28056228d44a" class="">Cognitive disabilities: language used in the products should be generally easy, around 5th grade reading level. Only the necessary terminologies should be utilized with controlled assumption.</p><p id="4e9764e5-9454-4dd5-ad5f-96671efd64eb" class="">Color blindness: information should not be presented by color alone.</p><h3 id="fc53d966-6921-42fd-ad05-7e6ebbcd52bb" class="">Best practices - accessibility</h3><p id="fc22640d-87a7-40f2-b26a-285d0a34dd68" class="">Along with the specific adaptations for disabilities presented in the previous section, some features must be implemented with close communication between the design team and the development team. For instance, in order to properly name all input fields, clear presentation should be made on what each fields are expected to do and how they should be presented textually. Additionally, both parties must take into account the tab order and the hierarchy of on-screen elements, such as popups, so that the screen-readers can pick up on the items in a chronological manner.</p><h3 id="c864bac1-6753-494a-b758-3d2bd29ce7a6" class="">Learning theory</h3><p id="60c2fec9-8267-4524-af88-47bcbc88b27e" class="">Since Paycom products are targeted toward client companies and therefore adult users, the ISG must utilize the concept of<strong> learning theory for adults</strong> in order to effectively communicate hard-to-grasp concepts and flows within Paycom products.</p><h3 id="b2d18d39-b0b5-42b8-b580-09abb0cbccc0" class="">Key principles of andragogy</h3><p id="92aedff8-278a-4d3a-8e4c-4400953e2847" class="">Adult Learning Theory, or <strong>andragogy</strong>, is the concept or study of how adults learn and how it differs from children. It aims to show how adult learning is distinct and identify the learning styles which suit them best. The following are the central principles of andragogy based on assumptions:</p><ul id="d98afcfc-ea1f-4be7-8d2e-9c1b5ebe49ac" class="bulleted-list"><li style="list-style-type:disc">Adults want or need to be involved in how their training is planned, delivered, and executed. This is because they are motivated intrinsically when it comes to learning processes.</li></ul><ul id="7663fed8-c1c9-4e4e-a6a5-44f137ca7b38" class="bulleted-list"><li style="list-style-type:disc">Adults gain more when they can pull from past experiences.</li></ul><ul id="62c6081d-e18f-49ad-ac4f-4ffebb7740d5" class="bulleted-list"><li style="list-style-type:disc">Rather than memorizing facts and information, adults gravitate towards solving problems and using reasoning to best take in the information that they are being presented with.</li></ul><ul id="e2459977-92c8-461c-b9a7-c1fc0887c240" class="bulleted-list"><li style="list-style-type:disc">Adults want to know how they can implement the information in their lives. They look for practicality.</li></ul><h3 id="8169f200-a2d8-4170-9b90-d92ca922027b" class="">Best practices - learning theory</h3><p id="b2123c93-6ba2-4201-990f-ecf5c366c1b0" class="">The usage of language is also important in creating an engaging and motivating learning environment. The following are some best practices concerning language and process presented by the SMEs:</p><ul id="3bbc224e-37c7-4fbe-ab84-99463afd063f" class="bulleted-list"><li style="list-style-type:disc">Limit jargon, acronyms, and technical words.</li></ul><p id="31f03340-f4de-4e1f-8a6c-391c766b8c32" class="">Keep the language aligned to the product line itself, so that the users speak the same language as us; however, keep that only for the most necessary terms. Otherwise, stick to AP style language.</p><ul id="e42694f4-15e7-484f-8097-5c608b95be8c" class="bulleted-list"><li style="list-style-type:disc">Motivate the users by showing progress.</li></ul><p id="92659fce-d92c-48b5-8721-5017082ae384" class="">This creates a gamification process that increases learning motivation as well as knowledge retention and learner engagement. Utilize reward system when user does something right. Reinforce learning with positive language without imposing or shaming when they do something wrong.</p><ul id="394ff0f6-beae-4ba2-95a4-add6b4bcc473" class="bulleted-list"><li style="list-style-type:disc">Make careful assumptions.</li></ul><p id="fc12cf51-7659-4556-bc91-87b0090515f7" class="">Adult users do not like to be insulted. Respect the users by avoiding oversimplification. Create an experience that helps the user self direct. Utilize assessments to revise assumptions.</p><h3 id="4cb13862-4e38-472e-95f9-512363076aa3" class="">ADDIE process</h3><p id="8945e002-6fe8-4608-af4d-5ddaebebbd54" class="">The Addie model is an instructional design methodology used to help organize and streamline the production of a training content. This process can be used to find the best way to implement the concepts presented in the previous section into our project.</p><figure id="b31c566a-74cf-4b92-a37e-be727833757d" class="image"><a href="./images/573bbbd8-3e51-498d-a0b8-307c5a7746ab.png"><img style="width:568.3080513418903px" src="./images/573bbbd8-3e51-498d-a0b8-307c5a7746ab.png"/></a></figure><p id="6516b036-87b2-477a-8484-a6b2f51f5232" class="">Analysis: study the current situation in terms of training, knowledge gaps. Define the goal of the training. Generate a training plan that addresses who, what, when, where, why, and how.</p><p id="3479c624-3369-4168-b17c-4799974683cb" class="">Design: make practical decisions including strategy, delivery methods, structure, duration, assessment, and feedback. Then, create visually driven storyboards to map ideas and to create a prototype.</p><p id="b8f8bd9a-b779-4b80-8cda-4a450d82921b" class="">Development: create the course based on the storyboard / prototype. Pay attention to the details including graphics, grammar, syntax, etc. A key consideration at this stage is navigation.</p><p id="ede848ed-e170-4982-b405-eb579947da5a" class="">Implementation: keep track of the delivery and feedback.</p><p id="c1a49076-192d-418d-8daf-d4c44d51bb69" class="">Evaluation: improve and revise the content based on feedback and other training requirements.</p><h3 id="3f40204b-4479-498e-ac78-fb97e0a8d1c8" class="">Words from client-facing teams</h3><p id="fc331663-cd96-46a2-b239-61fa44a18725" class="">Our final interviews surrounding learning theory involved employees in the customer service departments who have direct contact with our users.We also interviewed a product analyst concerning current user pain points in Paycom product usage. Following were some points tackled during these interviews:</p><p id="106e77c0-0128-440e-970e-2c140aca6d3d" class=""><em>1. User pain points in product interactions</em></p><p id="756a4a92-e5f9-45af-93a5-9ef32546bb25" class="">Users generally have problems with understanding how something might function, not knowing the correct name of a feature or a product, or not having good memory retention of learning materials.</p><p id="fcb5eae7-e53a-478c-a062-55464e7242e9" class=""><em>2. User pain points in learning processes</em></p><p id="3f4f979d-42ac-41e4-b71a-b90ca5677c2a" class="">During product learning, users tend to think that the process is not necessary. When they do come around to feel the necessity, they are already frustrated with another problem, which is often times urgency. Lastly, the users tend to dismiss new information presented through popups.</p><p id="6787a365-4a56-46ed-895f-f721806533b4" class=""><em>3. Methods to approach user pain points</em></p><p id="3fa8cea8-cf61-4a63-b5a0-bc2b2846bb47" class="">We should approach the problem by identifying root cause. First, we should find the end goal. Then, we should work backwards from the goal. The 5 Why’s (asking why 5 times in a row) can be utilized during this process.</p><p id="ce954360-f6ad-4540-810b-987e18aeb75c" class=""><em>3. Language</em></p><p id="9713fa9b-e178-47fd-832a-ab04596330f7" class="">They also stressed the importance of using language that shows we are invested in the user’s learning process. We should avoid the user feeling like it is a &quot;them problem.&quot; Make it our problem by using words such as “we” and “our”. Lastly, constantly empathize to create a good relationship and reliability.</p><p id="0230f6bc-2a26-4ef1-b5b6-346b88329d60" class=""><em>4. Failure scenarios</em></p><p id="3223d7f0-3d6f-4ccc-84b9-1b66423ce489" class="">When user fails to have a thorough learning experience, we are to follow up with them with information or with other means of information learning (instructional videos, articles, links, etc.) All users have different levels of knowledge and memory. Repetition in learning is an expected behavior.</p><h3 id="1dc4b7b7-772c-4ae7-916a-b408bb4895ce" class="">Additional research on UX writing</h3><p id="b51df131-378b-4b57-85ed-d4239cd08839" class="">Linked below are some additional UX writing resources that were considered in our research phase. These topics were explored:</p><ul id="3c4c5b54-6a40-4288-ad43-09a623d7b039" class="bulleted-list"><li style="list-style-type:disc">What makes tool tips effective?</li></ul><ul id="d91966b4-e87c-425f-b536-767041bebb1c" class="bulleted-list"><li style="list-style-type:disc">What are some successful examples of guidance languages?</li></ul><ul id="57062bcf-3695-4130-bbf8-7036eb547602" class="bulleted-list"><li style="list-style-type:disc">What are some best practices in the UX writing market?</li></ul><p id="6210594e-f55b-458c-b7de-15607d64f665" class=""><a href="https://www.wix.com/wordsmatter/blog/2020/06/tooltips/" target="_blank"\>Words Matter by Wix: Tooltips: How to Craft Effective Guiding Text</a></p><p id="e9daf9fb-9f2c-416a-92ed-fa7951e5bd45" class=""><a href="https://userguiding.com/blog/tooltip-examples-best-practices/"target="_blank"\>UserGuiding Blog: 12 (Unbelievably) Good Tooltip Examples and Best Practices</a></p><p id="014790c7-db58-4b0f-9a8c-6a29350148a7" class=""><a href="https://www.theuxgal.com/ux-writing-tooltips/"target="_blank"\>The Gig Gal: UX writing tooltips: The ultimate writing guide</a></p></p><h1 id="assumption_mapping" class="">Assumption mapping</h1><p id="60aa7356-a685-4422-b398-c79afc2c0b50" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="ab6fd515-3f1e-4a1f-a852-59d96127fae7" class="">With the information collected through the market research and the SME interviews, we first created an assumption map to lay out the foundations for our upcoming user interviews.</p><figure id="0d076905-ec49-4de6-847b-4cef320d3cf9" class="image"><a href="./images/Untitled%2014.png"><img style="width:708px" src="./images/Untitled%2014.png"/></a></figure><p id="b2e6d2e7-7ba1-4a06-a753-9e4d751e8b20" class="">The assumption mapping divides into four prioritization quadrants: defer, evaluate, plan, and investigate. We focused mainly on the Plan and Investigate quadrants to address in our user interviews, since these are assumptions that need to be addressed before any further progress can be made.</p><figure id="c74a37e6-d074-4626-bff9-53e8ff841a58" class="image"><a href="./images/Untitled%2015.png"><img style="width:1280px" src="./images/Untitled%2015.png"/></a></figure><p id="88fb3b23-eea7-4672-bcdb-694ea22cec4d" class="">Above are assumptions that are made with higher confidence, but will cause high risk if proven to be wrong. We created a number of assumption on user experience and user interface based on our market research on best product guide practices.</p><figure id="c6500060-6f49-4606-a662-b368a01f475d" class="image"><a href="./images/Untitled%2016.png"><img style="width:1280px" src="./images/Untitled%2016.png"/></a></figure><p id="6fd1bdb2-124b-4888-9649-3f939af38cfa" class="">Above are assumptions that are made with low confidence and high risk. Assumptions in this quadrant are the most important to be explored during the research phase, so we planned our user research and potential testing around verifying the validity of these assumptions.</p><h1 id="user_research" class="">User research</h1><p id="70d9a99a-c62a-48dd-b419-2f3eb7323355" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="29568882-aee8-497b-af98-98f408a17163" class="">Since this is a project that is globally applicable across all products and systems, it is difficult to discern a specific user set for the project itself. Therefore, we decided on two specific Paycom products to define our user base and to test the ISG on. The two products were chosen based on our earliest definition of Tiers 2 and 3. As a reminder, these were the definitions we set:</p><p id="ca5e990d-b272-4988-a743-01d2bda6bb14" class="">First tier: onboarding tutorials</p><p id="c6e73992-7576-4ee7-8e6c-231e0486f0a4" class="">Second tier: on-page step throughs contained within page</p><p id="6c12091e-bfde-464f-9336-6aa443f6fdb2" class="">Third tier: large, complex walkthroughs that allow user exploration</p><h3 id="5315d6fe-52de-4dd4-b8bb-cf2593d3689a" class="">Tier 2: CustomESS</h3><p id="bb4b369a-e53f-4b1d-92b8-e7125074ee0d" class="">Custom ESS is a tool allows Paycom clients to rebrand the way their employees see their payroll portal by using personalized colors and logos. Current issues with the product shows to be users’ frustration on contrast errors.</p><figure id="a1480570-8a2e-4a3c-bbf5-a74db2339d9c" class="image"><a href="./images/Untitled%2017.png"><img style="width:708px" src="./images/Untitled%2017.png"/></a></figure><h3 id="62f87ae6-2577-4693-bdd9-46626d5f31f2" class="">Tier 3: Enrollment hub</h3><p id="17b30511-2ca5-4aee-9870-b60814ec4f52" class="">Enrollment Hub was a project in active development at the time of this project. As of now, it has been released and deployed. being developed for Paycom customers to use. It rebranded the course assignment workflow that was previously available in Paycom Learning, which sought to let customer service specialists set up learning courses for customers to get a better handle on product features. Based on the usability test that was conducted by the design team on the Enrollment Hub project, user pain points resided in the learning process of Conditional Learning.</p><figure id="4b772113-941a-4a0c-98ad-3f584687a1ab" class="image"><a href="./images/Untitled%2018.png"><img style="width:1280px" src="./images/Untitled%2018.png"/></a></figure><h3 id="c46c2b38-deb3-4399-bbe8-643492c5af4e" class="">CustomESS/Tier 2 product research</h3><p id="a247537e-22fb-4602-90d2-9c4432650ddd" class="">Not much information could be gathered about Custom ESS, since it has been in the Paycom system for some time, and those who worked on the tool as designers or a project managers weren&#x27;t working at Paycom anymore. Therefore, we conducted a series of usability tests of the pre-existing product as part of the research. Our objective was to distinguish the main user pain points which ISG could help with.</p><p id="d725d262-9b93-4705-90ba-fc4f67519422" class=""><strong>The task</strong></p><p id="32275cb8-d569-4189-952d-a970c8495cbc" class="">Pretend you&#x27;re a Paycom customer and:</p><ul id="d2ccbda2-a06f-4c2f-93a3-a73310b2f9ec" class="bulleted-list"><li style="list-style-type:disc">Redesign the ESS into Barbie theme.</li></ul><ul id="bbc223b7-9a8b-4aea-ae62-c0f42a583a38" class="bulleted-list"><li style="list-style-type:disc">Reset your design into original Paycom design.</li></ul><p id="61eee0dc-0425-4b57-a685-b6f0fb34940d" class=""><strong>The observations</strong></p><p id="b2c30042-6f76-4911-bed4-5c89170dbf38" class="">We conducted 6 tests, and following were the observations made.</p><figure id="2d3a9e10-33d8-44e8-8797-49b754cb0c9c" class="image"><a href="./images/Untitled%2019.png"><img style="width:1280px" src="./images/Untitled%2019.png"/></a></figure><ul id="3f6a8d51-49ff-466e-b7e3-65eaca053e81" class="bulleted-list"><li style="list-style-type:disc">80% of the users mistakenly tried to find first interaction in the &quot;Preview&quot; field.</li></ul><ul id="3d7c5f9c-5922-4536-b685-9926ba878815" class="bulleted-list"><li style="list-style-type:disc">80% of the users didn’t understand the reason for contrast errors.</li></ul><ul id="6f911ea4-fce6-430e-983c-a1a56a2fc11b" class="bulleted-list"><li style="list-style-type:disc">60% of the users didn’t know what color to choose to get rid of the error.</li></ul><ul id="0476c753-7056-490e-87b6-984fc692845d" class="bulleted-list"><li style="list-style-type:disc">60% of the users misinterpreted what &quot;background&quot; and &quot;foreground&quot; colors meant in the error text.</li></ul><h3 id="6f9d56b3-b8b1-4ecb-a4a5-b61be7879e39" class="">Product-analyst-provided user feedback</h3><p id="66f0a0b3-26a6-4a2f-a457-61788016caa9" class="">Additionally, we reached out to the Product Analyst department to retrieve the most recent pieces of user feedback related to this product. A lot of the feedback related to parts of the product that could be tackled by the ISG’s support, however, some relevant feedback aligned with the following quote:</p><p id="25a6f23b-c25b-4ad4-973d-e38f9e4aea89" class=""><em>“I have experienced a number of Custom ESS setups where two colors that, in my opinion, have sufficient contrast between them and would be very visible to employees and users of ESS will still get flagged by the system as not having sufficient contrast.”</em></p><h3 id="ec1f23f4-54cc-41aa-9ef3-a10540baebc9" class="">Enrollment Hub/Tier 3 product research</h3><p id="422a4a33-20fc-44e8-b256-1ce9a3fb8196" class="">Unlike the Custom ESS tool, we were able to get in contact with various people involved in the creation of the Enrollment Hub, since it was a product in active development at the time. We conducted multiple user and designer interviews concerning the previous version of course assignment, the changes being made, and the new design of the &quot;Enrollment Hub&quot; project.</p><figure id="b669bc31-7496-4bfe-a1b8-dd8b9e3ee210" class="image"><a href="./images/Untitled%2020.png"><img style="width:708px" src="./images/Untitled%2020.png"/></a></figure><p id="aba30f74-2b30-4561-a5f7-2ce0b7c1e683" class="">
+</p><p id="3c72eb77-d91d-4c9f-bf5f-ba2e78fae142" class="">Our focus was distinguishing the similarities and differences between the current version of &quot;Set Up Courses&quot; and the &quot;Enrollment Hub,&quot; since the new features will determine potential learning/adapting challenges for the users. The words and concept of &quot;Conditional logic&quot; are being introduced, so let&#x27;s quickly go over what that means in this context.</p><h3 id="0570f3a5-0b05-4a7c-867b-8f1da9f52bfa" class="">Conditional logic</h3><p id="59e455ff-ff47-4540-a8c5-d2143e1c0841" class="">Conditional Logic is the idea that you can set rules, or ‘conditions’, that cause your process to change based on input.</p><p id="f9c76f60-aa22-4c22-bfee-f839d4f85906" class="">An example of <strong>AND Logic:</strong></p><figure id="f017256c-4f95-49ac-aac9-b0a5865f1449" class="image"><a href="./images/5953d161-bfa8-40cf-ac99-e146f5be0d60.png"><img style="width:455.84045584045583px" src="./images/5953d161-bfa8-40cf-ac99-e146f5be0d60.png"/></a></figure><p id="30af1e2b-5382-459a-864f-6415960aa82d" class="">Employees will be enrolled if they meet all conditions bound by AND. Create AND logic by adding conditions to the same set.</p><p id="ebc1a21c-4978-442b-9125-b7d0cffe4ce2" class="">For example, utilize the AND logic for specifying employees like the following:</p><ul id="bad98141-5c7d-49b5-a0e7-30aeff3495e8" class="bulleted-list"><li style="list-style-type:disc">Employees who are Product Managers <strong>AND</strong> are located in OKC.</li></ul><ul id="d475ad44-7a9f-4566-a539-071f592ff6e9" class="bulleted-list"><li style="list-style-type:disc">Employees who are Team Leads <strong>AND</strong> are not employees for less than a year.</li></ul><p id="4ff77307-73aa-4a80-a325-f931cf8d38ba" class="">
+</p><p id="1bb0d517-d43e-439f-988d-9bffbd1ed5e5" class="">An example of <strong>OR Logic:</strong></p><figure id="8ade5dac-27fc-46a1-be26-06fb163f15d6" class="image"><a href="./images/Untitled%2021.png"><img style="width:1106px" src="./images/Untitled%2021.png"/></a></figure><p id="997afd32-3346-40b9-ad60-cd491ae27012" class="">As long as at least one of the conditions is met, the employees will be enrolled. Create OR logic by creating new Condition Sets.</p><p id="ef6e397f-5b53-434c-ac3e-48ecc5aa3700" class="">For example, utilize the OR logic for specifying employees like the following:</p><ul id="e5dd20f0-be4d-480d-8c80-d5934e9d8772" class="bulleted-list"><li style="list-style-type:disc">Employees who are Product Managers <strong>OR</strong> Product Designers.</li></ul><ul id="cf38c8ec-70a4-49a1-84ed-e516cad0230f" class="bulleted-list"><li style="list-style-type:disc">Employees who are Product Managers <strong>OR</strong> whose name is A, B, C, D</li></ul><p id="0cba0835-5e34-4382-a147-73acf16eb497" class="">
+</p><p id="28f8b334-0a24-4ba0-92d6-ecbe490670cf" class="">Now that we understand conditional logic in this context, let&#x27;s look at the biggest similarities and differences between the old &quot;Set Up Courses&quot; and the new &quot;Enrollment Hub.&quot;</p><p id="65550775-69da-4958-ae35-06e613b657e6" class="">Similarities:</p><ul id="3cded5b6-2af1-4297-9dd8-37587becda7f" class="bulleted-list"><li style="list-style-type:disc">Conditional logic elements of “AND” and “OR” were used before.</li></ul><ul id="04e2f8eb-aff4-4734-88e5-758782f30ed5" class="bulleted-list"><li style="list-style-type:disc">“Specific” and “dynamic” date setting wording were used before.</li></ul><p id="05eeeb50-7a28-404d-80ab-8645491f0527" class="">Differences:</p><ul id="58c63aff-876a-4759-ba9c-e3ad73f6ee76" class="bulleted-list"><li style="list-style-type:disc">The words “conditional logic” are being introduced.</li></ul><ul id="ac8a203d-1995-478e-9500-c86c0c8b2608" class="bulleted-list"><li style="list-style-type:disc">The concept of “Learning Access Groups” is newly being introduced.</li></ul><ul id="f2730832-da92-4c6c-a9e3-4ef078985052" class="bulleted-list"><li style="list-style-type:disc">The concept of “Expiration date” is newly being introduced.</li></ul><h3 id="b6d3c88a-73cf-4e41-b381-ec53c201ef8a" class="">Enrollment Hub interviews</h3><p id="12501d8d-e04a-4d50-a11f-f98e8cd09330" class="">The project manager of the Enrollment Hub project expressed that they hope the ISG will highlight the new features in such a way that gets people to optimize their processes of learning assignment, and to trust that we have the options for them. In order to do so, we reviewed the usability tests previously conducted by the Enrollment Hub team with their latest design. The following were the top themes of the observations made:</p><ul id="d17574c8-7def-47f0-870f-8872accd0798" class="bulleted-list"><li style="list-style-type:disc">Users gravitated to the legacy list and filters when initially entering the page. This was due to visibility but also confusion around what the new Conditional Logic options were.</li></ul><ul id="edb31ebc-9dde-41b0-a289-c9ed1819c637" class="bulleted-list"><li style="list-style-type:disc">Most users were able to get through Conditions with some help, but it often included searching and experimenting with the different selections. This spoke to a need for clearer language and guidance.</li></ul><p id="2b0c170b-0fe4-4a7d-95b8-109c9d1fb403" class="">
+</p><p id="30e12c58-34e6-4a3c-8aa1-087edcb79c6f" class="">Along with the usability test observations and the series of designer interviews, we concluded that the following are the major pain points that we should tackle with ISG and build a tier 3 framework around:</p><ul id="ca416325-4a60-4c56-9fc3-4be266f7bd13" class="bulleted-list"><li style="list-style-type:disc">Complex pieces such as conditional logic</li></ul><ul id="1debe8b2-01e1-4e2d-8286-dbfcb36fbd85" class="bulleted-list"><li style="list-style-type:disc">What the new features are and how to access them</li></ul><ul id="c01aeba0-c74d-40d8-960d-6eda9f005de6" class="bulleted-list"><li style="list-style-type:disc">Distinguishing between specific and dynamic selections</li></ul><ul id="42de7bcb-ed49-49c5-a6ca-3b1ba9226aad" class="bulleted-list"><li style="list-style-type:disc">Distinguishing between due dates and expiration dates</li></ul><h1 id="journey_mapping" class="">Journey mapping</h1><p id="05ed7b8d-31fe-42eb-826e-1a9ca4a2def6" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="cf708c26-1607-4612-b3b2-7314546bd4dd" class="">Based on the usability tests conducted by the core Enrollment Hub team, we created the user journey map to better understand the user’s emotions, pains and gains throughout their usage of the product.</p><figure id="3d97cc4b-1804-4b43-b2f1-673e1d6d068f" class="image"><a href="./images/Untitled%2022.png"><img style="width:708px" src="./images/Untitled%2022.png"/></a></figure><p id="71be797f-9cce-4228-b4c7-217baf8eec70" class="">Our goal with the ISG was to create a more neutral flow of user emotions rather than one with severe spikes in highs and lows. They will be better informed about the product, and even if they are not informed due to dismissal, they would still be aware of the presence of assistance.</p><figure id="12c26708-f2e1-4955-be3c-6510b8efdbbc" class="image"><a href="./images/Untitled%2023.png"><img style="width:708px" src="./images/Untitled%2023.png"/></a></figure><h1 id="affinity_mapping" class="">Affinity mapping</h1><p id="df761456-55c3-404c-97a6-e0cd7721467e" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="ff8eae03-26c0-4e8d-ab4b-07ac80f87a59" class="">Based on the entirety of research conducted, we created an affinity map as a brainstorming tool to group our needs as preparation for the solution finding phase.</p><figure id="d7a1a30a-0c75-4d83-9d92-560c148f3b4d" class="image"><a href="./images/Untitled%2024.png"><img style="width:708px" src="./images/Untitled%2024.png"/></a></figure><figure id="518b7fc8-117c-42aa-aa2e-21b18c2a3614" class="image"><a href="./images/Untitled%2025.png"><img style="width:1280px" src="./images/Untitled%2025.png"/></a></figure><h1 id="sketching" class="">Sketching</h1><p id="1c30f761-bd45-4f9e-9f33-4bd0887ba312" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="cbe47eb2-acb3-42e9-9cbf-ab78faae45e6" class="">In order to get started with sketching, we had to loosely define the tiers of complexity from the expectations presented by our stakeholders. We brainstormed ideas on what function each tier should serve, and then sketched out potentials for what they could look like as UI elements.</p><figure id="8a8b473a-cc39-4e72-ac68-b6e50c2f6ff3" class="image"><a href="./images/Untitled%2026.png"><img style="width:708px" src="./images/Untitled%2026.png"/></a></figure><p id="93d22bff-193c-41e1-8d9b-ac74aa9c6bd4" class="">Following the preliminary sketches and some brief discussions, we focused on some more flow-specific scenarios and how things would be toggled on/off, dismissed or revisited. This is a tool that&#x27;s supposed to be helpful after all, and not just something intrusive that you can&#x27;t seem to get to go away.</p><figure id="3de562bd-e06a-4391-ba63-80ff44bd78dd" class="image"><a href="./images/Untitled%2027.png"><img style="width:708px" src="./images/Untitled%2027.png"/></a></figure><h1 id="design_iteration_1" class="">Design iteration #1</h1><p id="a6e58047-2c21-4371-804f-6f0845b83ba1" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><h3 id="e1087601-0b2a-4838-834a-18aff6ced00f" class="">Tier definition</h3><p id="ffd5ee40-6c4f-4ac5-a142-c5d16075937e" class="">After the rough brainstorming, we defined the three tiers of guidance as the following:</p><p id="81a01b49-6cc3-4080-85f8-3027c7056abf" class="">
+</p><p id="cd1b5024-1933-446e-b78d-d22735d275a2" class=""><strong>Tier 1</strong></p><p id="a72ff77b-063e-49ea-95d5-90772e833b4f" class="">A single modal strictly for product updates or overviews - can have a resource at the bottom somewhere directing the user to where they can get additional information if they want it.</p><p id="688304f1-1a97-4fea-b721-0e184974b58f" class="">
+</p><p id="66fd7663-3b57-44b6-a736-836322ea4d4e" class=""><strong>Tier 2</strong></p><p id="51d1599c-62d5-4e61-aa83-fe89da51b5b1" class="">A set of concise tool tips that users can access at any point in no particular order. They can contain at minimum a blurb of text, and at most a title, image, and text. Various combinations can be used depending on use cases.</p><p id="4a3ef42c-ee7d-4ff4-a976-0d527db403d1" class="">
+</p><p id="2bc12b47-b34e-44bd-95b3-414a7c917568" class=""><strong>Tier 3</strong></p><p id="7156ca2b-ac55-48ff-93bb-736613156e52" class="">A guided walkthrough that makes use of all the other components to create an elevated experience. The user has the option to disable or enable the experience at any point depending on their needs.</p><p id="631b9b15-83a8-4987-bbde-5e1978484227" class="">
+</p><p id="34225fa7-19bc-49b5-bc22-9f8b0a47a2dd" class="">Once we narrowed down the scope and direction of our work, we started drafting up some component designs and laying them over the top of existing products to see how they would look.</p><figure id="45ddcecf-1282-4354-aba3-e2875b59d93c" class="image"><a href="./images/Untitled%2028.png"><img style="width:1280px" src="./images/Untitled%2028.png"/></a></figure><h3 id="ab3e36ea-b908-48bb-bf6c-31457bbc961e" class="">Component designs</h3><p id="b56a8f4a-22af-45df-8e34-2837d66dfab9" class="">At this stage, we created several different iterations of ISG components:</p><figure id="df61c6bb-930a-42e3-8e7d-b188641f4e88" class="image"><a href="./images/Untitled%2029.png"><img style="width:1280px" src="./images/Untitled%2029.png"/></a></figure><p id="3d34d05b-ec36-40ac-afff-9f3fe413d551" class="">The designs started out with the basis on the pre-existing design library, such as Paycom&#x27;s basic modal. However, with some creative freedom, these were some choices we made that deviated from existing design system components:</p><ul id="461e8d0e-c576-4913-b736-4a198b045494" class="bulleted-list"><li style="list-style-type:disc">Green outline along with the elevation, in order to make the ISG more distinctive from the background</li></ul><ul id="0eb79906-dc02-49d3-8ca4-92af66466330" class="bulleted-list"><li style="list-style-type:disc">Green title for attention grabbing</li></ul><ul id="2f9ccc7a-7762-48be-bc41-2a51f5495628" class="bulleted-list"><li style="list-style-type:disc">Fatter/wider margins</li></ul><figure id="7cccc0f2-dcf9-4916-bf4c-af9bbd84c359" class="image"><a href="./images/Untitled%2030.png"><img style="width:708px" src="./images/Untitled%2030.png"/></a></figure><p id="9d54b767-2548-4674-8fe0-1965d7e2a46d" class="">With the components designed, we moved on to mockups specific to the three sample products correlating with the three tiers.</p><p id="e4ca1979-9e7a-45a4-8bee-5aaae74f53db" class="">Tier 1 &amp; 2 mockups:</p><figure id="15e6aab1-7a25-409a-a35c-69f7990ae031" class="image"><a href="./images/Untitled%2031.png"><img style="width:1280px" src="./images/Untitled%2031.png"/></a></figure><p id="76298a2f-1544-4cd5-ad00-0eec95c6450c" class=""><strong>Triggers</strong></p><p id="2d5e80df-ccc6-4596-a4cd-2359b0e616a6" class="">The availability of a trigger was a constant point of discussion for the re-accessibility of the ISG components. For instance, if the user dismissed the ISG but later feels the need to go back to it, they need the means to turn the ISG back on.</p><p id="60c762e6-5e66-45b8-99b3-b04f96020b38" class="">
+</p><p id="a7aee98f-3865-4562-bcd7-32e44eea8446" class="">Following were some points of discussions concerning the trigger:</p><ul id="f7239a8f-ca6c-4ef6-84db-aae7c59abaf2" class="bulleted-list"><li style="list-style-type:disc">Where should it be located?</li></ul><ul id="8e5e5c74-a21c-437f-8d42-f5f7228a84df" class="bulleted-list"><li style="list-style-type:disc">What kind of UI element should it be presented in?</li></ul><ul id="059e7024-cfae-46d3-8f64-6e408fe4e2c6" class="bulleted-list"><li style="list-style-type:disc">How can we make it easily accessible to the users?</li></ul><ul id="2cf8c3ca-f86d-4615-ae51-2c5703d8045f" class="bulleted-list"><li style="list-style-type:disc">Would users see the ISG every time they interact with the product?</li></ul><p id="52fedb52-5e31-4db0-a222-9e2877507462" class="">
+</p><p id="28c121c0-48f5-40c6-b064-51abdad70d26" class="">These are some of the initial trigger drafts:</p><figure id="ce0a081e-feb3-40ac-bddc-8372613c0bba" class="image"><a href="./images/Untitled%2032.png"><img style="width:1280px" src="./images/Untitled%2032.png"/></a></figure><p id="1732cf69-97cd-4e24-81ef-6b8ec43e4282" class="">The ISG can be toggled on and off using the trigger. We got some feedback on our trigger design and discovered that we could do a better job at complying with the design system and having a more responsive and usable design.</p><figure id="16549e9d-025f-4e0d-af1f-a345b439ad3a" class="image"><a href="./images/Untitled%2033.png"><img style="width:1280px" src="./images/Untitled%2033.png"/></a></figure><p id="a398af34-183e-47ce-a6dc-b7ea6630b701" class="">Based on a series of feedback from design professionals, we settled on a new version of the trigger. It is a regular button component placed at the right side of the breadcrumb section of a page, to activate/deactivate the tool tips entirely with one click, minimizing the amount of clicks needed to complete the toggling action.</p><figure id="63d35a98-f8f2-4aaa-9062-bad0a8c15751" class="image"><a href="./images/Untitled%2034.png"><img style="width:1280px" src="./images/Untitled%2034.png"/></a></figure><h1 id="prototyping" class="">Prototyping and usability testing</h1><p id="7b48baa7-f6fe-477b-8231-0607c9be5d12" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><h3 id="1aeafa22-fda8-4240-8b05-1762be0c699d" class="">Task creation</h3><p id="59d17012-ad97-4509-a1c8-2f9862c1d172" class="">In order to effectively complete our usability tests, we came up with tasks, success criteria, user flows, and more. The first product we tested with was Enrollment Hub. The overall goals were to:</p><ul id="b61295d4-4246-4315-85aa-2ac1bf357785" class="bulleted-list"><li style="list-style-type:disc">Get the user comfortable with usability testing</li></ul><ul id="04d0df1c-8f4c-489b-b8fc-e048ef119083" class="bulleted-list"><li style="list-style-type:disc">Observe the effectiveness of the ISG</li></ul><ul id="cf374c2c-dae8-4ef8-8089-517ada35356b" class="bulleted-list"><li style="list-style-type:disc">Observe whether or not the user could re-trigger the ISG without being told where/how to</li></ul><figure id="b9305a1a-a4cd-459f-b0c7-89a50ef876dc" class="image"><a href="./images/Untitled%2035.png"><img style="width:1280px" src="./images/Untitled%2035.png"/></a></figure><h3 id="9d4f4ac7-abfb-44ba-a186-61bde97dc460" class="">Prototyping</h3><p id="8dbb6518-ef0d-4144-b019-5934c8cf8840" class="">With our tasks prepared, prototyping began. The appropriate flows were created, and the ISG logic was applied using Figma’s conditionals, variables, and overlays.</p><figure id="897b6bcf-fc64-40a2-bad7-fed3b0ec7552" class="image"><a href="./images/Untitled%2036.png"><img style="width:708px" src="./images/Untitled%2036.png"/></a></figure><h3 id="51019ee7-40a1-4e64-a685-f428d4742940" class="">Testing</h3><p id="a368e0c5-137b-42f2-947f-05d998b2d416" class="">We tested with 4 people and got design feedback from 6 others. We took thorough notes during all of the testings, then we put our high level observations into a chart format. We also added a section that tells us the most relevant/pressing information that applies to the most amount of people so we could have things to focus on improving going forward. No real names are used for the sake of privacy compliance, and &quot;CP&quot; stands for &quot;Client Participant.&quot;</p><figure id="5d8a5a80-528e-426d-bc6f-bb56e91ef508" class="image"><a href="./images/Untitled%2037.png"><img style="width:708px" src="./images/Untitled%2037.png"/></a></figure><h3 id="8e28294f-571a-41e9-afed-9648fb4701ca" class="">Running into trouble</h3><p id="1ee39b78-4545-46d8-b8e3-e2011b86f8f0" class="">When it came to usability testing our other tier 2 product, CustomESS, we ran into some trouble. We prepared the same materials for it as we did for Enrollment Hub:</p><figure id="4dc28781-3606-404b-8787-52f90a971606" class="image"><a href="./images/Untitled%2038.png"><img style="width:708px" src="./images/Untitled%2038.png"/></a></figure><figure id="dbe413b1-6db5-47d7-bd50-9c3d436b2fa5" class="image"><a href="./images/Untitled%2039.png"><img style="width:708px" src="./images/Untitled%2039.png"/></a></figure><p id="edf2a56d-d7cd-4b58-96fa-63ab009f7502" class="">However, the scope was very limited and didn’t leave us with a lot of useful information, so we stopped after the first test and instead chose to focus on implementing improvements that Enrollment Hub helped uncover a need for.</p><h1 id="design_iteration_2" class="">Design iteration #2</h1><p id="95f97cbb-1e3c-4c1b-aa78-f12c15624d5a" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><h3 id="83ae19ea-12a0-49fd-a90a-10f5ac3618ba" class="">Suggestions and revisions</h3><p id="ae5bddc3-ac26-4ed8-b2d5-c0f66958a27c" class="">Our aim with creating prototypes was to contextualize the information we gathered from the usability testing in order to help devise patterns for learning, then conduct further tests to see if they work in practice.</p><p id="e7b0f2a0-a435-4947-98da-092e2a4ae750" class="">One of the points that came up was how/when to draw the attention of the user to a specific element on the screen. Initially, we just had tool tips pointing to elements, spaced 20px away from the edge of said element. After doing our usability testing, we found that there was a need for a scrim (darkened background) outline for some elements to make it evident what the user should interact with.</p><figure id="16f685a3-e6b0-4e95-ac2c-9d7ffb7bb7a4" class="image"><a href="./images/Untitled%2040.png"><img style="width:708px" src="./images/Untitled%2040.png"/></a></figure><h3 id="a54f452d-a702-4b19-bf6b-44371b83a192" class="">Re-defining tiers</h3><p id="b390fc16-eb46-4d41-9f5c-5db25c9ebf61" class="">We realized that in order for our designs to be more effective, we would have to slightly shift our tier definitions. <strong>Going forward, the tiers shifted to:</strong></p><p id="7e15137b-c0d5-41d7-abfc-84b117ec6438" class="">Tier 1: Would now allow for multi-page modals, and providing additional resources at the bottom is encouraged.</p><p id="e0380d93-ae4c-4f2c-974c-728589da9ad6" class="">Tier 2: On-page step-throughs contained within page. (No change.)</p><p id="8d5291da-4dc7-40ba-a6f7-ab5c0ea47140" class="">Tier 3: The walkthrough should make use of scrims and visual aids, and always give an indication of progress and an ability to go back and forth between the steps of the flow.</p><p id="57c5c234-f5ab-47ce-9e9e-e83b95f5f3a1" class=""><em>The full length descriptions of the tiers with contextual examples are covered in greater detail in the “design solutions” chapter.</em></p><h3 id="6eeb72a5-8764-4a8e-8457-c946587b67a0" class="">Additional scope</h3><p id="66f2d0ab-ea5c-463f-bffb-9b62c1532960" class="">Once our tiers were set in stone once and for all, we focused back on the “Guide” toggle. <strong>We considered products with a larger scope</strong> than something like CustomESS or Enrollment Hub, and saw examples of products that have multiple user flows per page. The user would greatly benefit from a solution which allows them to step through the different flows within a page and go back to whichever one they like at any point. Though we had thought of this before, we didn’t have time to implement a satisfactory design before it was time for usability testing.</p><p id="3a07044f-6eb7-40dd-a5a3-afe82db8a43c" class="">We made these designs and ran them by some other designers for feedback:</p><figure id="bba95ce6-e71b-4a3c-a9ce-095f083517e4" class="image"><a href="./images/Untitled%2041.png"><img style="width:708px" src="./images/Untitled%2041.png"/></a></figure><p id="40ee9c3b-7ba6-49b4-8e70-62efe4cff193" class="">We created dozens of iterations during meetings with other designers, and had back and forth discussion regarding different aspects of it.</p><p id="63146211-7c34-42f9-bca1-c627aaec9987" class="">Following this, we fell back onto CustomESS. Through a brainstorming session with our TL, we came up with the idea to provide a more thorough service with ISG, something we would go on to call <strong>ISL (In-system learning).</strong></p><p id="29ac44a7-e848-4a42-af34-ad3ca41c3aed" class="">The goal of ISL is to provide additional context and learning opportunities for the power-user looking for something more. Ideally, the user could toggle this container of information and learn things such as vocabulary words used in Paycom products, see contextual examples of expected behaviors, and generally get more clarity about the module they’re browsing from an internal source. We began iterations for how this might look:</p><figure id="e63f58c9-bcd6-4ed9-bc29-d13ad57545f8" class="image"><a href="./images/Untitled%2042.png"><img style="width:1280px" src="./images/Untitled%2042.png"/></a></figure><p id="d412057b-2329-47f3-ae9e-4dc690edcb42" class="">The feedback we received along the way raised some good points. We ultimately went with a large modal design that would encompass a glossary and learning components, akin to Wikipedia. In our final version of this design, we added a search bar, matched the margins and padding to the rest of our designs, added a search bar, changed the navigation to use the existing nav tree component, and documented how information and visual aids should be displayed.</p><figure id="fb431276-b281-4af4-be2a-d08194f18fbc" class="image"><a href="./images/Untitled%2043.png"><img style="width:1280px" src="./images/Untitled%2043.png"/></a></figure><h3 id="df1c129d-a315-4c82-be2a-5ddf075cbdba" class="">ISL Trigger</h3><p id="ce6b16f7-d3d7-4c8b-a9d1-c556d536f116" class="">With the new addition of the In-system Learning component, we had to implement a way to trigger it.</p><p id="a3273802-6fa9-4690-adf9-b2f5a73375a4" class="">We decided to <strong>make some modifications to our toggle component</strong> that would allow users to find the information regardless of what they’re doing on the page, but also allow them to access it from within a tooltip.</p><figure id="5d6071f2-54b1-4543-95ef-95331cdaba73" class="image"><a href="./images/Untitled%2044.png"><img style="width:708px" src="./images/Untitled%2044.png"/></a></figure><p id="31d130ce-f7f5-42d1-b272-b22eafb68716" class="">With this, our ISG toggle menu was finalized. In the end, we ended up deciding to have two different trigger designs that designers can choose between when setting up ISG for their product. They can implement a simple trigger that activates/deactivates the tool tips entirely with one click, or a trigger that has a dropdown menu with a few options for more complex products with many flows within a page.</p><figure id="c27d08f3-9d4d-49dd-8bea-f3385f7a3c01" class="image"><a href="./images/Untitled%2045.png"><img style="width:708px" src="./images/Untitled%2045.png"/></a></figure><h1 id="design_solution" class="">Design solution</h1><p id="2b67b507-1f0a-463f-96bd-d9b28d1f752e" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="1d1fa768-ed63-4ae0-a1f3-e7915eb0e99b" class="">After rounds of designing, testing, receiving feedback, and making revisions, we have come to our final designs and guidelines that prospective ISG usages must follow. This section covers this final system in detail.</p><h3 id="6511daeb-ae1f-4451-88ca-95c1c70d28f2" class="">ISG Definition</h3><p id="c4507d3e-b6ca-4f34-9698-110f84375a0c" class="">The In-System Guidance improves the user’s usage of Paycom products by providing “smart suggestions” and contextually relevant help to users when they need it, in a non-intrusive manner. It aims to increase user satisfaction, reduce support requests, and improve task performance.</p><p id="194fba71-6e4b-4dda-8bb7-830caf37d4a3" class="">Along with the general guidance, the ISG also provides an In-System Learning tool that allows the users to dig deeper into the product. It aims to answer some additional questions the users may have, and to assist in the user’s any prospective interactions with the Paycom products.</p><h3 id="0b0c0906-beda-4930-9a80-9ea2268493f2" class="">Final Tier Definitions</h3><p id="6d5db01f-a914-48fd-938c-3e984aa7cda5" class=""><strong>Tier 1</strong> provides a high-level overview of a new product or feature. It provides a call to attention using one-time modals so the users are aware of the release, without any detailed explanation of the functionalities.</p><ul id="25e1ac87-d7e8-4315-b648-e8e987e91789" class="bulleted-list"><li style="list-style-type:disc">Example products: minor releases on monthly spotlight</li></ul><ul id="a8a57b40-2ea1-49e3-9e10-6acee6a5de09" class="bulleted-list"><li style="list-style-type:disc">Major component: modals</li></ul><p id="1ace43e0-4482-4db8-a24b-72f76b01013d" class="">Use cases:</p><ul id="d4acbbe4-fe4e-46f9-b633-1a4d9545642d" class="bulleted-list"><li style="list-style-type:disc">When minor releases are made on a new product or feature.</li></ul><ul id="afc9e75e-9378-4113-a00f-724c89bef263" class="bulleted-list"><li style="list-style-type:disc">The information is worth being brought to the user’s attention at least once.</li></ul><p id="fbe19ce3-3c66-4c5f-96c2-750931100395" class="">
+</p><p id="e9169a01-13b1-4b1a-ba22-70ed7cd24fee" class=""><strong>Tier 2</strong> provides information assistance that provides the least system intervention and prioritizes the continuation of the user experience, utilizing tooltips.</p><ul id="d3ff198a-0393-4fa1-bcc6-782d2871e8eb" class="bulleted-list"><li style="list-style-type:disc">Example products: Custom ESS</li></ul><ul id="84b4a57e-c917-4482-a12b-41761e10f807" class="bulleted-list"><li style="list-style-type:disc">Major component: tooltips</li></ul><p id="45a4fa11-42ce-4100-bb63-f0243989fb73" class="">Use cases:</p><ul id="0c653b10-f22b-405a-ba8b-b9996628afcb" class="bulleted-list"><li style="list-style-type:disc">A new and minor feature is released within a pre-existing product.</li></ul><ul id="de38bd0b-32ad-4736-862e-8b2c8b116e70" class="bulleted-list"><li style="list-style-type:disc">There are products or functionalities that often go unnoticed by the users.</li></ul><ul id="286bc2a4-e02e-4399-ba0b-169f79459293" class="bulleted-list"><li style="list-style-type:disc">User analysis display patterns of confusion over specific parts of the product.</li></ul><p id="4f0a733c-bdb4-4f21-be9f-92f78e75306f" class="">
+</p><p id="baed157b-cccc-4239-8b47-a379f868d6f2" class=""><strong>Tier 3</strong> provides a walkthrough or a guidance that holds the user’s hand from start to finish of a new or complex product usage. It provides the most system intervention and halts the user’s experience to allow time for interactive information learning.</p><ul id="4ab56186-5781-43b5-be4d-4a77da072a12" class="bulleted-list"><li style="list-style-type:disc">Example products: Enrollment Hub</li></ul><ul id="e483de18-0a02-461b-9484-981a22885525" class="bulleted-list"><li style="list-style-type:disc">Major component: tooltips and walkthroughs</li></ul><p id="eb9148e2-5602-4d43-a2a2-2741d95d076b" class="">Use cases:</p><ul id="8fc9e6ac-f371-4f41-85cc-4cccac357b5f" class="bulleted-list"><li style="list-style-type:disc">A sizable, complex product is newly being introduced.</li></ul><ul id="f36247aa-f211-4ac0-a0c8-f5c570aad3b5" class="bulleted-list"><li style="list-style-type:disc">User analysis displays patterns of confusion over multiple functionalities of a product.</li></ul><h3 id="1c56e2de-2f15-4c83-8ca2-35b9895609d8" class="">Component - Modal</h3><p id="a710d40b-7149-4d5f-8300-3e1cd54c0cbe" class="">The ISG modal will focus the user’s attention onto a specific information on a new feature or product and must be acted upon before attention can be shifted back to the primary workflow.</p><figure id="5f05afd1-8638-4940-9134-74d8e7f47db3" class="image"><a href="./images/Untitled%2046.png"><img style="width:1199px" src="./images/Untitled%2046.png"/></a></figure><p id="e71a94de-b3f7-4dbc-9eaa-674839ac2ae6" class=""><strong>Size</strong></p><p id="2f81b4cc-474c-4381-95f2-05795bf82e5a" class="">The height should be set based on content. These are to have a width of 700px.</p><p id="58ae0843-6abc-4ad7-ab88-4bbeb0793948" class=""><strong>Position</strong></p><p id="60aeaf00-8d04-45f2-b2b2-481b4531da4e" class="">The position should be set to center of the screen for general purposes. Do not use for cases where the product/feature is difficult to locate on screen. Instead, use tooltips to point to the product / feature.</p><figure id="968e6227-4d6f-4fc2-8367-0e0f751da005" class="image"><a href="./images/Untitled%2047.png"><img style="width:708px" src="./images/Untitled%2047.png"/></a></figure><p id="dbc237b0-b735-400f-a93b-93a44ae3623d" class=""><strong>Anatomy</strong></p><p id="237baf0b-bdca-4225-92ca-6670b6fe172f" class=""><strong>1. Container:</strong> this is the container of the modal, which has the focus of the screen until closed out of. Clicking outside of the container will close the modal.</p><p id="4398b81f-bc4b-4c9f-b93e-f0be51eeb063" class=""><strong>2. Header:</strong> labels the modal. The header should be an attention grabbing and concise summary of the contents.</p><p id="6c7cc1c6-2b27-4d32-a2b6-8c99518abde8" class=""><strong>3. Close icon button: </strong>clicking this button will close out of the modal.</p><p id="89e98fc9-f03b-42af-8d48-06a94cc11d6d" class=""><strong>4. Content: </strong>this body of text will give a high-level overview of the new feature/product. Do not give detailed information on specific functionalities or use cases.</p><p id="013d8aa2-6788-4633-9089-dfd349a1072c" class=""><strong>5. Secondary content: </strong>this will provide an internal hyperlink to Paycom product or directions for the users to access a more detailed information about the content of the product/feature. Text color should be “info” if it is a hyperlink, and “secondary text” otherwise.</p><p id="eb5580c0-eb19-4733-a0a9-d43960d834ac" class=""><strong>6. Action buttons: </strong>the primary button should be ‘Next’ or ‘Done’, depending on whether the modal has a multi-modal flow or not. If the modal is the last of the multi-modal flow, the primary button should also display ‘Done’. If the primary button is ‘Next’, the secondary button should provide the ‘Previous’ option.</p><p id="63fb30e5-1ed9-4725-956f-77209245dd37" class=""><strong>7. Progress indicator: </strong>if the modal has a multi-modal flow, display the progress with numbers.</p><p id="a8535d4d-43e8-42e3-9ef0-7f2efadd3b59" class=""><strong>8. Graphics: </strong>use images, micro-videos, or GIFs for a visual representation of the content or for attention grabbing. If there are no visuals available, text-only modal is available as a variant.</p><h3 id="6169d901-484a-4195-841b-5322651e5e6b" class="">Component - Tool tip</h3><p id="5e4b4268-db30-45e0-b9bf-dab66916eb9b" class="">The ISG tool tip displays informative text to provide clarity on a specific element of a product.</p><figure id="b7bff311-5c57-4247-a047-000a5f51a4ac" class="image"><a href="./images/Untitled%2048.png"><img style="width:708px" src="./images/Untitled%2048.png"/></a></figure><p id="23a22fcf-3726-4191-abc3-4bb7b38e14e8" class=""><strong>Nested component</strong></p><p id="84dcacfc-1f95-43aa-98ba-0a92489b3e77" class="">The highest component has variants for tail positions. The nested component called ‘Content’ has variants for sizes, titles, and images.</p><p id="aeee5156-0df6-432e-9193-81817ff8c059" class=""><strong>Size</strong></p><p id="b3d76fc0-3ca5-4265-8fc9-d67f8f465cda" class="">The height should be set based on content. These are to have a width of 300px, 450px, or 600px.</p><p id="16630cde-2086-4f48-83ec-afdf80b94399" class=""><strong>Position</strong></p><p id="e2c9755d-0b89-4ec7-a73a-e5c8cbf70819" class="">The position should be set to directly above, below, or next to the specific element the tooltip is pointing to. Do not position the tooltip in a manner that would cover contents that it references to. If the scroll position is at the end of the page, the tooltip should be repositioned to either above or below so that the tooltip stays on the screen.</p><figure id="2c023971-adfd-4069-99d6-dc21c6636729" class="image"><a href="./images/Untitled%2049.png"><img style="width:708px" src="./images/Untitled%2049.png"/></a></figure><p id="09f347f5-cbff-43f3-8292-e68aabb9e9dc" class=""><strong>Anatomy</strong></p><p id="e1d87c2b-c836-4bb0-98e8-cec79b475fac" class=""><strong>1. Container:</strong> this is the container of the tool tip. Clicking outside of the container shouldn’t close the tooltip, unless a scrim is involved.</p><p id="60fd9de4-d6b9-44f3-8578-82e0606dd536" class=""><strong>2. Tail:</strong> this points to the element on the screen that the tooltip relates to. Align the tail with the element.</p><p id="d14ebde4-81df-4d11-a524-ad2b696bdb4b" class=""><strong>3. Header: </strong>labels the tool tip. The header should not exceed one line. Rather than summarizing the contents, aim to grab the user’s attention or to provide them motivation to learn.</p><p id="e802f5b7-1222-40ca-9c8a-a059d2cbc5db" class=""><strong>4. Graphics: </strong>use images micro-videos, or GIFs for a visual representation of the content or for attention grabbing. If there are no visuals available, text-only tooltip is available as a variant.</p><p id="524d7d04-ca78-4434-bf33-b00592cabeb8" class=""><strong>5. Content: </strong>this body of text will provide detailed information about the relating element of the tooltip as concise as possible. Do not make extensive or wordy. Provide only the most crucial information to notify the user of.</p><p id="e76894a4-6484-4992-a67b-9c776a98a12f" class=""><strong>6. Secondary content: </strong>this will provide a hyperlink to open the In-System Learning modal, if one exists for the product.</p><p id="39faeac5-837a-45d3-98b0-8459d0fb2cb7" class=""><strong>7. Action buttons: </strong>this primary button should provide means to dismiss the tooltip as sign of acknowledgement.</p><h3 id="17da39ff-765b-44d0-9b6b-d5b21714791f" class="">Component - Walkthrough</h3><p id="aff448c0-c42b-4df2-8221-98987ae7235e" class="">The ISG walkthrough is a multi-tooltip display that holds the user’s hand through their product usage in a detailed and interactive manner.</p><figure id="9b045050-73c5-42ba-a33b-71f28ca68a0a" class="image"><a href="./images/Untitled%2050.png"><img style="width:708px" src="./images/Untitled%2050.png"/></a></figure><p id="70ab82b3-e23d-4cb9-b6b9-78bc13584894" class=""><strong>Nested component</strong></p><p id="09cb3b76-eb71-4cfe-a9f6-d3df07fb5e78" class="">The highest component has variants for tail positions. The nested component called ‘Content’ has variants for sizes, titles, and images.</p><p id="be34b0e8-c002-4a00-924a-cdc2efa3893c" class=""><strong>Size</strong></p><p id="267e228f-56bf-4a52-bde2-9b7fb7ea5036" class="">The height should be set based on content. These are to have a width of 300px, 450px, or 600px.</p><p id="ab635f6f-dc73-47de-9214-608fb4905ce3" class=""><strong>Position</strong></p><p id="dd15980e-a22b-417e-9664-22c2bb092c92" class="">The position should be set to directly above, below, or next to the specific element the tooltip is pointing to. Do not position the tooltip in a manner that would cover contents that it references to. If the scroll position is at the end of the page, the tooltip should be repositioned to either above or below so that the tooltip stays on the screen.</p><p id="d3582530-0f9d-4ddd-acab-ecdcdc30793d" class="">The series of tooltips connected into one flow in a walkthrough should generally be in the same area. The user shouldn’t have to scroll to find the next tooltip of the walkthrough.</p><figure id="54406692-08fa-4fb7-95a0-46f788eb147a" class="image"><a href="./images/Untitled%2051.png"><img style="width:708px" src="./images/Untitled%2051.png"/></a></figure><p id="82e7f61e-201b-4ca5-b1e0-845cae81fcb8" class=""><strong>Anatomy</strong></p><p id="4c8094bf-42c0-439f-be19-96e2829387f1" class=""><strong>1. Container:</strong> this is the container of the walkthrough. Clicking outside of the container shouldn’t close the walkthrough, unless a scrim is involved.</p><p id="0b327441-20e9-493e-b44a-9cc293a83a58" class=""><strong>2. Tail:</strong> this points to the element on the screen that the tooltip relates to. Align the tail with the element.</p><p id="40247d5f-3a24-41f9-aa2a-47add6c089a4" class=""><strong>3. Header: </strong>labels the walkthrough. The header should not exceed one line. Rather than summarizing the contents, aim to grab the user’s attention or to provide them motivation to learn. The header can be utilized even if the tooltip is not the first of a walkthrough flow.</p><p id="cd5cb5dc-80d1-47f6-a1e7-42a435eb0642" class=""><strong>4. Close icon button: </strong>clicking this button will close out of the walkthrough flow.</p><p id="d1603dad-b437-4982-8b0f-bfab757c5bca" class=""><strong>5. Content: </strong>this body of text will provide detailed information about the relating element of the tooltip as concise as possible. Do not make extensive or wordy. Provide only the most crucial information to notify the user of.</p><p id="a2532add-2514-40e8-a126-414a4297fdb1" class=""><strong>6. Secondary content: </strong>this will provide a hyperlink to open the In-System Learning modal, if one exists for the product.</p><p id="310df042-3efe-4907-9b6b-8c955ecbfc67" class=""><strong>7. Action buttons: </strong>the primary button should be ‘Next’ or ‘Done’, depending on which tooltip it is within the walkthrough. If the tooltip is the last of the flow, the primary button should also display ‘Done’. If the primary button is ‘Next’, the secondary button should provide the ‘Previous’ option.</p><p id="2a447abc-7054-4e74-bb45-b9ab6898c68b" class=""><strong>8. Progress indicator: </strong>display the progress with numbers.</p><h3 id="6d78faca-62dc-4a75-bbe1-220a7a082e18" class="">In-System Learning</h3><p id="fd3a1068-8bc9-4649-80b1-911078c58ad8" class="">In-System Learning (ISL) is a product-specific modal component of ISG that provides additional context and learning opportunities for the user looking for more detailed explanation on certain concepts or terms within the product.</p><p id="7b67bb7c-77c5-4776-95f7-15d43b0c9062" class="">ISL can be accessed in two ways:</p><ol type="1" id="9efac13d-5865-4d34-96df-729deeb2dfbe" class="numbered-list" start="1"><li>Clickable secondary content from the tooltips</li></ol><ol type="1" id="b8ca0d85-5456-4d93-a4a2-05d83b574165" class="numbered-list" start="2"><li>Dropdown toggle</li></ol><p id="6106744e-f7f3-4471-a7d2-ecc55c1e8814" class=""><strong>Size</strong></p><p id="503da2d1-6048-4c07-89bc-333ec5080d36" class="">The size of this modal is fixed as 1200px x 800px.</p><p id="9b68751a-f435-497c-974c-b0d7fc9c13fd" class=""><strong>Position</strong></p><p id="28c61218-4b82-4e41-b16d-d4463af900ab" class="">The position should be set to the center of the screen, just like the regular modals.</p><figure id="ded6349e-97e7-481a-93b0-128acec8d23c" class="image"><a href="./images/Untitled%2052.png"><img style="width:708px" src="./images/Untitled%2052.png"/></a></figure><p id="28250aaf-7a9e-4562-a4e9-66c5217e1bf9" class=""><strong>Anatomy</strong></p><p id="5b280ba2-0196-4efc-9e4a-a782cc659dc4" class=""><strong>1. Container:</strong> this is the container of the ISL. Clicking outside of the container doesn’t close the ISL modal.</p><p id="bbf2b81f-b33b-492d-a9ea-834edecece52" class=""><strong>2. Header: </strong>labels the ISL with the name of the product that the ISL is available for.</p><p id="9c60426c-fac6-487c-b226-caddb4f5590a" class=""><strong>3. Close icon button: </strong>clicking this button will close out of the ISL.</p><p id="5edff642-34ab-49e0-826b-4d8088165115" class=""><strong>4. Search bar:</strong> this allows the users to search for specific terms within the ISL.</p><p id="a7d1227c-7a40-4de1-b24b-8f48f280f5c5" class=""><strong>5. Navigational tree: </strong>this is used to navigate information that has been categorically divided into distinct groupings. The title menus are drop-downs, and they follow the organization of the product flow itself. The tree items that appear from the drop-downs are labels for the content. The navigation tree changes state along with the main content’s scroll.</p><p id="2d23a28c-b915-423a-9aba-a2cbde234cf9" class=""><strong>6. Content title: </strong>this pertains to the high level menu that sections the ISL. It follows the organization and the titling of the product.</p><p id="b95030c6-670a-4abc-b30a-cfb4c7103836" class=""><strong>7. Content subtitle: </strong>this pertains to the secondary menu that labels the terms and concepts covered by the ISL. When the top section of scrolling hits each of these content subtitles, the navigation tree  changes state and follows the content subtitle that shows on screen.</p><p id="9ef518bc-444a-4314-abe1-5d96046dbdbf" class=""><strong>8. Content: </strong>the content of ISL includes definitions of terminologies, detailed description of concepts used by the product, or examples of product usage.</p><p id="923c0906-5ba6-439f-81c0-5eeaeefaa8e2" class=""><strong>FAQs</strong></p><p id="befb432d-d0d1-45e7-8946-df28b890de34" class="">The first menu in the navigational tree will always be FAQs if the user pain points of the product usage is known. This section should cover all questions that the users may be asking. These questions can be discovered through research and/or testing phase of product design. The purpose of the FAQ section is specifically to lower the customer service requests our service representatives receive.</p><p id="3bee31be-8cdb-46b0-b77a-fd20cafda8fb" class=""><strong>Content</strong></p><p id="77eebf3a-5a26-44f6-96fe-bda16b4105fa" class="">When filling the content of the ISL, do not re-direct the users to external websites. If internal links are provided, they should open up new tabs so that the user can continue their workflow in their original tab.</p><p id="a9f347e1-2e4e-4054-9299-a0d4bd7c451c" class="">The best practice is to give contextual definitions and examples of terms and concepts in Paycom standards. Provide visual examples such as screenshots or simple diagrams.</p><p id="85dca352-2f92-4830-8fe3-46e991c0603f" class=""><strong>Scrim</strong></p><p id="7e6b35c7-f3c2-4099-b7fc-c90cba86c4cb" class="">A scrim is sometimes used in the ISG experiences to focus the user’s attention on the system presented learning. The scrim is a 40% opacity black rectangle, placed between the overlaying ISG layer and the product itself.</p><p id="98587405-bf62-4268-92bf-e98d87a03696" class="">When using a scrim with a tooltip or a walkthrough, exclude the element correlating to the tooltip from the scrim.</p><figure id="86212d4a-4a0f-4896-8427-1b0f3abf4ff8" class="image"><a href="./images/Untitled%2053.png"><img style="width:708px" src="./images/Untitled%2053.png"/></a></figure><p id="e3eacfe4-588a-4a73-9ea4-de1e67bc82c7" class="">Use cases:</p><ul id="dfca1316-fb88-4281-8888-1d8d78ba4952" class="bulleted-list"><li style="list-style-type:disc">Modals</li></ul><ul id="c0b93dd6-3323-447f-89b9-1c245d47404b" class="bulleted-list"><li style="list-style-type:disc">Tooltips or certain steps of walkthroughs that are more crucial than the other parts, but are being overlooked by the users</li></ul><ul id="26ae1799-7b6f-4ec2-bfb4-94a845d4f820" class="bulleted-list"><li style="list-style-type:disc">Tooltips or certain steps of walkthroughs that point to elements of the page that is difficult to notice</li></ul><p id="4b378260-0d4e-4873-bf3c-59a3a03701ed" class=""><strong>Toggle</strong></p><p id="1e573d03-94c4-4896-9e35-4af9f66e78b8" class="">ISG toggles change the state of the ISG on or off, and offers users a chance to revisit the ISG when they need a refresher.</p><p id="dd34fa7a-06e7-49db-86da-242f78811e17" class="">Tier 1 doesn’t use a toggle, since the Tier 1 information intends to be a one-time notice for the users. Tier 2 and 3 have options to use the basic or the dropdown toggle, based on the number of flows and the availability of In-System Learning.</p><div id="5e8f8999-232a-4764-9117-3a756fe07afb" class="column-list"><div id="ad02c4a2-58e0-48f0-b635-5931c0f08a11" style="width:50%" class="column"><figure id="fa0da438-1619-44a9-af48-b7675cae27e3" class="image"><a href="./images/Untitled%2054.png"><img style="width:281px" src="./images/Untitled%2054.png"/></a></figure></div><div id="9dd8221b-0b05-4966-94aa-9ef9efa49ea6" style="width:50%" class="column"><p id="8def53e5-b28b-4bb3-8e53-4d0a77270ad4" class=""><strong>Basic toggle</strong></p><p id="538b9074-ddc3-4744-8fdc-c47061f3695a" class="">The basic toggle is a button that can be pressed to turn on or off the ISGs available within the specific page of the product. Use the basic toggle for Tier 2 ISGs, or for Tier 3 ISGs that have one flow within a page.</p></div></div><div id="c7488bdf-8161-4e91-84b4-4f9c96f0b98f" class="column-list"><div id="e82a24b3-8c5e-40e8-91cf-06d9dbf64e4f" style="width:50%" class="column"><p id="9d34b389-a67a-4d26-8c27-b1f6a7e8e556" class=""><strong>Dropdown toggle</strong></p><p id="c702b550-38e5-4df1-83fd-752eb3abfb72" class="">The dropdown toggle allows the user to chose which ISG flow to enable within the page. Use the dropdown toggle for Tier 3 ISGs that have more than one flow within a page.</p><p id="564e76be-13da-41d3-bad7-f5144b4e18d8" class="">The flows within the dropdown should be ordered in a chronological manner that follows the user flow of the product. If an ISG flow is only available upon a certain trigger action (for example, if section A has to be completed before accessing a flow in section B), then display the flow as a disabled button.</p></div><div id="ebb191b0-fca5-4060-97bd-7c0e775b7192" style="width:50%" class="column"><figure id="5f5aac4d-164d-4e0c-be20-f77f2a3598ce" class="image"><a href="./images/Untitled%2055.png"><img style="width:642px" src="./images/Untitled%2055.png"/></a></figure></div></div><div id="f23d050f-2f23-4feb-bcf6-99f47d8afae5" class="column-list"><div id="e14a196b-706f-4c22-bc1f-e3d979318943" style="width:50%" class="column"><figure id="f9bc98de-e56d-4d7a-84bf-ea9c937261ff" class="image"><a href="./images/Untitled%2056.png"><img style="width:663px" src="./images/Untitled%2056.png"/></a></figure></div><div id="4d8b4d2e-0730-46cb-ac3e-52ee0dac2a89" style="width:50%" class="column"><p id="767fe412-8833-4a81-a2a0-06a29422c9f5" class=""><strong>Dropdown toggle with ISL</strong></p><p id="1d01b307-bc3b-49d6-8bbf-98c8ed1a7412" class="">The dropdown toggle with In-System Learning should be used when a Tier 2 or 3 product includes an ISL modal, even if there is only one flow within a page. Clicking on the In-System Learning button triggers the In-System Learning modal to display at the center of the screen with a scrim.</p><p id="7e0fedf6-7e40-407e-ac2c-037f4e06c897" class="">
+</p></div></div><p id="b9009f93-25ef-4761-ae65-7db28bbcb042" class=""><strong>Initial pointer</strong></p><p id="6b786406-dda3-4ba2-add4-483d4f40a30a" class="">In order to point out the availability of ISG to the users, all products with the ISG available should have an initial pointer to the ISG toggle using the ISG tooltip component. This pointer appears only once when the user interacts with the product for the first time.</p><figure id="33e54a85-32d5-4408-8039-e26957277c9c" class="image"><a href="./images/Untitled%2057.png"><img style="width:708px" src="./images/Untitled%2057.png"/></a></figure><p id="c7ec5c8d-5fd0-42af-b8ba-3d8b6686af64" class=""><strong>Verbiage</strong></p><p id="0870a2cc-711c-4b54-956b-c2b854d583b8" class="">ISG is secondary in nature, not a primary guiding text. Therefore, we must be mindful of how to word the ISG text to create an encouraging and non-disruptive flow. Based on our research on the learning theory and andragogy, following best practice standards are to be followed:</p><p id="dc506950-2341-4c5e-8abe-706038b13a0f" class=""><strong>Keep it short</strong></p><p id="651d5fe6-4e25-4551-b694-853a69311951" class="">Keep the ISGs to a few sentences. If there is more to be communicated, use multi-modal flows or walkthroughs and break up the flow into several steps. Any in-depth explanations that may seem like too much information should have secondary content that links to ISL or other internal resources.</p><p id="4db6347b-18a2-4ad9-985c-d3720edc82fc" class=""><strong>Use consistent formatting</strong></p><p id="7cf60ca1-8a78-49bd-b38f-8194d410ce80" class="">Some ISG have titles and images, some don’t. Be mindful of these usages throughout a product to keep the overall flow not too overloaded or inconsistent.</p><p id="2ff6753c-d107-4118-a8db-632a159ffdf9" class=""><strong>Write in active voice.</strong></p><p id="c56a08ce-f3b9-4e47-a17a-59fdcfdfefde" class="">Avoid passive language and use active, engaging language. Use words that are action-oriented, often starting with a verb. This is preferred for any UX text, and especially for tooltips since they need to be brief and empowering.</p><p id="2f4422ab-ef1b-4def-82c8-533f30738c35" class=""><strong>Use simple language.</strong></p><p id="3f98247e-f6ac-4805-b568-f74dcec827a2" class="">Keep the vocabulary simple, to elementary school level. Limit jargon, acronyms, or technical words. Use AP style language in general. However, when technical words are needed, keep the language aligned to the product line or the Paycom brand itself so that the users speak our language.</p><p id="40fe8bb7-f50e-43bc-8abd-d111569c7978" class=""><strong>Motivate users.</strong></p><p id="11eb761b-a86d-4061-8abd-4af761b37160" class="">Consider how to grab user’s attention when writing the headers. Then, if the users are successfully following along, use rewarding language and/or visuals.</p><p id="eaedde6b-b8e3-4e63-beba-9a307c82eff1" class="">Include the benefit of utilizing ISG learning. Apply the “What &gt; So What &gt; Now What” approach. This is where you first explain what the feature is (the What), then the benefit (the So What), and optionally a call to action (the Now What).</p><p id="d336bb35-8a9b-456d-8493-3870a3cbff6c" class=""><strong>Don’t let the users get discouraged.</strong></p><p id="8250e3cd-e710-412d-a37c-6fbfb3ea7b9f" class="">Do not impose or shame the users with words when they fail in some task. Use words like “we” and “our” to make the user’s problem our problem. Empathetic phrases create reliability.</p><h3 id="f2934390-61c4-4f67-99e1-05e2ab360cc7" class="">Accessibility considerations</h3><p id="d8706612-ceba-4ea3-9c1f-c64e4cf73cb7" class="">Accessibility for ISG should be closely communicated to the development team in order to make an inclusive experience. Based on our research on the product accessibility, following best practice standards are to be followed.</p><p id="251ee93c-bc61-4b18-ad9e-bde0a55112d3" class=""><strong>WCAG 1.1 - Alt Text</strong></p><p id="ae3834ce-c53a-4d57-b24c-2269f64835cd" class="">All visual aid, including images, micro-videos, and GIFs within the ISG, must have descriptive alt text.</p><p id="9838ca22-c6d0-4807-a113-1f7a29d2e5a9" class=""><strong>WCAG 1.3 - Tabs</strong></p><p id="c1ed4b8f-405f-487b-ad25-2134e41e5b82" class="">The ISG is always at the forefront of the hierarchy of the screen. For all modals or tooltips with scrim, the ISG should be the first in the navigation order. Other contextual tooltips should have a tab order that follows directly after the on-page element that it points to.</p><p id="20ce2ba0-fad3-467a-9041-7c18bff38103" class=""><strong>WCAG 1.4 - Distinguishable Elements</strong></p><p id="6ca02abc-1ac0-4458-8b6f-36a005c0cc38" class="">Include captions for videos if possible. Give multiple ways of accessing the content within ISG.</p><p id="77fbe865-4dba-4fb2-a42b-19ef1c94cdcf" class=""><strong>WCAG 1.4 &amp; WCAG 2.0 - Links</strong></p><p id="d91c3bef-8c2d-4dc1-b76b-3d1ec2520e93" class="">Color alone is not used to distinguish links from surrounding text. Underline all secondary content that direct the users to ISL or internal links.</p><h1 id="handoff" class="">Handoff</h1><p id="7c2e0d0f-17f3-4374-a0cf-6d06c4ef4a61" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="6a6d1e47-4f0f-4286-8bf5-b057124dac4b" class="">As I mentioned at the start in the disclaimer, we wrote a 65-page documentation regarding everything and how to use the things we made. It serves as an important part of our handoff process, as it covers the majority of the design process of the ISG, from problem identification to solution iteration and testing. A more detailed information is accessible to Paycom employees in our Figma file - including all the interview recordings, deliberations on design decisions, rough notes, and so much more.</p><p id="e58e5734-8399-48fe-81ba-35dafc8e3e29" class="">As of right now, the product department at Paycom is in the process of deploying this intern project into their products, with the help of our documentation. We did everything we could to make sure that we wrote and documented every aspect of the project, and organized it in a way that&#x27;d minimize the potential for future designers to re-do work that&#x27;s already been done.</p><h1 id="reflection" class="">Reflection</h1><p id="d9b09e45-2ad4-4070-8088-dc284011ce30" class=""><em><mark class="highlight-gray"><a href="#table_of_contents">→ click to return to table of contents</a></mark></em></p><p id="438d3a70-ac12-4edb-a715-87c399b8ed41" class="">During the internship, we were able to conduct various forms of research, create and iterate on multiple designs and prototypes, conceptualize a product, and prepare an MVP ready for hand off. When we first saw the list of deliverables and the tight timeline, there was a slight sense of uncertainty about completing everything that was expected. There were also times when we needed to redefine and re-comprehend the global concept of our project.</p><p id="0db0532b-e5a0-4151-989b-3c4eb40fd588" class="">Looking back on the work we did, I am very proud to say that we far exceeded our own expectations, and even expanded the scope of our project beyond the original goals.</p><p id="2faf31e8-04b4-45fc-8029-28e7b304a4b2" class="">As we paved way through our goals, we’ve faced multiple situations when our ambitions were too great for our time constraints. One such case was prototyping - we initially planned to have four detailed tasks for the Enrollment Hub usability testing in order to evaluate the usage of every aspect of our product. However, a narrowing down of the scope was necessary as it was slowing down our timeline. Multiple conversations and re-adjustments during the project has taught us the proper sense of the work timeline, and how to manage time and to set realistic goals.</p><p id="46d6ebdf-a160-4c5d-bc54-6004c6618706" class="">I learned a great deal about the product development lifecycle, meeting real world deadlines, expectation management, collaboration, and more. I learned that in order for people to innovate, they should try their best not to get attached to ideas. In a fast paced and creative environment, everything is subject to change.</p><p id="4da18997-3813-4262-918f-587fdaf82734" class="">Be open and don’t be afraid to ask questions! Every conversation ended in a fellow product employee extending a helping hand in some way. The product department felt very neighborly and giving, which inspired me to ask more questions, have more meetings and reviews, and pay it forward as much as I could during my duration here.</p><p id="f6e5dd1e-670f-4018-a488-b070964eb31d" class="">Most importantly, I learned the importance of keeping open and honest communication. I benefitted a great deal from being realistic about how much work I would be able to get done on any given day, and respecting the needs and styles of working of my various collaborators. With thorough communication, we were able to thrive off of each other’s strengths and compliment each other’s weaknesses.</p><p id="5ba4cfa9-a616-4e56-af62-c611544ec6ca" class="">
+</p><h1 id="aeb0fa51-0897-4f12-ab1c-742cd79192e1" class="">thank you very much for reading/browsing!</h1><p id="c85922f1-0909-4a51-b26c-8d3232389f0c" class=""><a href="../index.html">back to home page</a></p><p id="8039deb5-c02a-4cc5-899f-212c64444a15" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
