@@ -1,0 +1,679 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>recycl - retail recycling assistant</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="3f7c3a5c-dc27-4dda-a30f-77713097c5c8" class="page sans"><header><div class="page-header-icon undefined"><h3 class="highlight-gray"><a href="../index.html">← home</a></h3></div><h1 class="page-title">♻️ recycl - retail recycling assistant</h1><p class="page-description"></p></header><div class="page-body"><figure id="4ab44f7d-2314-434b-bbe5-76c014e1d173" class="image"><a href="./images/PORTFOLIO-BANNER-RECYCL.jpg"><img style="width:4320px" src="./images/PORTFOLIO-BANNER-RECYCL.jpg"/></a></figure><h3 id="8df50b63-78d9-42fb-84c8-e0a29d3cb071" class="">Context</h3><p id="94e8926a-b82a-4efb-a888-f2da52e8369c" class="">In August 2021, I signed up to participate in a 7-day long design jam hosted by Adobe in collaboration with Target. This was a design jam exclusively for students, and you had to be in a team of at least 2 to participate. The brief, outlined later, was given to us at the start of the challenge.</p><h3 id="f7a7cf1d-c07d-40c2-92b1-7a3162532b8c" class="">The finished product</strong></h3><p id="e1509571-7dfa-41c0-b833-1244c0ac3ffa" class="">We created a prototype for an iOS app that allows retail stores such as Target, QFC, Safeway, etc. to host a rewards system &amp; friendly competition program that encourages people to utilize their in-store recycling facilities. This would positively contribute to their carbon footprint and help local communities foster a spirit of &quot;do-goodism.&quot;</p><p id="08177f7d-ee37-45a6-b83c-e6ce6927d8f4" class=""><em>Software used:</em></p><p id="8b78a55e-fe7d-48c6-8304-43a52d6dc4b2" class=""><em>Adobe XD, FigJam, Adobe Illustrator, Word, Zoom</em></p><figure id="714e2d3b-98b7-4b95-b7fd-1b6e199b1e7d" class="image"><a href="./images/Untitled.png"><img style="width:708px" src="./images/Untitled.png"/></a></figure><h1 id="d06ffbb9-aeeb-4cd3-ac6e-dcffe28dcb5f" class="">Brief</h1><p id="b4c033c2-6308-47d2-8075-eddcce17e407" class="">Your challenge is to design an inclusive third-party mobile app to facilitate retailers help their local communities educate, encourage, measure, and/or track recycling.</p><p id="3070aaea-0b38-43fd-8e1e-65a150f91e3d" class="">Create a mobile app. Your team may design either for iOS or Android,  and select the appropriate template when opening a new file in Adobe XD.</p><p id="69689829-7241-4a6b-b852-60b6e3ee4cac" class="">App must include<strong> 15 or more unique screens </strong>connected together. This encourages you to build out more of the app’s functionality to capture a more realistic user flow.</p><p id="5eb3a8ce-0178-4b62-b15c-c15966b70a7e" class="">The app must be created during the event time period <strong>(7 days) </strong>and not be derived from previously created work.</p><figure id="00994930-d2ea-48fa-99b3-3019a51c4bd5" class="image"><a href="./images/Untitled%201.png"><img style="width:1280px" src="./images/Untitled%201.png"/></a></figure><p id="928c9f2c-88a0-4c83-b9a4-cb3d052b4e04" class="">Since I had limited time, I leaned on the Double Diamond framework to help me prioritize my work. I would use the first half of the allotted time to research and devise a plan, and the second half to create and iterate.</p><h1 id="09919f8f-8df7-4005-ae1a-c6d309913489" class="">Mind mapping &amp; brainstorming</h1><p id="ff0c996a-ce85-49f6-96ce-d8e6ee6368d7" class="">Here I was trying to translate a stream of consciousness into ideas. I kept bouncing off of how things related to one another, keeping in mind the scope of the project, target audience, and the potential future product vision:</p><figure id="f8d08ec1-837b-41d8-a7b2-08a55ebab163" class="image"><a href="./images/Untitled%202.png"><img style="width:1280px" src="./images/Untitled%202.png"/></a></figure><h1 id="a50b48a0-861e-43a4-be5e-195bda8d776b" class="">Problem framing</h1><p id="f9383b8a-4def-4b14-9f04-82e6ec10dc36" class="">Based on preliminary research, I tried re-framing problem statements that both users and stakeholders might have as opportunities.</p><figure id="0f841c13-aa95-4586-9daa-818a2b658a26" class="image"><a href="./images/Untitled%203.png"><img style="width:1280px" src="./images/Untitled%203.png"/></a></figure><h1 id="3d19caec-9494-42eb-8f6c-9714bb9af220" class="">Further brainstorming &amp; research</h1><p id="5546031e-42fb-49a2-9871-09eb5bbec54a" class="">From the beginning of the project, the assignment clearly stated that the solution to an unknown problem was getting consumers to recycle at stores. This meant that I didn’t need to spend time focusing on whether or not recycling was the right idea in the first place, I could just get to work on creating the best version of this solution that I could come up with.</p><p id="2d25668c-55e9-4ff1-9dea-2808f9a08ef0" class="">Since the project was team-based, I could get my teammate who was a stranger to visual and product design to help me with the research portion behind the incentives and education features of the app. Here are some of my teammate’s most important takeaways from that research:</p><ul id="3655cf1c-484f-4ac5-bd8b-ac2064e88f5b" class="bulleted-list"><li style="list-style-type:disc">Recyclable materials that are thrown away end up in landfills, harming wildlife and ecosystems.</li></ul><ul id="d08e6a8f-b842-474f-b673-e5a9b3805817" class="bulleted-list"><li style="list-style-type:disc">Plastic takes 450 years to decompose, while glass takes over 1 million years.</li></ul><ul id="1e2882d1-0f3b-44b1-8910-67b796e5e90e" class="bulleted-list"><li style="list-style-type:disc">Much of the plastic ends up in the ocean and consumed by the fish that end up in grocery stores.</li></ul><ul id="a20249f9-f44a-4d4d-8c74-8cde6afd3321" class="bulleted-list"><li style="list-style-type:disc">By 2015, only 9% of the world’s plastic has been recycled, and 79% of it is somewhere out there on our planet.</li></ul><ul id="58ffedb5-cb5e-4a22-8427-a11e857e1f51" class="bulleted-list"><li style="list-style-type:disc">Recycled materials are used to make bottles, clothes, bags, shoes, and more.</li></ul><p id="f984b30a-76c0-46e8-b05a-1fec8f55df2d" class="">Something else we found in our research, as shown in the problem framing and mind map, is that people are reluctant to recycle because it’s simply inconvenient for them. As a result, we figured that giving them rewards for doing so would be a good place to start. We had other ideas such as a raffle system and apple wallet integration, but they ended up being scrapped due to unfairness in low population areas and time constraints respectively. This project was particularly challenging because of the 7-day time constraint. As anyone who has done a hackathon or a game/design jam would know, it’s quite difficult to condense the entire design process down to a short time window.</p><p id="ac39e290-9216-4aa4-aaf6-acc1f48ca791" class="">We decided that the user should earn $5 for every 15lb of recycling they produce. 1lb of recycled cans is worth ~$0.59. This means that to earn $5, you&#x27;d need to drop off around 8.5lb (or $8.85) worth of recycled cans. We figured that $5 for 15lb is a good figure, since <strong>this hypothetical app would need to cover the cost of its own upkeep somehow</strong>. The app also makes it a lot easier and faster to recycle your goods when compared to a nameless facility that may give you more money for your recycled goods.</p><p id="21d216b4-70fe-46b5-8619-a29339650f04" class="">Something we overlooked was how to quantify the value of recyclable products that aren’t just cans or paper, since the rewards system is based on the weight of the goods you drop off.</p><h1 id="e5351301-71ac-418d-ab9f-578cd08e7f52" class="">Storyboarding</h1><p id="f079cf28-da3c-4bf5-99ae-45c24831bf41" class="">Following the research and brainstorming sessions, storyboarding began. I came up with a flow that made sense and allowed the user to complete the tasks deemed necessary for this challenge in as few screens as possible. Since the challenge required 15 unique screens though, we would have to add a couple other screens to hit that goal.</p><p id="1ff2e1d6-29a2-477a-aeaa-eca50426ecb8" class="">Since the app was being judged, I felt like we needed <strong>a layer of meta-UX for the judges</strong>.</p><figure id="29004911-aff5-4cc9-a9aa-acb7fd86adf3" class="image"><a href="./images/Untitled%204.png"><img style="width:1280px" src="./images/Untitled%204.png"/></a></figure><p id="d000947c-662d-49a4-9508-62ccb37defa3" class="">I came up with the idea of having a &quot;navigator buddy&quot; like Microsoft&#x27;s Clippy. This way, the judges of the contest would know exactly where and when and where to click. In a real app, you would be able to click anywhere, but prototypes are quite limited in terms of functionality. Ideally the app would be intuitive, but we wanted to make sure that <strong>onboarding</strong> was easy and didn’t put too much <strong>cognitive load</strong> on the user from the jump.</p><p id="c2dbd2ea-0481-4896-b87c-9024eb81cafb" class="">The goal of the storyboard was to aid with solidifying the functionality and mission of the app, as well as giving guidance for the next stage of design.</p><h1 id="edbefa8e-0cee-4534-b494-3e2b1f9033d5" class="">Information Architecture</h1><div id="dfbd0641-73bb-4f49-a7f5-02153e29f133" class="column-list"><div id="ab9281dc-6a6d-4a69-97ab-31adb4f8dcc4" style="width:50%" class="column"><figure id="04ab337a-f123-493a-bdcb-4ef8bc6b5ea1" class="image"><a href="./images/Untitled%205.png"><img style="width:708px" src="./images/Untitled%205.png"/></a></figure></div><div id="8fd2da98-32ff-4c4d-a494-ac954671a4c3" style="width:50%" class="column"><p id="ecc61ee3-2a8b-470c-81e6-083c19647024" class="">With the aid of the storyboard, work began on the high-level information architecture part of the project. In order to move on to the next stage of wireframing, the user flow needed to be determined. <strong>Here’s what that looked like as a stream of consciousness:</strong></p><p id="5a907875-a8a3-4aac-b438-4f4c3452d1a9" class=""><em>Splash screen &gt; greeting &gt; ask for location &gt; recycling locations &gt; location details (accepted items, address) with “copy address to clipboard” for GPS usage &gt; buffer screen&gt; explain how to use facility &gt; qr code &gt; community/personal contributions &gt; information and resources &gt; rewards &gt; end</em></p><p id="acf998e5-6014-4061-ac35-708d91cfbac9" class=""><em>Greeting: Let&#x27;s help you collect rewards while you help save our planet! &quot;Sign me up!&quot; &gt; Ask for location (prompt) &gt; Location details: Here’s a little info about this facility. Hit the blue button when you’re ready. &gt; Buffer screen: Great! The address of the facility is copied to your clipboard, ready to put in your GPS. &gt; Explain how to use facility: When you’re ready to head to your local facility, you will need to follow these 3 simple steps: Go to a kiosk and scan your personal recycl QR code, Deliver your recyclable goods Reap the benefits (WE HAVE REWARDS) &gt; **BIG GIANT BUTTON THAT SAYS “Get my QR code”** &gt; Qr code: just a qr code (also maybe a button that says “Add to wallet” or something to integrate it into apple wallet? If time allows) &gt; Information and resources: Now that you’re ready to go, here are some facts about how you’re helping the environment. (bulletpoint facts) &gt; Community/personal contributions: placeholder statistics about lbs of recycling turned in within a 50 mile radius of you &gt; Rewards: This is the rewards page. Here, you’re able to see a preview of the different rewards tiers, and your progress towards unlocking each of them. &gt; End: Welcome to recycl!</em></p></div></div><h1 id="870fbcbf-7d8b-4bc1-a638-509e22ab75a8" class="">Wireframes</h1><p id="fab099cf-5150-41a9-9a1a-bd566d7b56bb" class="">The app is finally beginning to take shape! Building on the previous steps, I came up with some rough wireframes to help me with the production and layout of the final prototype.</p><figure id="5c45038f-aadf-4d23-8fab-6504a2bc2497" class="image"><a href="./images/Untitled%206.png"><img style="width:1280px" src="./images/Untitled%206.png"/></a></figure><p id="b37cdc20-b915-4868-9c27-8902fe652402" class="">I thought an effective and time efficient way to fill out the 15 screen requirement would be to have details of different facilities; this way I could use the same screen layouts while displaying unique information to the user.</p><p id="895cd408-3795-4a15-a4be-af85b79f2f51" class="">This, however, was pretty boring, so I also added a rank system to further incentivize people to recycle. Now people could see how they stack up in terms of how much they recycle compared to locals.</p><p id="f99b230b-5ace-4339-b4e9-3d043741c59d" class="">I also implemented a &quot;favorites&quot; or &quot;saved&quot; feature, in case the user is particularly fond of a facility or they don&#x27;t want to search for one they’ve already been to.</p><h1 id="8fd4fc70-a705-4d46-bbbb-5f6e2ed30ec2" class="">Field research - interviews</h1><p id="093a29fb-e5d6-4eaa-a085-6aafbf36d120" class="">Seeing as the design jam only ran for a week, scope creep was something that my teammate and I needed to be extremely cautious about. We couldn’t conduct large scale interviews, ideation sessions, focus groups, etc. in the time that we had, but we did ask a group of 10 people some short questions after they were briefed on the purpose/goal of the app:</p><ul id="e34d2592-037f-4b5d-944d-407d9a5b9f9c" class="bulleted-list"><li style="list-style-type:disc">Do you feel content with the amount of recycling you do?</li></ul><ul id="b91085d8-f574-413c-be73-d10c3d93162f" class="bulleted-list"><li style="list-style-type:disc">Have you used a grocery store app before? If so, what is something you liked and disliked about the ones that you’ve used? If not, why not?</li></ul><ul id="b7e602e6-3adc-4841-8eab-300d242e57f0" class="bulleted-list"><li style="list-style-type:disc">On a scale from 1-10, 1 being the least likely and 10 being the most likely, how likely are you to use an app that rewards you for recycling?</li></ul><ul id="2e3ec2a2-6742-4200-8217-c50a6f8f474f" class="bulleted-list"><li style="list-style-type:disc">What expectations do you have for this app?</li></ul><p id="b976548a-87c5-4b2f-8353-8e9b36eea9b9" class="">We did our best to keep the questions open-ended to avoid introducing bias into the answers our interviewees gave. We got a variety of answers from the people we surveyed, and we learned that people, although they don’t know this is why, seem to notice when an app is coded in react versus being native for iOS or Android because of how different and “off-putting” it looks. Some of the things we learned to watch out for were the aforementioned Apple human interface guidelines since we’re designing for iOS and making sure that users don’t get trapped in island tasks. We also learned that our group of interviewees were more likely to give an app a break/cut it some slack for bad user experience as long as they get something of monetary value out of it.</p><h1 id="b4f6210d-c4b1-4335-ac2c-b477b62b26f4" class="">Visual design</h1><p id="80667e42-5bec-457e-9d20-b272ee2df076" class="">I made sure to pay close attention to the branding and visual design of the app itself. I tried to avoid large differences in rag on text blocks, have good color contrast, kern and carefully modify repeating elements, and follow the Apple Human Interface Guidelines.</p><figure id="a8700122-0529-4e2c-8a92-9edb1a6f060d" class="image"><a href="./images/Untitled%207.png"><img style="width:1280px" src="./images/Untitled%207.png"/></a></figure><h1 id="b7cb377d-a36f-4b60-97fc-48b0baafd361" class="">Prototype</h1><p id="fa0ec3d6-9e64-47db-b495-d816f4b81042" class="">With all the leg work behind us, we finally had a prototype of the minimum viable product. Sure, it is limited in features and some real-world problems weren’t fully addressed, but we had something to show for our hard work at the end of a week of researching and designing. Hooray!</p><figure id="3ae27a7d-b5ff-43d4-9fb8-ec449d43e7c1" class="image"><a href="./images/Untitled%208.png"><img style="width:708px" src="./images/Untitled%208.png"/></a></figure><h1 id="fa8558eb-1284-43ca-803c-cbf8bb69d0d8" class="">Surveys &amp; reflection</h1><p id="23fc07af-21a6-456e-9080-f24a944141b5" class="">Having a finished prototype at the end of a busy week of hard work was extremely rewarding. However, in the real world, the work doesn’t stop there. Before submitting the project and receiving our scores from the judges (which ended up being <strong>27th place out of 290 participating teams</strong>) we went back to our interviewees with the prototype to get some final opinions.</p><p id="0fdc733d-a2dd-41ee-8e46-ec9730393663" class="">The interviewees all said that our app avoids the things they dislike about other grocery store apps, but some found the tutorial sequence annoying because they couldn’t skip it.</p><p id="224c79d1-9165-47cb-9b36-218c5a5fb173" class="">I learned that the majority of the people I interviewed wouldn’t have agreed to it if they didn’t know me - stating that if a company asked them to be interviewed, they’d have to get some sort of financial compensation to agree.</p><p id="975aafce-e31a-4094-a4b3-8c09d0531777" class="">The judges knocked off points for creativity and intuitive-ness (or lack thereof). They stated that the way we attacked the problem with a rewards system is a bit uninspired and already exists, and that the app isn’t intuitive because we felt the need to have a personal assistant guiding them through every step of the onboarding process.</p><p id="405a639b-2c52-4f3e-a33f-8457291228e1" class="">Upon further reflection, I agree with the assessments of the judges. I also think that the finished project should have followed Target’s branding and design style, seeing as they were the ones that facilitated the design jam. We ended up with a more generic product that could be applied to any retailer, but that just means we’ll put more of a focus on details like this next time.</p><p id="21d18da4-111e-48e0-ac0f-74e7cc3a56ab" class="">Overall, our product had some failures and some great successes. Completing the conception, research, design, and prototyping of an entire app in 7 days was a tough but fun challenge, and it helped my teammate and I gain a better understanding of details that can make or break someone’s first impression of a product.</p><p id="314874de-1693-4656-9da8-e0d3c05933d9" class="">
+</p><p id="4a757612-0d65-4895-9588-f5d8e11ce26e" class="">Try out the prototype:</p><figure id="eb29e14f-6653-4ddd-b5eb-d478eac7d3f9"><div class="source"><a href="https://xd.adobe.com/view/232a8fa2-e244-40d5-99a3-d04da300c98e-7679/" target="_blank">https://xd.adobe.com/view/232a8fa2-e244-40d5-99a3-d04da300c98e-7679/</a></div></figure><h1 id="522ec4cb-dca2-43e6-940d-26c641ce6599" class="">thank you very much for reading/browsing!</h1><p id="bbf4a6e1-cf88-4c6d-aa94-73ed3fe90cc0" class=""><a href="../index.html">back to home page</a></p><p id="70ee0480-2fa9-4ff3-abcf-6c634a94086e" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
