@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    <title>bogdan banica</title>
+    <link rel="stylesheet" type="text/css" href="../Grid Box Layouts/stylesheet.css">
+
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="head-list-item"><a href="../Grid Box Layouts/index.html">Dan Banica</a></div>
+            <div class="hamburger" id="hamburger">☰</div>  <!-- Hamburger icon -->
+        </div>
+        <ul class="nav-container">
+            <li class="list-item"><a href="/placeholder">about</a></li>
+            <li class="list-item"><a href="/placeholder">projects</a></li>
+            <li class="list-item"><a href="/placeholder">contact</a></li>
+            <li class="list-item"><a href="/placeholder">résumé</a></li>
+        </ul>
+    </header>
+     
+    <script>
+    
+        document.addEventListener("DOMContentLoaded", function () {
+          const hamburger = document.querySelector("#hamburger"); // Select the hamburger menu
+          const navContainer = document.querySelector(".nav-container"); // Select the navigation container
+      
+          // Toggle the menu on hamburger click
+          hamburger.addEventListener("click", function () {
+            navContainer.classList.toggle("active");
+            hamburger.classList.toggle("active");
+          });
+      
+          // Close the menu when scrolling
+          window.addEventListener("scroll", function () {
+            if (navContainer.classList.contains("active")) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+      
+          // Close the menu when clicking outside of it
+          document.addEventListener("click", function (event) {
+            const isClickInsideMenu = navContainer.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+      
+            if (!isClickInsideMenu && !isClickOnHamburger) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+        });
+      </script>
+
+     <!-- mobile device detection forced stacking -->
+      <script>
+       function isMobileDevice() {
+        return /(android|iphone|ipad|ipod|blackberry|windows phone|mobile)/i.test(navigator.userAgent);
+        }
+
+        function applyMobileLayout() {
+            if (isMobileDevice()) {
+                document.body.classList.add('mobile-layout');
+            } else {
+                document.body.classList.remove('mobile-layout');
+            }
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyMobileLayout();
+        });
+
+        console.log(navigator.userAgent);
+
+      </script>
+ 
+
+        <div class="card">
+            <h2>Dan Banica</h2>
+            <h3>Oklahoma City, OK</h3>
+            <p>I’m Dan - a Product Designer skilled in impactful decision-making and beautiful UI creation on tight timelines. I have an affinity for design systems and accessibility practices, as well as a bit of front-end coding knowledge. I actually coded this website from scratch!</p>
+        </div>
+
+        <h1 class="group">Projects</h1> <br>
+
+        <div class="card-group">
+        <div class="grouped-card">
+            <div class="icon-title">
+            <h2><a href="gatekeeping.html" id="project1-link">Paycom</a></h2>
+            <span class="material-icons">lock</span>
+        </div>
+            <h3>2023-2025</h3>
+            <p>A variety of projects ranging from guided setups, to new component initiatives, to a new tax management system.</p>
+        </div>
+        <div class="grouped-card">
+            <h2>Arrowhead (game)</h2>
+            <h3>2024</h3>
+            <p>An infinite instrument-based memory game where a new jingle is generated every round.</p>
+        </div>
+        <div class="grouped-card">
+            <h2>Recycl</h2>
+            <h3>2021</h3>
+            <p>A retail store companion app to encourage the use of in-store recycling facilities.</p>
+        </div>
+    </div>
+
+    <div class="tooltip-heading" >
+        <div class="icon-title-uncontained">
+        <h1 style="padding-right: 16px;">What I work with</h1>
+        <li class="material-icons" data-tooltip="You can hover over the icons to see what programs they are.">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+        </li><br>
+    </div></div><br>
+
+  <ul class="card-group-icons" style="padding: 0; flex-wrap: wrap; margin-bottom: 48px;">
+    <li class="iconify" data-tooltip="Figma">
+        <i class="iconify" data-icon="solar:figma-bold"></i>
+      </li>
+
+    <li class="iconify" data-tooltip="Adobe Illustrator">
+    <i class="iconify" data-icon="devicon-plain:illustrator"></i>
+    </li>
+
+    <li class="iconify" data-tooltip="Affinity Designer">
+        <i class="iconify" data-icon="simple-icons:affinitydesigner"></i>
+      </li>
+
+      <li class="iconify" data-tooltip="Adobe Photoshop">
+        <i class="iconify" data-icon="file-icons:adobe-photoshop"></i>
+      </li>
+
+      <li class="iconify" data-tooltip="Adobe XD">
+        <i class="iconify" data-icon="file-icons:adobe-xd"></i>
+      </li>
+
+      <li class="iconify" data-tooltip="Inkscape">
+        <i class="iconify" data-icon="simple-icons:inkscape"></i>
+      </li>
+
+      <li class="iconify" data-tooltip="Jira">
+        <i class="iconify" data-icon="simple-icons:jira"></i>
+      </li>
+
+      <li class="iconify" data-tooltip="VS Code">
+        <i class="iconify" data-icon="codicon:vscode"></i>
+      </li>
+  </ul>
+
+  <h1 class="group">Experience</h1><br>
+
+  <div class="row-2">
+    <div class="inner">
+  <h2>Paycom</h2>
+  <h3><strong>Associate Product Designer</strong><br>August 2024 - Present</h3>
+  <p>UI/UX - Designing web & mobile solutions for the flagship Beti team.</p>
+</div><div class="inner">
+  <h2>bluvector</h2>
+  <h3><strong>UX Developer</strong><br>August 2024 - Present</h3>
+  <p>Development & UI/UX for web-based video games.</p>
+</div></div>
+
+<div class="row-2">
+<div class="inner">
+  <h2>Paycom</h2>
+  <h3><strong>Product Design Intern</strong><br>May 2023 - August 2023</h3>
+  <p>UI/UX - platform onboarding system design.</p>
+</div>
+<div class="inner">
+  <h2>UW Formula Motorsports</h2>
+  <h3><strong>Graphic Designer</strong><br>November 2022 - May 2023</h3>
+  <p>Graphic design for external marketing.</p>
+</div></div>
+
+<div class="row-2" style="margin-bottom: 48px;">
+    <div class="inner">
+      <h2>LWTech</h2>
+      <h3><strong>Graphic Designer</strong><br>June 2021 - March 2022</h3>
+      <p>Graphic design for events, merchandise, and marketing.</p>
+    </div>
+    <div class="inner">
+      <h2>Kirkland Chamber of Commerce</h2>
+      <h3><strong>Digital Media Intern</strong><br>June 2021 - October 2021</h3>
+      <p>Graphic design & video production for events and marketing.</p>
+    </div></div>
+
+</body>
+</html>
