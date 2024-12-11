@@ -114,6 +114,7 @@ margin-bottom: 48px;
 justify-self: center;
 margin-right: auto;
 margin-left: auto;
+max-width: 1000px;
 }
 
 .card-group {
@@ -128,6 +129,7 @@ margin-bottom: 48px;
 align-items: stretch;
 box-sizing: border-box;
 gap: 1em;
+max-width: 1000px;
 }
 
 .grouped-card {
@@ -150,6 +152,7 @@ width: 80%;
 margin-right: auto;
 margin-left: auto;
 text-align: left;
+max-width: 1000px;
 }
 
 .group-center {
@@ -378,6 +381,7 @@ input {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+    max-width: 1000px;
   }
 
   .icon-title-uncontained {
@@ -400,6 +404,7 @@ input {
     margin-bottom: 24px;
     box-sizing: border-box;
     gap: 24px;
+    max-width: 1000px;
   }
 
   .inner {
@@ -465,6 +470,7 @@ input {
   .card-group-icons {
     flex-wrap: nowrap; /* Allow wrapping at this breakpoint */
     justify-content: space-between; /* Space between items */
+    max-width: 1000px;
   }
 
   .card-group-icons li {
