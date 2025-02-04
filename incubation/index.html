@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    <title>dan banica</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  </head>
+
+<body>
+  <div style="background-color: #111111; position:sticky; top:0; min-width: 80%;">
+    <header class="header" style="min-width: 200px; background-color: #111111; min-width:280px; padding-bottom:0.5em;">
+        <div class="header-content">
+            <div class="head-list-item"><a href="index.html" style="margin-left:16px;">Dan Banica</a></div>
+            <div class="hamburger" id="hamburger">☰</div>  <!-- Hamburger icon -->
+        </div>
+        <ul class="nav-container">
+            <li class="list-item"><a href="about.html" style="padding-right: 32px;">about</a></li>
+            <li class="list-item"><a href="work.html" style="margin-right:16px;">work</a></li>
+        </ul>
+    </header>
+  </div>
+
+    <script>
+
+    
+        document.addEventListener("DOMContentLoaded", function () {
+          const hamburger = document.querySelector("#hamburger"); // Select the hamburger menu
+          const navContainer = document.querySelector(".nav-container"); // Select the navigation container
+      
+          // Toggle the menu on hamburger click
+          hamburger.addEventListener("click", function () {
+            navContainer.classList.toggle("active");
+            hamburger.classList.toggle("active");
+          });
+      
+          // Close the menu when scrolling
+          window.addEventListener("scroll", function () {
+            if (navContainer.classList.contains("active")) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+      
+          // Close the menu when clicking outside of it
+          document.addEventListener("click", function (event) {
+            const isClickInsideMenu = navContainer.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+      
+            if (!isClickInsideMenu && !isClickOnHamburger) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+        });
+      </script>
+
+     <!-- mobile device detection forced stacking -->
+      <script>
+       function isMobileDevice() {
+        return /(android|iphone|ipad|ipod|blackberry|windows phone|mobile)/i.test(navigator.userAgent);
+        }
+
+        function applyMobileLayout() {
+            if (isMobileDevice()) {
+                document.body.classList.add('mobile-layout');
+            } else {
+                document.body.classList.remove('mobile-layout');
+            }
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyMobileLayout();
+        });
+
+        console.log(navigator.userAgent);
+
+      </script>
+ 
+      <div style="display: flex; height: 80%; justify-content: center; align-items: center;">
+      <div style="display:flex; align-items:center; flex-direction: column; width: 100%;;">
+        <div class="card" style="margin-bottom:24px; justify-self: center;">
+            <div style="display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; margin-top: 16px; gap: 0.5em;"><h2 style="margin:0px;">Dan Banica</h2></div>
+            <h3 style="margin-top: 0.5em;">Product Designer @ <a href="http://paycom.com/" target="_blank" style="text-decoration: underline; color: #9CA3AF;">Paycom</a></h3>
+            <p>Figma wizard • Designer • Researcher • Design systems • Web dev • Business advocate • Accessibility • Chocolate enjoyer</p>
+            <a href="about.html" style="width: 100%;">
+            <button style="background-color: #282828; width: 15%; min-width: 150px; justify-self: left; margin-right: auto; margin-left:0; border: solid 0.1em #575757; padding: 8px; margin-bottom: 16px;">Read More</button>
+          </a>
+        </div>
+
+        <a href="work.html" style="width:100%;">
+        <button>View Work</button>
+      </a>
+      </div>
+    </div>
+
+</body>
+</html>

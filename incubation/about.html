@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    <title>dan banica</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  </head>
+
+<body>
+  <div style="background-color: #111111; position:sticky; top:0; min-width: 80%;">
+    <header class="header" style="min-width: 200px; background-color: #111111; min-width:280px; padding-bottom:0.5em;">
+        <div class="header-content">
+            <div class="head-list-item"><a href="index.html" style="margin-left:16px;">Dan Banica</a></div>
+            <div class="hamburger" id="hamburger">☰</div>  <!-- Hamburger icon -->
+        </div>
+        <ul class="nav-container">
+            <li class="list-item"><a href="about.html" style="padding-right: 32px; text-decoration:underline;">about</a></li>
+            <li class="list-item"><a href="work.html" style="margin-right:16px;">work</a></li>
+        </ul>
+    </header>
+  </div>
+
+    <script>
+
+    
+        document.addEventListener("DOMContentLoaded", function () {
+          const hamburger = document.querySelector("#hamburger"); // Select the hamburger menu
+          const navContainer = document.querySelector(".nav-container"); // Select the navigation container
+      
+          // Toggle the menu on hamburger click
+          hamburger.addEventListener("click", function () {
+            navContainer.classList.toggle("active");
+            hamburger.classList.toggle("active");
+          });
+      
+          // Close the menu when scrolling
+          window.addEventListener("scroll", function () {
+            if (navContainer.classList.contains("active")) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+      
+          // Close the menu when clicking outside of it
+          document.addEventListener("click", function (event) {
+            const isClickInsideMenu = navContainer.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+      
+            if (!isClickInsideMenu && !isClickOnHamburger) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+        });
+      </script>
+
+     <!-- mobile device detection forced stacking -->
+      <script>
+       function isMobileDevice() {
+        return /(android|iphone|ipad|ipod|blackberry|windows phone|mobile)/i.test(navigator.userAgent);
+        }
+
+        function applyMobileLayout() {
+            if (isMobileDevice()) {
+                document.body.classList.add('mobile-layout');
+            } else {
+                document.body.classList.remove('mobile-layout');
+            }
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyMobileLayout();
+        });
+
+        console.log(navigator.userAgent);
+
+      </script>
+
+      <!--info banner-->
+<div style="
+display: flex;
+margin-left: auto;
+margin-right: auto;
+margin-bottom: 48px;
+margin-top:48px;
+  width: 80%;
+  max-width: 968px;
+  background-color: #f5f5f5;
+  padding: 12px 16px;
+  margin-top: 16px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+">
+  <div style="
+      color: orange;
+      font-size: 24px;
+      line-height: 1;
+  ">⚠</div>
+  <div style="
+      color: #374151;
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      text-align: left;
+      line-height: 1.5;
+  ">
+      The text and image content of this page is still being formatted and written. It is not final.
+  </div>
+</div>
+<!--end info banner-->
+ 
+<div class="blurb">
+  <h4>My areas of expertise</h4>
+  <p style="font-size: 1.1em; line-height: 150%;">• Business-forward product design <br>• Design systems <br>• Front-end development <br>• Stakeholder management <br>• Process creation & adherence <br>• UX Research</p>
+</div>
+
+<div class="blurb">
+  <h4>My accomplishments</h4>
+  <p style="font-size: 1.1em; line-height: 150%;">WIP</p>
+</div>
+
+<div class="blurb">
+  <h4>My philosophy</h4>
+  <p style="font-size: 1.1em; line-height: 150%;">I’m a huge advocate for providing learning opportunities. The products I find most valuable are the ones that empower people to learn. Tools that expose people to things they previously would’ve never thought to look for. We should be building tools that allow the future’s bright minds to build a legacy for their successors.</p>
+</div>
+
+<div class="blurb">
+  <h4>My personal life</h4>
+  <p style="font-size: 1.1em; line-height: 150%;">WIP</p>
+</div>
+
+<div class="blurb">
+  <h2>social media links here</h2>
+</div>
+
+
+</body>
+</html>
