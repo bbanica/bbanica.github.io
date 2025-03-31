@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    <title>dan banica</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  </head>
+
+<body>
+  <div style="background-color: #111111; position:sticky; top:0; min-width: 80%;">
+    <header class="header" style="min-width: 200px; background-color: #111111; min-width:280px; padding-bottom:0.5em;">
+        <div class="header-content">
+            <div class="head-list-item"><a href="index-ul.html" style="margin-left:16px;">Dan Banica</a></div>
+            <div class="hamburger" id="hamburger">☰</div>  <!-- Hamburger icon -->
+        </div>
+        <ul class="nav-container">
+            <li class="list-item"><a href="about-ul.html" style="padding-right: 32px;">about</a></li>
+            <li class="list-item"><a href="document-write.html" style="margin-right:16px;">work</a></li>
+        </ul>
+    </header>
+  </div>
+
+    <script>
+
+    
+        document.addEventListener("DOMContentLoaded", function () {
+          const hamburger = document.querySelector("#hamburger"); // Select the hamburger menu
+          const navContainer = document.querySelector(".nav-container"); // Select the navigation container
+      
+          // Toggle the menu on hamburger click
+          hamburger.addEventListener("click", function () {
+            navContainer.classList.toggle("active");
+            hamburger.classList.toggle("active");
+          });
+      
+          // Close the menu when scrolling
+          window.addEventListener("scroll", function () {
+            if (navContainer.classList.contains("active")) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+      
+          // Close the menu when clicking outside of it
+          document.addEventListener("click", function (event) {
+            const isClickInsideMenu = navContainer.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+      
+            if (!isClickInsideMenu && !isClickOnHamburger) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+        });
+      </script>
+
+     <!-- mobile device detection forced stacking -->
+      <script>
+       function isMobileDevice() {
+        return /(android|iphone|ipad|ipod|blackberry|windows phone|mobile)/i.test(navigator.userAgent);
+        }
+
+        function applyMobileLayout() {
+            if (isMobileDevice()) {
+                document.body.classList.add('mobile-layout');
+            } else {
+                document.body.classList.remove('mobile-layout');
+            }
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyMobileLayout();
+        });
+
+        console.log(navigator.userAgent);
+
+      </script>
+      <!-- clickable img script below -->
+
+      <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+          const overlay = document.querySelector('.overlay-container');
+          const overlayImage = document.querySelector('.overlay-image');
+          const closeButton = document.querySelector('.close-button');
+          
+          // Add click handlers to all clickable images
+          document.querySelectorAll('.clickable-image').forEach(image => {
+            image.addEventListener('click', function() {
+              overlay.style.display = 'block';
+              overlayImage.src = this.src;
+            });
+          });
+
+          // Close on clicking the X button
+          closeButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            overlay.style.display = 'none';
+          });
+
+          // Close on clicking the dark overlay area
+          overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+              overlay.style.display = 'none';
+            }
+          });
+
+          // Close on pressing Escape key
+          document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && overlay.style.display === 'block') {
+            overlay.style.display = 'none';
+          }
+          });
+        });
+
+      </script>
+
+      <!--expandable card logic-->
+      <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const cardHeader = document.querySelector('.card-header');
+        const cardContent = document.querySelector('.card-content');
+        const expandIcon = document.querySelector('.expand-icon');
+
+        cardHeader.addEventListener('click', function() {
+          cardContent.classList.toggle('expanded');
+          expandIcon.classList.toggle('rotated');
+        });
+      });
+      </script>
+ 
+<!--info banner-->
+<div style="
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 48px;
+  margin-top:48px;
+    width: 80%;
+    max-width: 968px;
+    background-color: #f5f5f5;
+    padding: 12px 16px;
+    margin-top: 16px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+">
+    <div style="
+        color: orange;
+        font-size: 24px;
+        line-height: 1;
+    ">⚠</div>
+    <div style="
+        color: #374151;
+        font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+        font-size: 14px;
+        text-align: left;
+        line-height: 1.5;
+    ">
+        The text and image content of this page is still being formatted and written. It is not final.
+    </div>
+</div>
+<!--end info banner-->
+
+
+      <div class="group" style="display: flex; flex-direction: row; align-items: baseline; gap: 8px; flex-wrap: nowrap; margin-bottom: 0px;">
+        <a href="index-ul.html" style="margin-bottom: 0px; margin-top: 0px;">home</a><p style="margin-bottom: 0px; margin-top: 0px;">/</p><a href="document-write.html" style="margin-bottom: 0px; margin-top: 0px;">work</a><p style="margin-bottom: 0px; margin-top: 0px;">/</p><a href="#" style="margin-bottom: 0px; margin-top: 0px;">design-system</a>
+      </div>
+
+      <div>
+        <h1 class="group" style="margin-bottom:24px;">Mini Design System</h1>
+      </div>
+
+      <!--hero-->
+      </div>
+        <img src="images/design-system-UW.png" alt="Hero image" class="hero-image" style="margin-bottom:32px;">
+    </div>
+    
+    <!--hero stat details-->
+    <div class="hero-items">
+      <div class="hero-item">
+        <h1 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">1</h1>
+        <h3 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">source of truth</h3>
+      </div>
+
+      <div class="hero-item">
+        <h1 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">50+</h1>
+        <h3 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">screens delivered</h3>
+      </div>
+
+      <div class="hero-item">
+        <h1 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">60+</h1>
+        <h3 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">designers educated</h3>
+      </div>
+    </div>
+
+    <!--expandable card with table-->
+
+    <div class="expandable-card">
+      <div class="card-header">
+        <h2>Roles & Details</h2>
+        <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+          <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-content">
+        <table>
+          <!-- <thead>
+            <tr>
+              <th>Column 1</th>
+              <th>Column 2</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <tr>
+              <td style="font-weight: 800; width:92px;">Role</td>
+              <td><h5 class="table-content" style="margin:0;">Product Designer</h5><br><h5 class="table-content" style="margin:0;">Researcher</h5><br><h5 class="table-content" style="margin:0;">Content Writer</h5></td>
+
+            </tr>
+            <tr>
+              <td style="font-weight: 800;">Team</td>
+              <td><h5 class="table-content" style="margin:0;">Chris Crockett (Digital Accessibility Program Lead)</h5><br><h5 class="table-content" style="margin:0;">Mallory Rankin (Team Leader of Product Design)</h5><br><h5 class="table-content" style="margin:0;">Kenna Jackson (Manager of Product Design)</h5></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 800;">Tools</td>
+              <td><h5 class="table-content" style="margin:0;">Figma</h5><br><h5 class="table-content" style="margin:0;">Jira</h5><br><h5 class="table-content" style="margin:0;">Confluence</h5></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 800;">Deliverables</td>
+              <td><h5 class="table-content" style="margin:0;">50+ “dos and don’ts” mockups</h5><br><h5 class="table-content" style="margin:0;">Detailed “best practices” write-ups</h5><br><h5 class="table-content" style="margin:0;">A11y design system for future scalability</h5></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 800;">Description</td>
+              <td><h5 class="table-content" style="margin:0;">Created a system of components dedicated to creating low fidelity mockups for accessibility best practices. Wrote accompanying documentation.</h5></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Problem</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%;">No existing design accessibility guidelines.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">Big fat ass wall of text explaining this particular thing shortly before including supporting imagery to satisfy the needs of goldfish attention span having individuals like myself.</p>
+    </div>
+
+     <!--clickable image-->
+     <div>
+      <img src="images/direct-deposit.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 80%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 80%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/direct-deposit.png" alt="Fullscreen image">
+    </div>
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Solution</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">Creating a comprehensive guide.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">This is another blurb of text, in which I explain something different. The solution here is pretty obvious, but many places still don’t employ it.</p>
+    </div>
+
+    <!--clickable image-->
+    <div>
+      <img src="images/direct-deposit.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 80%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 80%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/direct-deposit.png" alt="Fullscreen image">
+    </div>
+
+      <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Requirements</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">Building simple, robust documentation.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">Inspired by the <a href="https://www.ibm.com/able/toolkit/design/content/" target="_blank" style="color: #846BFE; text-decoration: underline;">IBM accessibility documentation,</a> I embarked on a mission with subject matter expert <a href="https://www.linkedin.com/in/therealchriscrockett/" target="_blank" style="text-decoration: underline; color: #846BFE">Chris Crockett</a> to build a set of explainers that can be immediately understood at a glance by using “stupid simple” imagery..</p>
+    </div>
+
+    <!--clickable image-->
+    <div>
+      <img src="images/direct-deposit.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 80%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 80%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/direct-deposit.png" alt="Fullscreen image">
+    </div>
+    
+
+
+</body>
+</html>

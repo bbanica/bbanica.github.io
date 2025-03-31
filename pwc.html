@@ -23,7 +23,7 @@
         </div>
         <ul class="nav-container">
             <li class="list-item"><a href="about.html" style="padding-right: 32px;">about</a></li>
-            <li class="list-item"><a href="work.html" style="margin-right:16px;">work</a></li>
+            <li class="list-item"><a href="#" style="margin-right:16px;">work</a></li>
         </ul>
     </header>
   </div>
@@ -84,23 +84,44 @@
         console.log(navigator.userAgent);
 
       </script>
- 
-      <div style="display: flex; height: 80%; justify-content: center; align-items: center;">
-      <div style="display:flex; align-items:center; flex-direction: column; width: 100%;;">
-        <div class="card" style="margin-bottom:24px; justify-self: center;">
-            <div style="display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; margin-top: 16px; gap: 0.5em;"><h2 style="margin:0px;">Dan Banica</h2></div>
-            <h3 style="margin-top: 0.5em;">Product Designer @ <a href="http://paycom.com/" target="_blank" style="text-decoration: underline; color: #9CA3AF;">Paycom</a></h3>
-            <p>Figma wizard • Designer • Researcher • Design systems • Web dev • Business advocate • Accessibility • Chocolate enjoyer</p>
-            <a href="about.html" style="width: 100%;">
-            <button style="background-color: #282828; width: 15%; min-width: 150px; justify-self: left; margin-right: auto; margin-left:0; border: solid 0.1em #575757; padding: 8px; margin-bottom: 16px;">Read More</button>
-          </a>
-        </div>
 
-        <a href="pwc.html" style="width:100%;">
-        <button>View Work</button>
-      </a>
-      </div>
-    </div>
+      <!--expandable card logic-->
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const cardHeader = document.querySelector('.card-header');
+          const cardContent = document.querySelector('.card-content');
+          const expandIcon = document.querySelector('.expand-icon');
+  
+          cardHeader.addEventListener('click', function() {
+            cardContent.classList.toggle('expanded');
+            expandIcon.classList.toggle('rotated');
+          });
+        });
+        </script>
+<div class="form-container">
+  <div class="icon-title-2">
+      <h2>Enter password to continue.</h2>
+      <h3>If you have my résumé you have the password!</h3>
+  </div>
+<form class="group-center" id="password-form">
+  <input type="password" id="password-input" placeholder="Enter password" required>
+  <br><button type="submit">Submit →</button>
+</form>
+<p id="error-message" style="color: rgb(252, 84, 37); display: none; font-weight: 700;" class="group-center">Incorrect password.</p>
+</div>
+<script>
+  document.getElementById('password-form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    const pw1 = document.getElementById('password-input').value;
+    const pw2 = 'unprotected101';
+    if (pw1 === pw2) {
+      window.location.href = 'document-write.html';
+    } else {
+      document.getElementById('error-message').style.display = 'block';
+    }
+  });
+</script>
+
 
 </body>
 </html>

@@ -22,8 +22,8 @@
             <div class="hamburger" id="hamburger">☰</div>  <!-- Hamburger icon -->
         </div>
         <ul class="nav-container">
-            <li class="list-item"><a href="about.html" style="padding-right: 32px;">about</a></li>
-            <li class="list-item"><a href="work.html" style="margin-right:16px;">work</a></li>
+            <li class="list-item"><a href="about.html" style="padding-right: 32px; text-decoration:underline;">about</a></li>
+            <li class="list-item"><a href="pwc.html" style="margin-right:16px;">work</a></li>
         </ul>
     </header>
   </div>
@@ -84,23 +84,49 @@
         console.log(navigator.userAgent);
 
       </script>
- 
-      <div style="display: flex; height: 80%; justify-content: center; align-items: center;">
-      <div style="display:flex; align-items:center; flex-direction: column; width: 100%;;">
-        <div class="card" style="margin-bottom:24px; justify-self: center;">
-            <div style="display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; margin-top: 16px; gap: 0.5em;"><h2 style="margin:0px;">Dan Banica</h2></div>
-            <h3 style="margin-top: 0.5em;">Product Designer @ <a href="http://paycom.com/" target="_blank" style="text-decoration: underline; color: #9CA3AF;">Paycom</a></h3>
-            <p>Figma wizard • Designer • Researcher • Design systems • Web dev • Business advocate • Accessibility • Chocolate enjoyer</p>
-            <a href="about.html" style="width: 100%;">
-            <button style="background-color: #282828; width: 15%; min-width: 150px; justify-self: left; margin-right: auto; margin-left:0; border: solid 0.1em #575757; padding: 8px; margin-bottom: 16px;">Read More</button>
-          </a>
-        </div>
 
-        <a href="pwc.html" style="width:100%;">
-        <button>View Work</button>
-      </a>
-      </div>
-    </div>
+      <!--expandable card logic-->
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const cardHeader = document.querySelector('.card-header');
+          const cardContent = document.querySelector('.card-content');
+          const expandIcon = document.querySelector('.expand-icon');
+  
+          cardHeader.addEventListener('click', function() {
+            cardContent.classList.toggle('expanded');
+            expandIcon.classList.toggle('rotated');
+          });
+        });
+        </script>
+
+<div class="blurb" style="background-color: white; border-radius: .2em;">
+  <div style="margin-left: auto; margin-right: 0; padding-top: 10px;">
+  <img style="width: 10em; max-width: 300px;" src="./images/dan.png">
+</div>
+</div>
+<div class="blurb">
+  <h2 style="margin-bottom:24px;">Hi, I'm Dan!</h2><br>
+        <p style="font-size: 1.1em; margin-bottom:0;">I'm a Product designer, design systems aficionado, front end developer, and chocolate enjoyer.</p><br>
+        <p style="font-size: 1.1em; margin-bottom:0;">I studied Interactive Media Design at the University of Washington where I built a strong foundation in user research, rapid iteration, and accessibility best practices.</p><br>
+        <p style="font-size: 1.1em; margin-bottom:0;">My journey in design began in 2012 with graphic design, and transitioned to product design in 2023.</p><br>
+        <p style="font-size: 1.1em; margin-bottom:0; line-height: 175%;">Some notable career achievements and fun facts of mine are:<br><br>
+          - I've created a guided onboarding tool for a fortune 500 company.<br>
+          - I support the design system for a fortune 500 company.<br>
+          - I've completed over 200 design requests within 6 months.<br>
+          - I've contributed to dozens of pages of accessibility documentation.<br>
+          - I independently designed, developed and deployed a UX writing tool to help PMs.<br>
+          - I've designed and programmed 5 small indie video games, one of which earned me 1st place in the 2023 University of Washington Game Jam.<br>
+          - I've coded dozens of responsive websites, including the portfolio website you're watching this video on right now.<br></p><br>
+          <p style="font-size: 1.1em;  margin-bottom:0;">From Figma design and animated prototyping, to front-end development and stakeholder management, I help bring ideas to life.</p><br>
+          <p style="font-size: 1.1em; ">I’m always looking for new ways to grow as a designer. If you’re working on something cool, let me know!</p>
+
+</div>
+
+<div class="blurb" style="margin-bottom:96px;">
+  <h2>Social media links</h2>
+  <p style="font-size: 1.1em; line-height: 150%;"><a href="https://www.linkedin.com/in/bbanica-wa/" target="_blank" style="color: #846BFE; text-decoration: underline;">LinkedIn</a> | <a href="https://dribbble.com/bban" target="_blank" style="text-decoration: underline; color: #846BFE">Dribbble</a></p>
+</div>
+
 
 </body>
 </html>

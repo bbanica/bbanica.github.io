@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    <title>dan banica</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  </head>
+
+<body>
+  <div style="background-color: #111111; position:sticky; top:0; min-width: 80%;">
+    <header class="header" style="min-width: 200px; background-color: #111111; min-width:280px; padding-bottom:0.5em;">
+        <div class="header-content">
+            <div class="head-list-item"><a href="index-ul.html" style="margin-left:16px;">Dan Banica</a></div>
+            <div class="hamburger" id="hamburger">☰</div>  <!-- Hamburger icon -->
+        </div>
+        <ul class="nav-container">
+            <li class="list-item"><a href="about-ul.html" style="padding-right: 32px;">about</a></li>
+            <li class="list-item"><a href="document-write.html" style="margin-right:16px;">work</a></li>
+        </ul>
+    </header>
+  </div>
+
+    <script>
+
+    
+        document.addEventListener("DOMContentLoaded", function () {
+          const hamburger = document.querySelector("#hamburger"); // Select the hamburger menu
+          const navContainer = document.querySelector(".nav-container"); // Select the navigation container
+      
+          // Toggle the menu on hamburger click
+          hamburger.addEventListener("click", function () {
+            navContainer.classList.toggle("active");
+            hamburger.classList.toggle("active");
+          });
+      
+          // Close the menu when scrolling
+          window.addEventListener("scroll", function () {
+            if (navContainer.classList.contains("active")) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+      
+          // Close the menu when clicking outside of it
+          document.addEventListener("click", function (event) {
+            const isClickInsideMenu = navContainer.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+      
+            if (!isClickInsideMenu && !isClickOnHamburger) {
+              navContainer.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+        });
+      </script>
+
+     <!-- mobile device detection forced stacking -->
+      <script>
+       function isMobileDevice() {
+        return /(android|iphone|ipad|ipod|blackberry|windows phone|mobile)/i.test(navigator.userAgent);
+        }
+
+        function applyMobileLayout() {
+            if (isMobileDevice()) {
+                document.body.classList.add('mobile-layout');
+            } else {
+                document.body.classList.remove('mobile-layout');
+            }
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyMobileLayout();
+        });
+
+        console.log(navigator.userAgent);
+
+      </script>
+      <!-- clickable img script below -->
+
+      <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+          const overlay = document.querySelector('.overlay-container');
+          const overlayImage = document.querySelector('.overlay-image');
+          const closeButton = document.querySelector('.close-button');
+          
+          // Add click handlers to all clickable images
+          document.querySelectorAll('.clickable-image').forEach(image => {
+            image.addEventListener('click', function() {
+              overlay.style.display = 'block';
+              overlayImage.src = this.src;
+            });
+          });
+
+          // Close on clicking the X button
+          closeButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            overlay.style.display = 'none';
+          });
+
+          // Close on clicking the dark overlay area
+          overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+              overlay.style.display = 'none';
+            }
+          });
+
+          // Close on pressing Escape key
+          document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && overlay.style.display === 'block') {
+            overlay.style.display = 'none';
+          }
+          });
+        });
+
+      </script>
+
+      <!--expandable card logic-->
+      <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const cardHeader = document.querySelector('.card-header');
+        const cardContent = document.querySelector('.card-content');
+        const expandIcon = document.querySelector('.expand-icon');
+
+        cardHeader.addEventListener('click', function() {
+          cardContent.classList.toggle('expanded');
+          expandIcon.classList.toggle('rotated');
+        });
+      });
+      </script>
+ 
+      <div class="group" style="display: flex; flex-direction: row; align-items: baseline; gap: 8px; flex-wrap: nowrap; margin-bottom: 0px;">
+        <a href="index-ul.html" style="margin-bottom: 0px; margin-top: 0px;">home</a><p style="margin-bottom: 0px; margin-top: 0px;">/</p><a href="document-write.html" style="margin-bottom: 0px; margin-top: 0px;">work</a><p style="margin-bottom: 0px; margin-top: 0px;">/</p><a href="#" style="margin-bottom: 0px; margin-top: 0px;">direct-deposit</a>
+      </div>
+
+      <div>
+        <h1 class="group" style="margin-bottom:24px;">Direct Deposit Overhaul</h1>
+      </div>
+
+      <!--hero-->
+      </div>
+        <img src="images/dd-hero.png" alt="Hero image" class="hero-image" style="margin-bottom:32px;">
+    </div>
+    
+    <!--hero stat details-->
+    <div class="hero-items">
+      <div class="hero-item">
+        <h1 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">7.5%</h1>
+        <h3 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">fewer support calls</h3>
+      </div>
+
+      <div class="hero-item">
+        <h1 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">500+</h1>
+        <h3 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">screens delivered</h3>
+      </div>
+
+      <div class="hero-item">
+        <h1 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">6.8M+</h1>
+        <h3 style="margin-bottom: 0px; margin-top: 0px;" class="hero-detail">users impacted</h3>
+      </div>
+    </div>
+
+    <!--expandable card with table-->
+
+    <div class="expandable-card">
+      <div class="card-header">
+        <h2>Roles & Details</h2>
+        <svg class="expand-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+          <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-content">
+        <table>
+          <!-- <thead>
+            <tr>
+              <th>Column 1</th>
+              <th>Column 2</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <tr>
+              <td style="font-weight: 800; width:92px;">Role</td>
+              <td><h5 class="table-content" style="margin:0;">Lead product designer</h5><br><h5 class="table-content" style="margin:0;">Researcher</h5><br><h5 class="table-content" style="margin:0;">Code snippet provider</h5></td>
+
+            </tr>
+            <tr>
+              <td style="font-weight: 800;">Team</td>
+              <td><h5 class="table-content" style="margin:0;">Karly Nevez (Principal Product Manager)</h5><br><h5 class="table-content" style="margin:0;">Mallory Stradley (Team Leader of Product Design)</h5></h5></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 800;">Tools</td>
+              <td><h5 class="table-content" style="margin:0;">Figma</h5><br><h5 class="table-content" style="margin:0;">Jira</h5><br><h5 class="table-content" style="margin:0;">VS Code</h5></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 800;">Deliverables</td>
+              <td><h5 class="table-content" style="margin:0;">500+ mockups for any/all edge case scenarios</h5><br><h5 class="table-content" style="margin:0;">Code snippets for creating animations and composing components</h5><br><h5 class="table-content" style="margin:0;">Decisions log & future update plans</h5></td>
+            </tr>
+            <tr>
+              <td style="font-weight: 800;">Description</td>
+              <td><h5 class="table-content" style="margin:0;">Led the redesign & third party integration of bank account linking software for Paycom's Direct Deposit.</h5></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="group" style="margin-bottom:24px;">Video Summary</h2>
+    </div>
+
+    <!--video summary-->
+    <video style="width: 80%; max-width: 1000px; display: flex; margin-left: auto; margin-right: auto; margin-bottom: 24px;" controls>
+      <source src="../incubation/videos/DD.mp4" type="video/mp4">
+    Your browser does not support HTML video playback.
+    </video> 
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Problem</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%;">Preventable Errors.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">100% of Paycom users rely on Direct Deposit to receive their pay, meaning this redesign impacted millions. The original experience was clunky and unclear, leading to user errors, missing checks, and unhappy users on the phone with their bosses. Users struggled with direct deposit setup and management thanks to an unintuitive interface, manual data entry, and a lack of real-time validation. Some incorrectly entered account details, resulting in money getting lost to the void. Paycom’s older technical architecture also made it difficult to implement a seamless modern solution, requiring a careful balance between innovation and feasibility.</p>
+    </div>
+
+     <!--clickable image-->
+     <div style="width:80%;max-width: 1000px; margin-left: auto; margin-right: auto; background-color: #F8F6FA; padding:0; border-radius: 0.75em;">
+      <img src="images/dd-1.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 100%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 100%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/dd-1.png" alt="Fullscreen image">
+    </div>
+    </div>
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Why?</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">Building Trust.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">The Direct Deposit process lacked precautions that’d help users catch errors before a check was processed. This left users completely clueless about where their money was going until it was already too late, leading to distrust of the company. Users needed a more streamlined experience that aligned with their expectations from modern banking apps. Ideally, the process would be seamless, allowing connection to bank accounts instantly with minimal input.</p>
+    </div>
+
+     <!--clickable image-->
+     <div style="width:80%;max-width: 1000px; margin-left: auto; margin-right: auto; background-color: #F8F6FA; padding:0; border-radius: 0.75em;">
+      <img src="images/dd-2.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 100%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 100%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/dd-2.png" alt="Fullscreen image">
+    </div>
+    </div>
+
+      <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Ideal vs reality</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">By the book ≠ real life.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">In an ideal scenario, users wouldn’t have to adjust their expectation of a direct deposit setup experience at all. Breaking patterns without some good research behind it is generally quite ill-advised. Despite this, some rules were still broken. I had to compromise when sticking to our design system, writing standards, marketing, legal compliance, and technical limitations caused by outdated architecture making it hard for devs to execute on the "ideal" solution. This ended up resulting in working closely with devs in real time to figure out what a good balance of feasible and seamless would be given a strict legally binding 6-month contractual deadline.</p>
+    </div>
+
+     <!--clickable image-->
+     <div style="width:80%;max-width: 1000px; margin-left: auto; margin-right: auto; background-color: #c0c0c0; padding:0; border-radius: 0.75em;">
+      <img src="images/dd-3.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 100%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 100%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/dd-3.png" alt="Fullscreen image">
+    </div>
+    </div>
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Business requirements</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">Legally binding deadline.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">The project needed to reduce errors through real-time validation, improve the overall user experience, ensure compliance with legal and security policies, and resolve outstanding user complaints, all while ensuring cohesion with Paycom’s other products. As previously mentioned, we had to meet a strict six-month contractual deadline, which meant prioritizing critical fixes while backlogging “nice to haves” for future updates.</p>
+    </div>
+
+     <!--clickable image-->
+     <div style="width:80%;max-width: 1000px; margin-left: auto; margin-right: auto; background-color: #303030; padding:0; border-radius: 0.75em;">
+      <img src="images/dd-4.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 100%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 100%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/dd-4.png" alt="Fullscreen image">
+    </div>
+    </div>
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Whimsy & fun</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">Animations.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">No product experience is truly complete until you’ve considered and played around with animations and microinteractions. It’s small things like this that give feedback in real time and make the product feel alive.</p>
+    </div>
+
+     <!--clickable image-->
+     <div style="width:80%;max-width: 1000px; margin-left: auto; margin-right: auto; background-color: #EAEAEA; padding:0; border-radius: 0.75em;">
+      <img src="images/dd-5.gif" alt="Clickable image" class="clickable-image" style="display: flex; width: 100%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 100%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/dd-5.gif" alt="Fullscreen image">
+    </div>
+    </div>
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Solution</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">Give a little to get a little.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">I worked closely with principal product managers, front and back-end developers, and development managers to ensure smooth execution. Some UI solutions weren’t ideal or what a lot of industry competitors were doing, but this was due to necessary compromises with Paycom’s internal constraints. Rather than letting these limitations negatively impact the user experience, I worked alongside developers in real time to determine what was achievable while still dramatically improving usability.<br><br>Despite the tight timeline, I met and exceeded the expected speed of delivery on the design side of things. This allowed us to conduct extensive testing, catching potential edge cases early before they could impact users.</p>
+    </div>
+
+     <!--clickable image-->
+     <div style="width:80%;max-width: 1000px; margin-left: auto; margin-right: auto; background-color: #262626; padding:0; border-radius: 0.75em;">
+      <img src="images/dd-6.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 100%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 100%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/dd-6.png" alt="Fullscreen image">
+    </div>
+    </div>
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Business Impact</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">Great success.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">The number of clicks needed to complete setup was reduced by 50%, customer service calls decreased by 7.5%, and complaint tickets about usability issues related to Direct Deposit dropped by over 80%. Users gained greater confidence in managing their direct deposits, leading to building more trust for the brand and immeasurable hidden business benefit.</p>
+    </div>
+
+     <!--clickable image-->
+     <div style="width:80%;max-width: 1000px; margin-left: auto; margin-right: auto; background-color: #262626; padding:0; border-radius: 0.75em;">
+      <img src="images/dd-7.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 100%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 100%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/dd-7.png" alt="Fullscreen image">
+    </div>
+    </div>
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Future goals</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">Keep the ball rolling.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">While we addressed the most pressing priorities within the six-month project timeframe, we plan to roll out continued updates based on additional user feedback and previously deprioritized improvements. Future iterations may include further automation of account verification, enhanced visibility into functionality, giving users learning opportunities, budgeting tools, and refinements based on real-world usage data.</p>
+    </div>
+
+     <!--clickable image-->
+     <div style="width:80%;max-width: 1000px; margin-left: auto; margin-right: auto; background-color: #EEEEEE; padding:0; border-radius: 0.75em;">
+      <img src="images/dd-8.png" alt="Clickable image" class="clickable-image" style="display: flex; width: 100%; height: auto; margin-left:auto; margin-right: auto; max-height: 500px; width: auto; max-width: 100%; padding: 0px; margin-top: 0px; margin-bottom: 24px; border-radius: 0.75em">
+      <div class="overlay-container">
+      <div class="close-button">&times;</div>
+      <img class="overlay-image" src="images/dd-8.png" alt="Fullscreen image">
+    </div>
+    </div>
+
+    <!--speech blurb-->
+
+    <div class="blurb">
+      <h4>Lessons learned</h4>
+      <h2 style="margin-top: 0.25em; line-height:100%">Help me help you.</h2>
+      <p style="font-size: 1.1em; line-height: 150%;">This project reinforced the importance of adaptability in UX design. It was a huge game of compromise and empathy. While industry best practices provide a strong foundation, real-world constraints (whether technical, legal, or business-driven)  require creative problem solving. By collaborating closely with cross-functional teams, I was able to balance user needs with organizational limitations, delivering an impactful redesign that improved both efficiency and accuracy for millions of Paycom users.</p>
+    </div>
+
+    <!--button group-->
+    <div class="card-group" style="margin-bottom: 3em;">
+
+      <div class="grouped-card" style="padding: 0; margin: 0; display: block; cursor: pointer;">
+        <a href="document-write.html">
+        <button style="margin:0; width: 100%; max-width: 1000px;">← Back to Work</button>
+        </a>
+
+      </div>
+
+</body>
+</html>
