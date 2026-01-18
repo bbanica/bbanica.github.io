@@ -1,107 +1,1118 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
-    <title>dan banica</title>
-    <link rel="stylesheet" type="text/css" href="stylesheet.css">
-    <link rel="icon" type="image/x-icon" href="./dan-new-profile.png">
-
-    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
-  </head>
-
-<body>
-  <div style="background-color: #111111; position:sticky; top:0; min-width: 80%;">
-    <header class="header" style="min-width: 200px; background-color: #111111; min-width:280px; padding-bottom:0.5em;">
-        <div class="header-content">
-            <div class="head-list-item"><a href="index.html" style="margin-left:16px;">Dan Banica</a></div>
-            <div class="hamburger" id="hamburger">☰</div>  <!-- Hamburger icon -->
-        </div>
-        <ul class="nav-container">
-            <li class="list-item"><a href="about.html" style="padding-right: 32px;">about</a></li>
-            <li class="list-item"><a href="pwc.html" style="margin-right:16px;">work</a></li>
-        </ul>
-    </header>
-  </div>
-
-    <script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dan Banica - Lead Product Designer</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --color-bg: #FAFBFE;
+      --color-bg-elevated: #FFFFFF;
+      --color-text: #1a1a2e;
+      --color-text-secondary: #64648c;
+      --color-text-tertiary: #9999b3;
+      --color-primary: #2563eb;
+      --color-primary-light: #3b82f6;
+      --color-accent: #06b6d4;
+      --color-border: rgba(0,0,0,0.06);
+      --color-border-strong: rgba(0,0,0,0.1);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+      --shadow-xl: 0 20px 50px rgba(0,0,0,0.1);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --radius-lg: 18px;
+      --font-display: 'SignPainter', 'Brush Script MT', cursive;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--color-primary); color: white; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 10px; border: 2px solid var(--color-bg); }
     
-        document.addEventListener("DOMContentLoaded", function () {
-          const hamburger = document.querySelector("#hamburger"); // Select the hamburger menu
-          const navContainer = document.querySelector(".nav-container"); // Select the navigation container
-      
-          // Toggle the menu on hamburger click
-          hamburger.addEventListener("click", function () {
-            navContainer.classList.toggle("active");
-            hamburger.classList.toggle("active");
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); opacity: 0.8; }
+      50% { transform: translateY(-4px); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback, createContext, useContext } = React;
+
+    // DATA
+    const portfolioData = {
+      personal: {
+        name: "Dan Banica",
+        title: "Lead Product Designer",
+        tagline: "impossible → improbable",
+        location: "Anywhere, USA",
+        email: "hello@danbanica.com"
+      },
+      experience: [
+        { company: "Paycom", role: "Lead Product Designer", period: "2023 – Present", description: "Started as an intern, quickly gained trust and ownership and grew into a lead designer role. Responsible for 200+ successful feature releases for complex payroll, international banking, asset management, direct deposit, and agentic AI workflows. Strong focus on mentorship and building others up alongside me." },
+        { company: "UW Formula Motorsports, LWTech, various others", role: "Graphic Designer", period: "2021 – 2023", description: "Honed my visual design skills in various different industries. It was a lot of fun but I felt the need for a greater challenge. Focused on my product thinking, prototyping, and design systems skills as I transitioned." },
+        { company: "Freelance", role: "Designer", period: "2012 – 2021", description: "Got paid to discover myself in every medium I dared — graphic design, video production, merchandising, events & marketing, video game development, product design, branding, industrial design, automotive design, and more. Developed my passions and skills, met lots of great people, learned lots of hard lessons." }
+      ],
+      about: [
+        { title: "Background", content: "Placeholder" },
+        { title: "Approach", content: "Placeholder" },
+        { title: "Interests", content: "Placeholder" }
+      ]
+    };
+
+    // CONTEXT
+    const NavigationContext = createContext();
+    const useNavigation = () => useContext(NavigationContext);
+
+    // HOOKS
+    const useInView = (threshold = 0.1) => {
+      const ref = useRef(null);
+      const [isInView, setIsInView] = useState(false);
+      useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) { setIsInView(true); observer.disconnect(); }
+        }, { threshold });
+        if (ref.current) observer.observe(ref.current);
+        return () => observer.disconnect();
+      }, [threshold]);
+      return [ref, isInView];
+    };
+
+    const useKeyboardShortcut = (key, callback, modifiers = []) => {
+      useEffect(() => {
+        const handler = (e) => {
+          const modMatch = modifiers.every(mod => {
+            if (mod === 'meta') return e.metaKey;
+            if (mod === 'ctrl') return e.ctrlKey;
+            return true;
           });
+          if (modMatch && e.key.toLowerCase() === key.toLowerCase()) { e.preventDefault(); callback(e); }
+        };
+        window.addEventListener('keydown', handler);
+        return () => window.removeEventListener('keydown', handler);
+      }, [key, callback, modifiers]);
+    };
+
+    const useIsMac = () => {
+      const [isMac, setIsMac] = useState(true);
+      useEffect(() => { setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0); }, []);
+      return isMac;
+    };
+
+    const useWindowSize = () => {
+      const [size, setSize] = useState({ width: typeof window !== 'undefined' ? window.innerWidth : 1200, height: typeof window !== 'undefined' ? window.innerHeight : 800 });
+      useEffect(() => {
+        const handle = () => setSize({ width: window.innerWidth, height: window.innerHeight });
+        window.addEventListener('resize', handle);
+        return () => window.removeEventListener('resize', handle);
+      }, []);
+      return size;
+    };
+
+    // ICONS
+    const Icons = {
+      Search: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+      ArrowRight: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+      MapPin: () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+      Mail: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
+      At: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg>,
+      Sparkles: () => <svg width="18" height="18" viewBox="-1 -1 26 26" fill="currentColor"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/><path d="M5 16l1 3 1-3 3-1-3-1-1-3-1 3-3 1 3 1z"/><path d="M19 8l0.75 2.25L22 11l-2.25 0.75L19 14l-0.75-2.25L16 11l2.25-0.75L19 8z"/></svg>,
+      Home: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+      Briefcase: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>,
+      User: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+      Folder: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>,
+      ChevronDown: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>,
+      Clock: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+    };
+
+    // TILT CARD
+    const TiltCard = ({ children, style, intensity = 10, onClick }) => {
+      const cardRef = useRef(null);
+      const [transform, setTransform] = useState('perspective(1000px) rotateX(0deg) rotateY(0deg)');
+      const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
       
-          // Close the menu when scrolling
-          window.addEventListener("scroll", function () {
-            if (navContainer.classList.contains("active")) {
-              navContainer.classList.remove("active");
-              hamburger.classList.remove("active");
-            }
-          });
+      const handleMouseMove = (e) => {
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -intensity;
+        const rotateY = ((x - centerX) / centerX) * intensity;
+        setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
+        setGlare({ x: (x / rect.width) * 100, y: (y / rect.height) * 100, opacity: 0.15 });
+      };
       
-          // Close the menu when clicking outside of it
-          document.addEventListener("click", function (event) {
-            const isClickInsideMenu = navContainer.contains(event.target);
-            const isClickOnHamburger = hamburger.contains(event.target);
+      const handleMouseLeave = () => {
+        setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+        setGlare({ x: 50, y: 50, opacity: 0 });
+      };
       
-            if (!isClickInsideMenu && !isClickOnHamburger) {
-              navContainer.classList.remove("active");
-              hamburger.classList.remove("active");
-            }
-          });
-        });
-      </script>
-
-     <!-- mobile device detection forced stacking -->
-      <script>
-       function isMobileDevice() {
-        return /(android|iphone|ipad|ipod|blackberry|windows phone|mobile)/i.test(navigator.userAgent);
-        }
-
-        function applyMobileLayout() {
-            if (isMobileDevice()) {
-                document.body.classList.add('mobile-layout');
-            } else {
-                document.body.classList.remove('mobile-layout');
-            }
-        }
-
-        // Run on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            applyMobileLayout();
-        });
-
-        console.log(navigator.userAgent);
-
-      </script>
- 
-      <div style="display: flex; height: 80%; justify-content: center; align-items: center;">
-      <div style="display:flex; align-items:center; flex-direction: column; width: 100%;;">
-        <div class="card" style="margin-bottom:24px; justify-self: center;">
-            <div style="display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; margin-top: 16px; gap: 0.5em;"><h2 style="margin:0px;">Dan Banica</h2></div>
-            <h3 style="margin-top: 0.5em;">Product Designer @ <a href="http://paycom.com/" target="_blank" style="text-decoration: underline; color: #9CA3AF;">Paycom</a></h3>
-            <p>Figma wizard • Designer • Researcher • Design systems • Web dev • Business advocate • Accessibility • Chocolate enjoyer</p>
-            <a href="about.html" style="width: 100%;">
-            <button style="background-color: #282828; width: 15%; min-width: 150px; justify-self: left; margin-right: auto; margin-left:0; border: solid 0.1em #575757; padding: 8px; margin-bottom: 16px;">Read More</button>
-          </a>
+      return (
+        <div ref={cardRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={onClick} style={{ ...style, position: 'relative' }}>
+          <div style={{ transform, transition: 'transform 0.15s ease-out', height: '100%', borderRadius: 'var(--radius)', background: 'var(--color-bg-elevated)', boxShadow: 'var(--shadow-lg)', overflow: 'hidden', position: 'relative' }}>
+            {children}
+            <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,${glare.opacity}), transparent 60%)`, pointerEvents: 'none', borderRadius: 'inherit' }} />
+          </div>
         </div>
+      );
+    };
 
-        <a href="pwc.html" style="width:100%;">
-        <button>View Work</button>
-      </a>
-      </div>
-    </div>
+    // STAGGER CONTAINER
+    const StaggerContainer = ({ children, delay = 0, stagger = 0.1 }) => {
+      const [ref, isInView] = useInView();
+      return (
+        <div ref={ref}>
+          {React.Children.map(children, (child, index) => (
+            <div style={{ opacity: isInView ? 1 : 0, transform: isInView ? 'translateY(0)' : 'translateY(20px)', transition: `all 0.5s cubic-bezier(0.32, 0.72, 0, 1) ${delay + index * stagger}s` }}>
+              {child}
+            </div>
+          ))}
+        </div>
+      );
+    };
 
+    // NAVIGATION
+    const Navigation = ({ openSpotlight, heroHeight }) => {
+      const { currentSection, navigateTo } = useNavigation();
+      const [scrolled, setScrolled] = useState(false);
+      const [onHero, setOnHero] = useState(true);
+      const { width } = useWindowSize();
+      const isMac = useIsMac();
+      
+      const showLabels = width >= 768;
+      const showShortcut = width >= 640;
+      const navBottom = 72;
+      
+      useEffect(() => {
+        const handleScroll = () => {
+          setScrolled(window.scrollY > 50);
+          const heroBottom = heroHeight - window.scrollY;
+          setOnHero(heroBottom > navBottom);
+        };
+        handleScroll();
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, [heroHeight]);
+
+      const navItems = [
+        { id: 'home', label: 'Home', icon: Icons.Home },
+        { id: 'work', label: 'Work', icon: Icons.Folder },
+        { id: 'experience', label: 'Experience', icon: Icons.Briefcase },
+        { id: 'about', label: 'About', icon: Icons.User },
+      ];
+
+      const blueTheme = {
+        bg: scrolled ? 'rgba(30, 80, 180, 0.45)' : 'rgba(40, 100, 200, 0.35)',
+        border: 'rgba(255, 255, 255, 0.2)',
+        shadow: scrolled ? '0 8px 32px rgba(0, 0, 0, 0.25)' : '0 4px 20px rgba(0, 0, 0, 0.2)',
+        text: 'rgba(255, 255, 255, 0.8)',
+        textActive: 'white',
+        bgActive: 'rgba(255, 255, 255, 0.2)',
+        searchBg: 'rgba(255, 255, 255, 0.15)',
+        searchBorder: 'rgba(255, 255, 255, 0.2)',
+        kbdBg: 'rgba(255, 255, 255, 0.15)',
+        kbdText: 'rgba(255, 255, 255, 0.8)',
+        kbdBorder: 'rgba(255, 255, 255, 0.15)',
+      };
+      
+      const whiteTheme = {
+        bg: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.9)',
+        border: 'rgba(0, 0, 0, 0.06)',
+        shadow: scrolled ? '0 8px 32px rgba(0, 0, 0, 0.12)' : '0 4px 20px rgba(0, 0, 0, 0.08)',
+        text: 'var(--color-text-secondary)',
+        textActive: 'var(--color-primary)',
+        bgActive: 'rgba(37, 99, 235, 0.1)',
+        searchBg: 'var(--color-bg)',
+        searchBorder: 'var(--color-border)',
+        kbdBg: 'var(--color-bg-elevated)',
+        kbdText: 'var(--color-text-tertiary)',
+        kbdBorder: 'var(--color-border)',
+      };
+      
+      const theme = onHero ? blueTheme : whiteTheme;
+
+      return (
+        <nav style={{ position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '4px', padding: '8px',
+            background: theme.bg,
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            borderRadius: 'var(--radius)', border: `1px solid ${theme.border}`,
+            boxShadow: theme.shadow, 
+            transition: 'all 0.3s ease',
+            height: '52px'
+          }}>
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => navigateTo(item.id)}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: showLabels ? '6px' : '0px',
+                  padding: '8px 10px',
+                  borderRadius: 'var(--radius-sm)', fontSize: '14px', fontWeight: 500,
+                  color: currentSection === item.id ? theme.textActive : theme.text,
+                  background: currentSection === item.id ? theme.bgActive : 'transparent',
+                  transition: 'all 0.3s ease', border: 'none', cursor: 'pointer',
+                  overflow: 'hidden'
+                }}
+              >
+                <span style={{ flexShrink: 0 }}><item.icon /></span>
+                <span style={{ 
+                  display: 'block',
+                  width: showLabels ? 'auto' : '0px',
+                  opacity: showLabels ? 1 : 0,
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                  transition: 'width 0.3s ease, opacity 0.3s ease'
+                }}>{item.label}</span>
+              </button>
+            ))}
+            <button
+              onClick={openSpotlight}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: showShortcut ? '8px' : '0px',
+                padding: '8px 10px',
+                borderRadius: 'var(--radius-sm)', fontSize: '14px', fontWeight: 500, 
+                color: theme.text,
+                background: theme.searchBg, border: `1px solid ${theme.searchBorder}`,
+                marginLeft: '4px', cursor: 'pointer', 
+                transition: 'all 0.3s ease',
+                overflow: 'hidden'
+              }}
+            >
+              <span style={{ flexShrink: 0 }}><Icons.Search /></span>
+              <span style={{ 
+                display: 'flex', alignItems: 'center', gap: '4px', 
+                padding: showShortcut ? '2px 6px' : '0px', 
+                background: theme.kbdBg, 
+                borderRadius: '6px', fontSize: '12px', 
+                color: theme.kbdText, 
+                border: showShortcut ? `1px solid ${theme.kbdBorder}` : 'none',
+                width: showShortcut ? 'auto' : '0px',
+                opacity: showShortcut ? 1 : 0,
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                transition: 'width 0.3s ease, opacity 0.3s ease, padding 0.3s ease'
+              }}>
+                {isMac ? '⌘' : 'Ctrl'} K
+              </span>
+            </button>
+          </div>
+        </nav>
+      );
+    };
+
+    // SPOTLIGHT (simplified - no project search)
+    const Spotlight = ({ isOpen, onClose }) => {
+      const { navigateTo } = useNavigation();
+      const [query, setQuery] = useState('');
+      const [selectedIndex, setSelectedIndex] = useState(0);
+      const [animState, setAnimState] = useState('closed');
+      const inputRef = useRef(null);
+      const resultsRef = useRef(null);
+
+      const actions = [
+        { id: 'home', type: 'navigation', title: 'Home', subtitle: 'Go to homepage', icon: Icons.Home },
+        { id: 'work', type: 'navigation', title: 'Work', subtitle: 'View projects', icon: Icons.Folder },
+        { id: 'experience', type: 'navigation', title: 'Experience', subtitle: 'Work history', icon: Icons.Briefcase },
+        { id: 'about', type: 'navigation', title: 'About', subtitle: 'Learn about me', icon: Icons.User },
+        { id: 'email', type: 'action', title: 'Send Email', subtitle: portfolioData.personal.email, icon: Icons.Mail },
+      ];
+
+      const filteredActions = query 
+        ? actions.filter(a => a.title.toLowerCase().includes(query.toLowerCase()) || a.subtitle.toLowerCase().includes(query.toLowerCase()))
+        : actions;
+
+      useEffect(() => {
+        if (isOpen && animState === 'closed') {
+          setAnimState('opening');
+          setTimeout(() => {
+            setAnimState('open');
+            inputRef.current?.focus();
+          }, 50);
+          setQuery('');
+          setSelectedIndex(0);
+        } else if (!isOpen && (animState === 'open' || animState === 'opening')) {
+          setAnimState('closing');
+          setTimeout(() => setAnimState('closed'), 200);
+        }
+      }, [isOpen, animState]);
+
+      useEffect(() => { setSelectedIndex(0); }, [query]);
+
+      useEffect(() => {
+        if (resultsRef.current && filteredActions.length > 0 && selectedIndex < filteredActions.length) {
+          const selectedEl = resultsRef.current.children[selectedIndex];
+          if (selectedEl) {
+            selectedEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          }
+        }
+      }, [selectedIndex, filteredActions.length]);
+
+      const handleClose = useCallback(() => {
+        setAnimState('closing');
+        setTimeout(() => {
+          setAnimState('closed');
+          onClose();
+        }, 200);
+      }, [onClose]);
+
+      const handleKeyDown = (e) => {
+        if (e.key === 'ArrowDown') { e.preventDefault(); setSelectedIndex(i => Math.min(i + 1, filteredActions.length - 1)); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); setSelectedIndex(i => Math.max(i - 1, 0)); }
+        else if (e.key === 'Enter') { e.preventDefault(); if (filteredActions[selectedIndex]) executeAction(filteredActions[selectedIndex]); }
+        else if (e.key === 'Escape') { handleClose(); }
+      };
+
+      const executeAction = (action) => {
+        if (action.type === 'navigation') {
+          navigateTo(action.id);
+          handleClose();
+        } else if (action.type === 'action') {
+          if (action.id === 'email') window.location.href = `mailto:${portfolioData.personal.email}`;
+          handleClose();
+        }
+      };
+
+      if (animState === 'closed') return null;
+
+      const isVisible = animState === 'open';
+
+      return (
+        <div 
+          style={{ 
+            position: 'fixed', inset: 0, 
+            background: 'rgba(0, 0, 0, 0.3)', 
+            backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', 
+            zIndex: 3000, 
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center', 
+            paddingTop: '15vh',
+            opacity: animState === 'closing' ? 0 : 1,
+            transition: 'opacity 0.2s ease'
+          }} 
+          onClick={handleClose}
+        >
+          <div 
+            style={{ 
+              width: '100%', maxWidth: '580px', margin: '0 20px', 
+              background: 'var(--color-bg-elevated)', 
+              borderRadius: 'var(--radius-lg)', 
+              boxShadow: 'var(--shadow-xl), 0 0 0 1px rgba(0,0,0,0.05)', 
+              overflow: 'hidden',
+              transform: animState === 'closing' ? 'translateY(20px) scale(0.98)' : (isVisible ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.98)'),
+              opacity: animState === 'closing' ? 0 : (isVisible ? 1 : 0),
+              transition: 'all 0.2s cubic-bezier(0.32, 0.72, 0, 1)'
+            }} 
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 18px', borderBottom: '1px solid var(--color-border)', height: '56px' }}>
+              <div style={{ flexShrink: 0, color: 'var(--color-text-secondary)' }}><Icons.Search /></div>
+              <input 
+                ref={inputRef} 
+                type="text" 
+                placeholder="Search..." 
+                value={query} 
+                onChange={e => setQuery(e.target.value)} 
+                onKeyDown={handleKeyDown} 
+                style={{ flex: 1, border: 'none', outline: 'none', fontSize: '16px', fontFamily: 'inherit', background: 'transparent', color: 'var(--color-text)', minWidth: 0, height: '24px' }} 
+              />
+            </div>
+            <div style={{ maxHeight: '360px', overflow: 'auto', padding: '8px' }} ref={resultsRef}>
+              {filteredActions.length === 0 ? (
+                <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--color-text-tertiary)' }}>
+                  <p style={{ fontSize: '15px', marginBottom: '4px' }}>No results found</p>
+                </div>
+              ) : (
+                filteredActions.map((action, index) => {
+                  const isSelected = index === selectedIndex;
+                  
+                  return (
+                    <div 
+                      key={action.id} 
+                      onClick={() => executeAction(action)} 
+                      onMouseEnter={() => setSelectedIndex(index)} 
+                      style={{ 
+                        display: 'flex', alignItems: 'center', gap: '12px', 
+                        padding: '10px 12px', borderRadius: 'var(--radius-sm)', 
+                        cursor: 'pointer', 
+                        background: isSelected ? 'var(--color-primary)' : 'transparent', 
+                        color: isSelected ? 'white' : 'inherit',
+                        transition: 'all 0.15s ease' 
+                      }}
+                    >
+                      <div style={{ 
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                        width: '32px', height: '32px', borderRadius: 'var(--radius-sm)', 
+                        background: isSelected ? 'rgba(255,255,255,0.2)' : 'var(--color-bg)', 
+                        color: isSelected ? 'white' : 'var(--color-primary)',
+                        flexShrink: 0
+                      }}>
+                        <action.icon />
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: '14px', fontWeight: 500 }}>{action.title}</div>
+                        {action.subtitle && <div style={{ fontSize: '12px', opacity: 0.7, marginTop: '1px' }}>{action.subtitle}</div>}
+                      </div>
+                      {isSelected && <div style={{ color: 'white', flexShrink: 0 }}><Icons.ArrowRight /></div>}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', padding: '10px 18px', borderTop: '1px solid var(--color-border)', fontSize: '12px', color: 'var(--color-text-tertiary)', gap: '16px' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><kbd style={{ padding: '2px 6px', background: 'var(--color-bg)', borderRadius: '4px', border: '1px solid var(--color-border)', fontSize: '11px' }}>↑↓</kbd> Navigate</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><kbd style={{ padding: '2px 6px', background: 'var(--color-bg)', borderRadius: '4px', border: '1px solid var(--color-border)', fontSize: '11px' }}>↵</kbd> Select</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><kbd style={{ padding: '2px 6px', background: 'var(--color-bg)', borderRadius: '4px', border: '1px solid var(--color-border)', fontSize: '11px' }}>esc</kbd> Close</span>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // HERO SECTION
+    const HeroSection = ({ shaderKey, onHeightChange }) => {
+      const { navigateTo } = useNavigation();
+      const containerRef = useRef(null);
+      const canvasRef = useRef(null);
+      const animationRef = useRef(null);
+      const [contactRevealed, setContactRevealed] = useState(false);
+      const { width, height } = useWindowSize();
+      const stackButtons = width < 500;
+
+      useEffect(() => {
+        const updateHeight = () => {
+          if (containerRef.current && onHeightChange) {
+            onHeightChange(containerRef.current.offsetHeight);
+          }
+        };
+        updateHeight();
+        window.addEventListener('resize', updateHeight);
+        return () => window.removeEventListener('resize', updateHeight);
+      }, [onHeightChange, height]);
+
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const gl = canvas.getContext('webgl', { antialias: false });
+        if (!gl) return;
+
+        const vsSource = `
+          attribute vec2 pos;
+          varying vec2 uv;
+          uniform float aspect;
+          void main() {
+            uv = pos;
+            uv.x *= aspect;
+            gl_Position = vec4(pos, 0.0, 1.0);
+          }
+        `;
+        const fsSource = `
+          precision highp float;
+          varying vec2 uv;
+          uniform float time;
+          
+          void main() {
+            vec3 C_BLUE = vec3(0.02, 0.4, 1.0);
+            vec3 C_CYAN = vec3(0.0, 0.4, 0.44);
+            vec3 C_PURPLE = vec3(0.44, 0.0, 0.4);
+            vec3 C_DEEP = vec3(0.02, 0.08, 0.2);
+            
+            vec3 color = C_CYAN;
+            float T = time;
+            float T1 = T * 0.1;
+            vec2 p = uv;
+            
+            p += vec2(sin(T * 0.2) * p.x, cos(T * 0.1) * p.y);
+            p -= vec2(sin(T * 0.2) * p.y, cos(T * 0.1) * p.x);
+            p.y += sin(p.x + T1 * 0.2 + 0.333 * sin(p.x * 2.0 + T * 0.5 - uv.y));
+            
+            float power = mod(p.y, 0.618);
+            float f1 = sin(p.x * 0.62 + 1.1 * p.y + T * 0.5);
+            
+            power = smoothstep(0.0, 1.62, power);
+            color = mix(mix(C_BLUE, C_PURPLE * power, f1), color, power);
+            
+            float shadow = sin(p.x * 0.3 + p.y * 0.5 + T * 0.2);
+            color = mix(color, C_DEEP, shadow * 0.3 + 0.15);
+            
+            float accent = sin(p.x * 1.5 - p.y * 0.8 + T * 0.3);
+            color = mix(color, C_CYAN * 1.2, accent * 0.15 + 0.05);
+            
+            gl_FragColor = vec4(color, 1.0);
+          }
+        `;
+
+        const createShader = (src, type) => {
+          const s = gl.createShader(type);
+          gl.shaderSource(s, src);
+          gl.compileShader(s);
+          return s;
+        };
+        const program = gl.createProgram();
+        gl.attachShader(program, createShader(vsSource, gl.VERTEX_SHADER));
+        gl.attachShader(program, createShader(fsSource, gl.FRAGMENT_SHADER));
+        gl.linkProgram(program);
+
+        const vbo = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+
+        const posLoc = gl.getAttribLocation(program, 'pos');
+        const aspectLoc = gl.getUniformLocation(program, 'aspect');
+        const timeLoc = gl.getUniformLocation(program, 'time');
+
+        let W, H, t = 0;
+        const resize = () => {
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = Math.floor(containerRef.current.offsetWidth * dpr);
+          H = Math.floor(containerRef.current.offsetHeight * dpr);
+          canvas.width = W;
+          canvas.height = H;
+          canvas.style.width = containerRef.current.offsetWidth + 'px';
+          canvas.style.height = containerRef.current.offsetHeight + 'px';
+          gl.viewport(0, 0, W, H);
+        };
+        resize();
+        window.addEventListener('resize', resize);
+
+        const render = () => {
+          t += 0.016;
+          gl.useProgram(program);
+          gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+          gl.enableVertexAttribArray(posLoc);
+          gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+          gl.uniform1f(aspectLoc, W / H);
+          gl.uniform1f(timeLoc, t * 0.5);
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+          animationRef.current = requestAnimationFrame(render);
+        };
+        render();
+
+        return () => {
+          cancelAnimationFrame(animationRef.current);
+          window.removeEventListener('resize', resize);
+        };
+      }, [shaderKey]);
+
+      return (
+        <section ref={containerRef} style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', background: 'rgba(0,0,0,0.1)' }} />
+          
+          <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 24px', maxWidth: '800px' }}>
+            <h1 style={{ 
+              fontSize: 'clamp(40px, 7.2vw, 63px)', 
+              fontWeight: 400, 
+              color: 'white', 
+              marginBottom: '-4px',
+              fontFamily: 'var(--font-display)',
+              letterSpacing: '0.02em'
+            }}>
+              dan banica
+            </h1>
+            <p style={{ 
+              fontSize: 'clamp(18px, 3vw, 24px)', 
+              color: 'rgba(255,255,255,0.95)', 
+              marginBottom: '6px',
+              fontWeight: 600,
+              fontStyle: 'italic'
+            }}>
+              lead product designer&nbsp; <span style={{ position: 'relative', display: 'inline-block' }}>
+                <span style={{ 
+                  position: 'absolute', 
+                  inset: '0px -3px', 
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  borderRadius: '4px',
+                  transform: 'skewX(-10deg)',
+                  transition: 'all 0.2s ease',
+                  zIndex: 0
+                }} className="paycom-highlight" />
+                <a 
+                  href="https://paycom.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  style={{ 
+                    color: 'inherit', 
+                    textDecoration: 'none',
+                    position: 'relative',
+                    zIndex: 1,
+                    padding: '0 2px'
+                  }}
+                  onMouseEnter={e => {
+                    const highlight = e.currentTarget.previousSibling;
+                    if (highlight) highlight.style.background = 'rgba(255, 255, 255, 0.25)';
+                  }}
+                  onMouseLeave={e => {
+                    const highlight = e.currentTarget.previousSibling;
+                    if (highlight) highlight.style.background = 'rgba(255, 255, 255, 0.15)';
+                  }}
+                >@paycom</a>
+              </span>
+            </p>
+            <p style={{ 
+              fontSize: 'clamp(15px, 2.2vw, 18px)', 
+              color: 'rgba(255,255,255,0.8)', 
+              marginBottom: '48px',
+              fontWeight: 400
+            }}>
+              impossible → improbable
+            </p>
+            
+            <div style={{ display: 'flex', flexDirection: stackButtons ? 'column' : 'row', gap: '16px', justifyContent: 'center', alignItems: 'center' }}>
+              <button
+                onClick={() => navigateTo('work')}
+                style={{ padding: '16px 40px', borderRadius: 'var(--radius)', fontSize: '16px', fontWeight: 600, background: 'white', color: 'var(--color-primary)', border: 'none', cursor: 'pointer', transition: 'all 0.2s ease', width: stackButtons ? '100%' : 'auto', maxWidth: '280px' }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.02)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.2)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'none'; }}
+              >
+                View Work
+              </button>
+            </div>
+          </div>
+
+          <button
+            onClick={() => {
+              if (contactRevealed) {
+                window.location.href = `mailto:${portfolioData.personal.email}`;
+              } else {
+                setContactRevealed(true);
+              }
+            }}
+            style={{ position: 'absolute', bottom: '48px', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '0', background: 'transparent', color: 'rgba(255,255,255,0.8)', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', fontSize: '15px', fontWeight: 500, zIndex: 2 }}
+            onMouseEnter={e => e.currentTarget.style.color = 'white'}
+            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.8)'}
+          >
+            <Icons.At />
+            <span style={{ display: 'inline-block', maxWidth: contactRevealed ? '300px' : '80px', overflow: 'hidden', whiteSpace: 'nowrap', transition: 'max-width 0.4s ease' }}>
+              {contactRevealed ? portfolioData.personal.email : 'Contact'}
+            </span>
+          </button>
+        </section>
+      );
+    };
+
+    // PROJECTS SECTION - Three project cards
+    const ProjectsSection = () => {
+      const { width } = useWindowSize();
+      const isMobile = width < 900;
+      
+      const projects = [
+        {
+          id: 'rapidfire',
+          title: 'Rapid Fire',
+          subtitle: 'Design Polling Utility',
+          description: 'Quickly iterate on designs, quickly reach alignment across the whole team.',
+          tags: ['Figma', 'Collaboration', 'Prototyping'],
+          year: '2026',
+          hasImage: true,
+          link: '/rapid-fire'
+        },
+        {
+          id: 'opendream',
+          title: 'opendream',
+          subtitle: 'Mobile App',
+          description: "What if your late-night racing thoughts could be recorded in a way that doesn't disrupt your sleep, and helps you to never forget?",
+          tags: ['iOS', 'Voice AI', 'Sleep Tech'],
+          year: '2026',
+          comingSoon: true
+        },
+        {
+          id: 'arcturus',
+          title: 'Arcturus',
+          subtitle: 'Design System',
+          description: 'Leading the charge in a new era of design at a fintech giant.',
+          tags: ['Design Systems', 'React', 'Figma'],
+          year: '2025',
+          comingSoon: true
+        }
+      ];
+      
+      return (
+        <section id="work-section" style={{ padding: isMobile ? '48px 20px' : '64px 24px', maxWidth: '1000px', margin: '0 auto' }}>
+          <div style={{ marginBottom: isMobile ? '32px' : '48px' }}>
+            <StaggerContainer>
+              <h2 style={{ fontSize: 'clamp(28px, 5vw, 42px)', fontWeight: 600, marginBottom: '12px' }}>Selected Projects</h2>
+              <p style={{ fontSize: '16px', color: 'var(--color-text-secondary)', maxWidth: '500px' }}>
+                A collection of work I'm particularly proud of, spanning product design, design systems, and creative technology.
+              </p>
+            </StaggerContainer>
+          </div>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '20px' }}>
+            {projects.map((project) => (
+              <TiltCard 
+                key={project.id} 
+                style={{ cursor: project.link ? 'pointer' : 'default' }} 
+                intensity={6}
+                onClick={project.link ? () => window.location.href = project.link : undefined}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                  <div style={{ 
+                    height: '160px', 
+                    flexShrink: 0,
+                    background: project.comingSoon 
+                      ? 'linear-gradient(135deg, var(--color-bg) 0%, rgba(37, 99, 235, 0.05) 100%)'
+                      : '#000000', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    position: 'relative', 
+                    overflow: 'hidden'
+                  }}>
+                    {project.comingSoon ? (
+                      <div style={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        gap: '8px',
+                        color: 'var(--color-text-tertiary)'
+                      }}>
+                        <Icons.Clock />
+                        <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '0.05em' }}>COMING SOON</span>
+                      </div>
+                    ) : (
+                    <img 
+                      src="./rapid-fire.png" 
+                      alt="Rapidfire preview" 
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+                    />
+                  )}
+                  </div>
+                  <div style={{ padding: '18px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: 500, color: 'var(--color-text-secondary)' }}>{project.subtitle}</span>
+                      <span style={{ fontSize: '12px', color: 'var(--color-text-tertiary)' }}>{project.year}</span>
+                    </div>
+                    <h3 style={{ fontSize: '17px', fontWeight: 600, marginBottom: '8px' }}>{project.title}</h3>
+                    <p style={{ fontSize: '13px', color: 'var(--color-text-secondary)', lineHeight: 1.6, marginBottom: '14px' }}>
+                      {project.description}
+                    </p>
+                    <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: 'auto' }}>
+                      {project.tags.map(tag => (
+                        <span key={tag} style={{ padding: '4px 8px', background: 'var(--color-bg)', borderRadius: 'var(--radius-sm)', fontSize: '11px', fontWeight: 500, color: project.comingSoon ? 'var(--color-text-tertiary)' : 'var(--color-text-secondary)' }}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </TiltCard>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // EXPERIENCE SECTION
+    const ExperienceSection = () => {
+      const { width } = useWindowSize();
+      const isMobile = width < 768;
+      
+      return (
+        <section id="experience-section" style={{ padding: isMobile ? '48px 20px' : '64px 24px', maxWidth: '1000px', margin: '0 auto' }}>
+          <div style={{ marginBottom: isMobile ? '32px' : '48px' }}>
+            <StaggerContainer>
+              <h2 style={{ fontSize: 'clamp(28px, 5vw, 42px)', fontWeight: 600 }}>Where I've Worked</h2>
+            </StaggerContainer>
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {portfolioData.experience.map((exp) => (
+              <div key={exp.company} style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? '8px' : '40px', padding: '18px 20px', background: 'var(--color-bg-elevated)', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow-sm)' }}>
+                <div style={{ fontSize: '13px', color: 'var(--color-text-tertiary)', minWidth: isMobile ? 'auto' : '120px' }}>{exp.period}</div>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ fontSize: '17px', fontWeight: 600, marginBottom: '4px' }}>{exp.company}</h3>
+                  <p style={{ fontSize: '14px', fontWeight: 500, color: 'var(--color-text-secondary)', marginBottom: '8px' }}>{exp.role}</p>
+                  <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', lineHeight: 1.7 }}>{exp.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    // ABOUT SECTION (no social links)
+    const AboutSection = () => {
+      const [openIndex, setOpenIndex] = useState(0);
+      const { width } = useWindowSize();
+      const isMobile = width < 768;
+      
+      return (
+        <section id="about-section" style={{ padding: isMobile ? '48px 20px' : '64px 24px', maxWidth: '1000px', margin: '0 auto' }}>
+          <div style={{ marginBottom: isMobile ? '32px' : '40px' }}>
+            <StaggerContainer>
+              <h2 style={{ fontSize: 'clamp(28px, 5vw, 42px)', fontWeight: 600 }}>
+                Designer, developer, and perpetual learner
+              </h2>
+            </StaggerContainer>
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {portfolioData.about.map((item, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div key={item.title} style={{ background: 'var(--color-bg-elevated)', borderRadius: 'var(--radius)', boxShadow: 'var(--shadow-sm)', overflow: 'hidden' }}>
+                  <button onClick={() => setOpenIndex(isOpen ? -1 : index)} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 18px', background: 'none', border: 'none', cursor: 'pointer', fontSize: '15px', fontWeight: 600, color: 'var(--color-text)', textAlign: 'left' }}>
+                    <span>{item.title}</span>
+                    <div style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)', color: 'var(--color-text-tertiary)' }}>
+                      <Icons.ChevronDown />
+                    </div>
+                  </button>
+                  <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s cubic-bezier(0.32, 0.72, 0, 1)' }}>
+                    <div style={{ overflow: 'hidden' }}>
+                      <p style={{ padding: '0 18px 18px', fontSize: '14px', color: 'var(--color-text-secondary)', lineHeight: 1.8 }}>{item.content}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      );
+    };
+
+    // FOOTER (no social links)
+    const Footer = ({ shaderKey }) => {
+      const containerRef = useRef(null);
+      const canvasRef = useRef(null);
+      const animRef = useRef(null);
+      const { width } = useWindowSize();
+      const isMobile = width < 768;
+      const [contactRevealed, setContactRevealed] = useState(false);
+      const currentYear = new Date().getFullYear();
+
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        
+        const gl = canvas.getContext('webgl', { antialias: false });
+        if (!gl) return;
+
+        const vsSource = `
+          attribute vec2 pos;
+          varying vec2 uv;
+          uniform float aspect;
+          void main() {
+            uv = pos;
+            uv.x *= aspect;
+            gl_Position = vec4(pos, 0.0, 1.0);
+          }
+        `;
+        const fsSource = `
+          precision highp float;
+          varying vec2 uv;
+          uniform float time;
+          
+          void main() {
+            vec3 C_BLUE = vec3(0.02, 0.4, 1.0);
+            vec3 C_CYAN = vec3(0.0, 0.4, 0.44);
+            vec3 C_PURPLE = vec3(0.44, 0.0, 0.4);
+            vec3 C_DEEP = vec3(0.02, 0.08, 0.2);
+            
+            vec3 color = C_CYAN;
+            float T = time;
+            float T1 = T * 0.1;
+            vec2 p = uv;
+            
+            p += vec2(sin(T * 0.15) * p.x, cos(T * 0.08) * p.y);
+            p -= vec2(sin(T * 0.15) * p.y, cos(T * 0.08) * p.x);
+            p.y += sin(p.x + T1 * 0.15 + 0.333 * sin(p.x * 1.5 + T * 0.4 - uv.y));
+            
+            float power = mod(p.y, 0.618);
+            float f1 = sin(p.x * 0.62 + 1.1 * p.y + T * 0.4);
+            
+            power = smoothstep(0.0, 1.62, power);
+            color = mix(mix(C_BLUE, C_PURPLE * power, f1), color, power);
+            
+            float shadow = sin(p.x * 0.3 + p.y * 0.5 + T * 0.15);
+            color = mix(color, C_DEEP, shadow * 0.3 + 0.15);
+            
+            gl_FragColor = vec4(color, 1.0);
+          }
+        `;
+
+        const createShader = (src, type) => {
+          const s = gl.createShader(type);
+          gl.shaderSource(s, src);
+          gl.compileShader(s);
+          return s;
+        };
+        const program = gl.createProgram();
+        gl.attachShader(program, createShader(vsSource, gl.VERTEX_SHADER));
+        gl.attachShader(program, createShader(fsSource, gl.FRAGMENT_SHADER));
+        gl.linkProgram(program);
+
+        const vbo = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+
+        const posLoc = gl.getAttribLocation(program, 'pos');
+        const aspectLoc = gl.getUniformLocation(program, 'aspect');
+        const timeLoc = gl.getUniformLocation(program, 'time');
+
+        let W, H;
+        const resize = () => {
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = Math.floor(containerRef.current.offsetWidth * dpr);
+          H = Math.floor(containerRef.current.offsetHeight * dpr);
+          canvas.width = W;
+          canvas.height = H;
+          canvas.style.width = containerRef.current.offsetWidth + 'px';
+          canvas.style.height = containerRef.current.offsetHeight + 'px';
+          gl.viewport(0, 0, W, H);
+        };
+        resize();
+        window.addEventListener('resize', resize);
+
+        let t = 0;
+        const render = () => {
+          t += 0.016;
+          gl.useProgram(program);
+          gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+          gl.enableVertexAttribArray(posLoc);
+          gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+          gl.uniform1f(aspectLoc, W / H);
+          gl.uniform1f(timeLoc, t * 0.5);
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+          animRef.current = requestAnimationFrame(render);
+        };
+        render();
+
+        return () => {
+          cancelAnimationFrame(animRef.current);
+          window.removeEventListener('resize', resize);
+        };
+      }, [shaderKey]);
+
+      return (
+        <footer ref={containerRef} style={{ padding: isMobile ? '56px 20px 36px' : '72px 24px 44px', position: 'relative', overflow: 'hidden' }}>
+          <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', background: 'rgba(0,0,0,0.1)' }} />
+          
+          <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
+            <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+              <h3 style={{ fontSize: 'clamp(26px, 5vw, 38px)', fontWeight: 600, color: 'white', marginBottom: '24px' }}>
+                Let's chat
+              </h3>
+              <button
+                onClick={() => {
+                  if (contactRevealed) {
+                    window.location.href = `mailto:${portfolioData.personal.email}`;
+                  } else {
+                    setContactRevealed(true);
+                  }
+                }}
+                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '0', background: 'transparent', color: 'rgba(255,255,255,0.9)', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', fontSize: '16px', fontWeight: 500 }}
+                onMouseEnter={e => e.currentTarget.style.color = 'white'}
+                onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.9)'}
+              >
+                <Icons.At />
+                <span style={{ display: 'inline-block', maxWidth: contactRevealed ? '300px' : '80px', overflow: 'hidden', whiteSpace: 'nowrap', transition: 'max-width 0.4s ease' }}>
+                  {contactRevealed ? portfolioData.personal.email : 'Contact'}
+                </span>
+              </button>
+            </div>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.2)', fontSize: '13px', color: 'rgba(255,255,255,0.6)', flexWrap: 'wrap', gap: '14px' }}>
+              <span>© {currentYear} Dan Banica</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Icons.MapPin />
+                <span>{portfolioData.personal.location}</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      );
+    };
+
+    // MAIN APP
+    const App = () => {
+      const [currentSection, setCurrentSection] = useState('home');
+      const [spotlightOpen, setSpotlightOpen] = useState(false);
+      const [isProgrammaticScroll, setIsProgrammaticScroll] = useState(false);
+      const [shaderKey, setShaderKey] = useState(0);
+      const [heroHeight, setHeroHeight] = useState(typeof window !== 'undefined' ? window.innerHeight : 800);
+
+      const navigateTo = useCallback((section) => {
+        setCurrentSection(section);
+        setIsProgrammaticScroll(true);
+        
+        const targetScroll = section === 'home' ? 0 : (document.getElementById(`${section}-section`)?.offsetTop - 100 || 0);
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+        
+        setTimeout(() => setIsProgrammaticScroll(false), 1000);
+      }, []);
+
+      const toggleSpotlight = useCallback(() => setSpotlightOpen(prev => !prev), []);
+
+      useKeyboardShortcut('k', toggleSpotlight, ['meta']);
+      useKeyboardShortcut('k', toggleSpotlight, ['ctrl']);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          if (isProgrammaticScroll) return;
+          const scrollPos = window.scrollY + 200;
+          const sections = ['about-section', 'experience-section', 'work-section'];
+          for (const sectionId of sections) {
+            const section = document.getElementById(sectionId);
+            if (section && scrollPos >= section.offsetTop) {
+              setCurrentSection(sectionId.replace('-section', ''));
+              return;
+            }
+          }
+          setCurrentSection('home');
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, [isProgrammaticScroll]);
+
+      return (
+        <NavigationContext.Provider value={{ currentSection, navigateTo }}>
+          <Navigation 
+            openSpotlight={() => setSpotlightOpen(true)} 
+            heroHeight={heroHeight}
+          />
+          <Spotlight 
+            isOpen={spotlightOpen} 
+            onClose={() => setSpotlightOpen(false)} 
+          />
+          <main>
+            <HeroSection shaderKey={shaderKey} onHeightChange={setHeroHeight} />
+            <ProjectsSection />
+            <ExperienceSection />
+            <AboutSection />
+          </main>
+          <Footer shaderKey={shaderKey} />
+        </NavigationContext.Provider>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
 </body>
 </html>
