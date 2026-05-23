@@ -23,7 +23,14 @@ export const useScrollLock = (active) => {
       b.style.right = saved.right;
       b.style.width = saved.width;
       b.style.overflow = saved.overflow;
+      // Restore the scroll position instantly. The page has
+      // `scroll-behavior: smooth`, which would otherwise animate this jump —
+      // visibly snapping to the top and gliding back down as the lock releases.
+      const root = document.documentElement;
+      const savedBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
       window.scrollTo(0, scrollY);
+      root.style.scrollBehavior = savedBehavior;
     };
   }, [active]);
 };
