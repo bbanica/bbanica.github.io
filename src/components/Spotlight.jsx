@@ -92,7 +92,8 @@ export default function Spotlight({ isOpen, onClose }) {
 
   return (
     <div
-      style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '100dvh', background: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', zIndex: 3000, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '15dvh', opacity: shown ? 1 : 0, transition: 'opacity 0.2s ease' }}
+      className="overlay-fill"
+      style={{ position: 'fixed', top: 0, left: 0, right: 0, background: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', zIndex: 3000, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '12svh', opacity: shown ? 1 : 0, transition: 'opacity 0.2s ease' }}
       onClick={onClose}
     >
       <div

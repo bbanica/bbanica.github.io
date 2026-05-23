@@ -26,7 +26,7 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 ::selection { background: var(--color-primary); color: white; }
@@ -45,3 +45,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   0%, 100% { transform: translateY(0px); opacity: 0.8; }
   50% { transform: translateY(-4px); opacity: 1; }
 }
+
+/* Mobile-safe viewport heights. svh (small viewport) keeps the hero stable so it
+   doesn't resize — and shake — as the browser chrome hides on scroll. lvh (large
+   viewport) makes fixed overlays always cover the full screen. Both fall back to
+   vh on older browsers. */
+.hero-fill { min-height: 100vh; min-height: 100svh; }
+.overlay-fill { height: 100vh; height: 100lvh; }

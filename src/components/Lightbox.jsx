@@ -154,8 +154,9 @@ function LightboxOverlay({ item, onClose }) {
   return (
     <div
       onClick={onClose}
+      className="overlay-fill"
       style={{
-        position: 'fixed', top: 0, left: 0, right: 0, height: '100dvh', zIndex: 4000, overflow: 'hidden',
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 4000, overflow: 'hidden',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         background: 'rgba(12, 14, 30, 0.78)',
         backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
