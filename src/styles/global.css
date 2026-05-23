@@ -26,12 +26,14 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
-  /* `hidden` (not `clip`) on purpose: it propagates to the viewport, which keeps
-     mobile browsers from auto-hiding their toolbar on scroll. That toolbar would
-     otherwise slide over the fixed top nav, hiding it on scroll-down. */
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
+/* Contain horizontal overflow on the content, NOT on html/body/#root. A clipping
+   ancestor of the fixed top nav breaks position:fixed on iOS Safari — the browser
+   chrome scrolls the nav away on scroll-down and snaps it back on scroll-up. <main>
+   is a sibling of the nav, so clipping it is safe and still kills any sideways
+   scroll from full-width sections or entrance-animation transforms. */
+main { overflow-x: clip; }
 ::selection { background: var(--color-primary); color: white; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
