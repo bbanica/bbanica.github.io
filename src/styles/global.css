@@ -19,6 +19,44 @@
   --radius-lg: 18px;
   --font-display: 'SignPainter', 'Brush Script MT', cursive;
   --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+  /* Glass pill behind the floating nav (white theme) and the light gradient used
+     behind image placeholders — pulled into vars so they can flip in dark mode. */
+  --nav-glass: rgba(255, 255, 255, 0.9);
+  --nav-glass-scrolled: rgba(255, 255, 255, 0.95);
+  --grad-1: #FAFBFE;
+  --grad-2: #E9EFFB;
+  /* Declare support for both schemes so the browser renders native controls/
+     scrollbars correctly AND so auto-dark engines (Brave force-dark, Dark Reader)
+     defer to our own dark theme below instead of crudely inverting the page. */
+  color-scheme: light dark;
+}
+
+/* Dark mode is opt-in via the OS/browser setting (or a forced-dark engine). Light
+   mode is the default above and is left completely untouched. We only re-point the
+   custom properties; every component already reads these vars, so the whole UI
+   re-themes from here. Colors that sit on the always-dark shader (hero/footer) and
+   the pastel sticky notes are intentionally not driven by these. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f1017;
+    --color-bg-elevated: #191b24;
+    --color-text: #e9eaf2;
+    --color-text-secondary: #a6a8c4;
+    --color-text-tertiary: #75779a;
+    --color-primary: #6b9bff;
+    --color-primary-light: #87adff;
+    --color-accent: #2dd4ec;
+    --color-border: rgba(255, 255, 255, 0.10);
+    --color-border-strong: rgba(255, 255, 255, 0.18);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.55);
+    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.6);
+    --nav-glass: rgba(22, 23, 32, 0.72);
+    --nav-glass-scrolled: rgba(22, 23, 32, 0.85);
+    --grad-1: #14151e;
+    --grad-2: #1a1d2c;
+  }
 }
 html { scroll-behavior: smooth; }
 body {

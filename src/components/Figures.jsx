@@ -13,7 +13,7 @@ function Placeholder({ src, fill }) {
     ? { width: '100%', height: '100%' }
     : { width: '100%', aspectRatio: '16 / 10' };
   return (
-    <div style={{ ...box, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '10px', background: 'linear-gradient(135deg, #FAFBFE 0%, #EEF2FB 100%)', color: 'var(--color-text-tertiary)' }}>
+    <div style={{ ...box, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '10px', background: 'linear-gradient(135deg, var(--grad-1) 0%, var(--grad-2) 100%)', color: 'var(--color-text-tertiary)' }}>
       <Icons.Image />
       <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.08em' }}>SCREENSHOT</div>
       <div style={{ fontFamily: mono, fontSize: '11px', opacity: 0.75 }}>{name}</div>

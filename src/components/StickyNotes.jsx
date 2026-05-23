@@ -18,7 +18,10 @@ function StickyNote({ text, bg, rotation }) {
           background: bg,
           padding: '26px 20px 20px',
           borderRadius: '3px',
-          color: 'var(--color-text)',
+          // Notes are always light pastels (physical sticky-note look), so the ink
+          // stays dark in both themes — using var(--color-text) would flip it light
+          // and unreadable in dark mode.
+          color: '#1a1a2e',
           boxShadow: hover ? '0 16px 34px rgba(0,0,0,0.18)' : '0 6px 16px rgba(0,0,0,0.10)',
           transform: `rotate(${hover ? 0 : rotation}deg) scale(${hover ? 1.03 : 1})`,
           transition: 'transform 0.28s cubic-bezier(0.32,0.72,0,1), box-shadow 0.28s ease',

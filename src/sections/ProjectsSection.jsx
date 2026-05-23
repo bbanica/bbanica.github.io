@@ -21,7 +21,7 @@ function ProjectCover({ src, title }) {
   }
   const name = src ? src.split('/').pop() : 'thumbnail.png';
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', height: '100%', background: 'linear-gradient(135deg, #FAFBFE 0%, #E8EEFF 100%)', color: 'var(--color-text-tertiary)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--grad-1) 0%, var(--grad-2) 100%)', color: 'var(--color-text-tertiary)' }}>
       <Icons.Image />
       <span style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.08em' }}>THUMBNAIL</span>
       <span style={{ fontFamily: "ui-monospace, 'SF Mono', Menlo, monospace", fontSize: '11px', opacity: 0.75 }}>{name}</span>

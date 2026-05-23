@@ -6,7 +6,9 @@ import { useWindowSize, useIsMac } from '../hooks.js';
 export default function Navigation({ openSpotlight, heroHeight }) {
   const { currentSection, navigateTo } = useNavigation();
   const [scrolled, setScrolled] = useState(false);
-  const [onHero, setOnHero] = useState(true);
+  // Only pages with a shader hero (heroHeight > 0) ever use the blue "on hero"
+  // theme. Case studies pass heroHeight 0 and must always stay on the white theme.
+  const [onHero, setOnHero] = useState(heroHeight > 0);
   const { width } = useWindowSize();
   const isMac = useIsMac();
 
@@ -18,7 +20,9 @@ export default function Navigation({ openSpotlight, heroHeight }) {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       const heroBottom = heroHeight - window.scrollY;
-      setOnHero(heroBottom > navBottom);
+      // heroHeight > 0 guard: on case studies (heroHeight 0) an overscroll/pull-to-
+      // refresh makes scrollY negative, which would otherwise flip the nav to blue.
+      setOnHero(heroHeight > 0 && heroBottom > navBottom);
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll);
@@ -47,8 +51,8 @@ export default function Navigation({ openSpotlight, heroHeight }) {
   };
 
   const whiteTheme = {
-    bg: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.9)',
-    border: 'rgba(0, 0, 0, 0.06)',
+    bg: scrolled ? 'var(--nav-glass-scrolled)' : 'var(--nav-glass)',
+    border: 'var(--color-border)',
     shadow: scrolled ? '0 8px 32px rgba(0, 0, 0, 0.12)' : '0 4px 20px rgba(0, 0, 0, 0.08)',
     text: 'var(--color-text-secondary)',
     textActive: 'var(--color-primary)',
