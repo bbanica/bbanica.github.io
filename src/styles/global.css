@@ -25,40 +25,42 @@
   --nav-glass-scrolled: rgba(255, 255, 255, 0.95);
   --grad-1: #FAFBFE;
   --grad-2: #E9EFFB;
-  /* Declare support for both schemes so the browser renders native controls/
-     scrollbars correctly AND so auto-dark engines (Brave force-dark, Dark Reader)
-     defer to our own dark theme below instead of crudely inverting the page. */
+  /* Declare both schemes are supported so auto-dark engines (Brave force-dark,
+     Dark Reader) defer to our themes instead of crudely inverting the page. The
+     site stays light by default regardless of the OS setting — dark is opt-in. */
   color-scheme: light dark;
 }
 
-/* Dark mode is opt-in via the OS/browser setting (or a forced-dark engine). Light
-   mode is the default above and is left completely untouched. We only re-point the
-   custom properties; every component already reads these vars, so the whole UI
-   re-themes from here. Colors that sit on the always-dark shader (hero/footer) and
-   the pastel sticky notes are intentionally not driven by these. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #0f1017;
-    --color-bg-elevated: #191b24;
-    --color-text: #e9eaf2;
-    --color-text-secondary: #a6a8c4;
-    --color-text-tertiary: #75779a;
-    --color-primary: #6b9bff;
-    --color-primary-light: #87adff;
-    --color-accent: #2dd4ec;
-    --color-border: rgba(255, 255, 255, 0.10);
-    --color-border-strong: rgba(255, 255, 255, 0.18);
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.55);
-    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.6);
-    --nav-glass: rgba(22, 23, 32, 0.72);
-    --nav-glass-scrolled: rgba(22, 23, 32, 0.85);
-    --grad-1: #14151e;
-    --grad-2: #1a1d2c;
-  }
+/* Dark mode is a MANUAL toggle, not system-driven: it activates only when
+   <html data-theme="dark"> is set (by the nav switch, persisted in localStorage).
+   The site is designed light-first, so light is always the default and is left
+   completely untouched. We only re-point the custom properties here; every
+   component reads these vars, so the whole UI re-themes from this one block.
+   Colors over the always-dark shader (hero/footer) and the pastel sticky notes
+   are intentionally not driven by these. */
+:root[data-theme="dark"] {
+  --color-bg: #0f1017;
+  --color-bg-elevated: #191b24;
+  --color-text: #e9eaf2;
+  --color-text-secondary: #a6a8c4;
+  --color-text-tertiary: #75779a;
+  --color-primary: #6b9bff;
+  --color-primary-light: #87adff;
+  --color-accent: #2dd4ec;
+  --color-border: rgba(255, 255, 255, 0.10);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.55);
+  --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.6);
+  --nav-glass: rgba(22, 23, 32, 0.72);
+  --nav-glass-scrolled: rgba(22, 23, 32, 0.85);
+  --grad-1: #14151e;
+  --grad-2: #1a1d2c;
 }
-html { scroll-behavior: smooth; }
+/* html background (not just body) so iOS overscroll/rubber-band shows the theme
+   color, never a bare dark canvas under a light page. */
+html { scroll-behavior: smooth; background: var(--color-bg); }
 body {
   font-family: var(--font-sans);
   background: var(--color-bg);
@@ -89,13 +91,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   50% { transform: translateY(-4px); opacity: 1; }
 }
 
-/* Hero uses plain 100vh on purpose. It's static (no resize → no footer shake)
-   AND sized to the large viewport, which on iOS keeps the layout viewport in
-   sync with the document so the fixed top nav stays pinned during scroll. svh
-   (the small, address-bar-shown height) is shorter than the real scroll area and
-   leaves iOS attaching the fixed nav to a stale viewport — the nav then scrolls
-   away until a full scroll to the bottom forces the viewport to finalize. lvh on
-   the overlays keeps the blur covering the whole screen (scroll is locked while
-   they're open, so it's stable). */
-.hero-fill { min-height: 100vh; }
+/* Hero uses 100svh: the small (address-bar-shown) viewport height, which is
+   exactly what's visible on load — so the bottom contact button isn't hidden
+   under the browser chrome. svh is STATIC (unlike dvh) so it never shrinks/grows
+   as you scroll. This is safe now that the nav is position: sticky rather than
+   fixed; svh used to break the old fixed nav, but sticky is immune. Falls back to
+   vh on older browsers. lvh on overlays keeps the blur covering the full screen
+   (scroll is locked while they're open, so it stays stable). */
+.hero-fill { min-height: 100vh; min-height: 100svh; }
 .overlay-fill { height: 100vh; height: 100lvh; }

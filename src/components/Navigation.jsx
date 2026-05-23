@@ -12,6 +12,23 @@ export default function Navigation({ openSpotlight, heroHeight }) {
   const { width } = useWindowSize();
   const isMac = useIsMac();
 
+  // Manual light/dark toggle. Light is the default; dark is opt-in and persisted
+  // in localStorage. The actual switch is the data-theme attribute on <html>,
+  // which an inline script in the page <head> applies before paint (no flash).
+  const [dark, setDark] = useState(() =>
+    typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark'
+  );
+  const toggleTheme = () => {
+    setDark((prev) => {
+      const next = !prev;
+      const root = document.documentElement;
+      if (next) root.setAttribute('data-theme', 'dark');
+      else root.removeAttribute('data-theme');
+      try { localStorage.setItem('theme', next ? 'dark' : 'light'); } catch { /* ignore */ }
+      return next;
+    });
+  };
+
   const showLabels = width >= 768;
   const showShortcut = width >= 640;
   const navBottom = 72;
@@ -143,6 +160,22 @@ export default function Navigation({ openSpotlight, heroHeight }) {
           }}>
             {isMac ? '⌘' : 'Ctrl'} K
           </span>
+        </button>
+        {/* divider sets the theme toggle apart from the nav/search actions */}
+        <div style={{ width: '1px', height: '24px', flexShrink: 0, margin: '0 4px', background: theme.border }} />
+        <button
+          onClick={toggleTheme}
+          aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '8px 10px',
+            borderRadius: 'var(--radius-sm)',
+            color: theme.text, background: 'transparent', border: 'none', cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>{dark ? <Icons.Sun /> : <Icons.Moon />}</span>
         </button>
       </div>
       </nav>
