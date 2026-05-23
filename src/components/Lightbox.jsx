@@ -210,7 +210,7 @@ function LightboxOverlay({ item, onClose }) {
       </button>
 
       {item.caption && (
-        <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', maxWidth: '90vw', textAlign: 'center', color: 'rgba(255,255,255,0.92)', fontSize: '13px', lineHeight: 1.4, background: 'rgba(0,0,0,0.4)', padding: '7px 14px', borderRadius: '999px', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', pointerEvents: 'none', zIndex: 4001, opacity: shown ? 1 : 0, transition: 'opacity 0.2s ease' }}>
+        <div style={{ position: 'fixed', bottom: '20px', left: 0, right: 0, marginLeft: 'auto', marginRight: 'auto', width: 'fit-content', maxWidth: 'min(94vw, 600px)', textAlign: 'center', color: 'rgba(255,255,255,0.92)', fontSize: '13px', lineHeight: 1.45, background: 'rgba(0,0,0,0.4)', padding: '9px 20px', borderRadius: '18px', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', pointerEvents: 'none', zIndex: 4001, opacity: shown ? 1 : 0, transition: 'opacity 0.2s ease' }}>
           {item.caption}{' · '}<span style={{ opacity: 0.7 }}>{zoomed ? 'click to zoom out · drag or pinch' : 'click or pinch to zoom'}</span>
         </div>
       )}
