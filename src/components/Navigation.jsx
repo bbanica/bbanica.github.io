@@ -63,18 +63,19 @@ export default function Navigation({ openSpotlight, heroHeight }) {
   const theme = onHero ? blueTheme : whiteTheme;
 
   return (
-    <nav style={{
-      position: 'fixed', top: '20px', left: '50%', zIndex: 1000,
-      // Force the nav onto its own GPU compositing layer. Without this, iOS Safari
-      // lets a position:fixed element (especially one with backdrop-filter) lag and
-      // vanish during the scroll gesture, snapping back only when scrolling stops.
-      // translateZ(0) + will-change keeps it pinned smoothly the whole time.
-      transform: 'translateX(-50%) translateZ(0)',
-      WebkitTransform: 'translateX(-50%) translateZ(0)',
-      willChange: 'transform',
-      WebkitBackfaceVisibility: 'hidden',
-      backfaceVisibility: 'hidden'
+    // position: sticky (not fixed) so the browser composites the nav on the scroll
+    // layer and tracks its offset natively during scrolling — this sidesteps the iOS
+    // Safari bug where a position:fixed element (especially with backdrop-filter)
+    // detaches and scrolls away mid-gesture. The wrapper is zero-height with
+    // pointer-events:none so the pill floats over content without taking flow space
+    // or blocking scroll/taps; the nav re-enables pointer events. No transform on the
+    // wrapper — it would break sticky and become the lightbox's containing block.
+    <div style={{
+      position: 'sticky', top: '20px', zIndex: 1000, height: 0,
+      display: 'flex', justifyContent: 'center', alignItems: 'flex-start',
+      pointerEvents: 'none'
     }}>
+      <nav style={{ pointerEvents: 'auto' }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '4px', padding: '8px',
         background: theme.bg,
@@ -140,6 +141,7 @@ export default function Navigation({ openSpotlight, heroHeight }) {
           </span>
         </button>
       </div>
-    </nav>
+      </nav>
+    </div>
   );
 }
