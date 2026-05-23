@@ -85,7 +85,9 @@ export default function HeroSection({ shaderKey, onHeightChange }) {
         <div style={{ display: 'flex', flexDirection: stackButtons ? 'column' : 'row', gap: '16px', justifyContent: 'center', alignItems: 'center' }}>
           <button
             onClick={() => navigateTo('work')}
-            style={{ padding: '16px 40px', borderRadius: 'var(--radius)', fontSize: '16px', fontWeight: 600, background: 'white', color: 'var(--color-primary)', border: 'none', cursor: 'pointer', transition: 'all 0.2s ease', width: stackButtons ? '100%' : 'auto', maxWidth: '280px' }}
+            // Hardcoded blue (not var(--color-primary)) so the white button keeps its
+            // original color on the shader regardless of the light/dark theme.
+            style={{ padding: '16px 40px', borderRadius: 'var(--radius)', fontSize: '16px', fontWeight: 600, background: 'white', color: '#2563eb', border: 'none', cursor: 'pointer', transition: 'all 0.2s ease', width: stackButtons ? '100%' : 'auto', maxWidth: '280px' }}
             onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.02)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.2)'; }}
             onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'none'; }}
           >

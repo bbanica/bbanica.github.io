@@ -176,8 +176,15 @@ function LightboxOverlay({ item, onClose }) {
           style={{
             maxWidth: '94vw', maxHeight: '88vh', objectFit: 'contain', borderRadius: '8px',
             boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
-            transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`,
+            // translate3d (not translate) + will-change/backface-visibility keep the
+            // image on its own GPU layer, so the rapid transform updates during a
+            // pinch/pan are composited rather than repainted each frame — without this
+            // it flickers while dragging on iOS.
+            transform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${scale})`,
+            WebkitTransform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${scale})`,
             transformOrigin: 'center center',
+            willChange: 'transform',
+            backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
             transition: active ? 'none' : 'transform 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
             cursor: zoomed ? (active ? 'grabbing' : 'grab') : 'zoom-in',
             userSelect: 'none', WebkitUserSelect: 'none', touchAction: 'none',
