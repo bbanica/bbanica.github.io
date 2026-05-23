@@ -63,7 +63,18 @@ export default function Navigation({ openSpotlight, heroHeight }) {
   const theme = onHero ? blueTheme : whiteTheme;
 
   return (
-    <nav style={{ position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }}>
+    <nav style={{
+      position: 'fixed', top: '20px', left: '50%', zIndex: 1000,
+      // Force the nav onto its own GPU compositing layer. Without this, iOS Safari
+      // lets a position:fixed element (especially one with backdrop-filter) lag and
+      // vanish during the scroll gesture, snapping back only when scrolling stops.
+      // translateZ(0) + will-change keeps it pinned smoothly the whole time.
+      transform: 'translateX(-50%) translateZ(0)',
+      WebkitTransform: 'translateX(-50%) translateZ(0)',
+      willChange: 'transform',
+      WebkitBackfaceVisibility: 'hidden',
+      backfaceVisibility: 'hidden'
+    }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '4px', padding: '8px',
         background: theme.bg,
