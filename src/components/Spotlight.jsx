@@ -4,6 +4,7 @@ import { useNavigation } from '../context/NavigationContext.jsx';
 import { portfolioData } from '../data/portfolio.js';
 import { searchSite } from '../data/searchIndex.js';
 import { scrollAndHighlight, requestHighlight } from '../lib/highlight.js';
+import { useScrollLock } from '../hooks.js';
 
 const NAV_ACTIONS = [
   { id: 'home', type: 'navigation', title: 'Home', subtitle: 'Go to homepage', icon: Icons.Home },
@@ -22,6 +23,8 @@ export default function Spotlight({ isOpen, onClose }) {
   const wasOpen = useRef(false);
   const inputRef = useRef(null);
   const resultsRef = useRef(null);
+
+  useScrollLock(isOpen);
 
   const trimmed = query.trim();
   const results = trimmed ? searchSite(trimmed) : [];

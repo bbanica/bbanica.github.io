@@ -1,5 +1,33 @@
 import { useState, useEffect, useRef } from 'react';
 
+// Locks page scrolling while `active` (e.g. a modal/lightbox is open). Pins the
+// body in place — the only reliable cross-browser lock on iOS, where
+// `overflow: hidden` alone does nothing — and restores the scroll position on
+// release. Does not touch the overlay's own pointer interactions.
+export const useScrollLock = (active) => {
+  useEffect(() => {
+    if (!active) return undefined;
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    const b = document.body;
+    const saved = { position: b.style.position, top: b.style.top, left: b.style.left, right: b.style.right, width: b.style.width, overflow: b.style.overflow };
+    b.style.position = 'fixed';
+    b.style.top = `-${scrollY}px`;
+    b.style.left = '0';
+    b.style.right = '0';
+    b.style.width = '100%';
+    b.style.overflow = 'hidden';
+    return () => {
+      b.style.position = saved.position;
+      b.style.top = saved.top;
+      b.style.left = saved.left;
+      b.style.right = saved.right;
+      b.style.width = saved.width;
+      b.style.overflow = saved.overflow;
+      window.scrollTo(0, scrollY);
+    };
+  }, [active]);
+};
+
 export const useInView = (threshold = 0.1) => {
   const ref = useRef(null);
   const [isInView, setIsInView] = useState(false);

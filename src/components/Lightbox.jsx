@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { Icons } from './Icons.jsx';
+import { useScrollLock } from '../hooks.js';
 
 // Fullscreen image viewer with:
 //  - tap/click the image to zoom in, click again to zoom out
@@ -15,16 +16,14 @@ export function LightboxProvider({ children }) {
   const open = useCallback((src, caption, alt) => setItem({ src, caption, alt }), []);
   const close = useCallback(() => setItem(null), []);
 
+  // Lock page scrolling while open so the fixed scrim can't be scrolled away.
+  useScrollLock(!!item);
+
   useEffect(() => {
     if (!item) return;
     const onKey = (e) => { if (e.key === 'Escape') close(); };
     window.addEventListener('keydown', onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prevOverflow;
-    };
+    return () => window.removeEventListener('keydown', onKey);
   }, [item, close]);
 
   return (
@@ -152,17 +151,42 @@ function LightboxOverlay({ item, onClose }) {
   const zoomed = scale > 1;
 
   return (
-    <div
-      onClick={onClose}
-      className="overlay-fill"
-      style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 4000, overflow: 'hidden',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'rgba(12, 14, 30, 0.78)',
-        backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-        opacity: shown ? 1 : 0, transition: 'opacity 0.2s ease',
-      }}
-    >
+    <>
+      {/* Scrim + image. inset:-100px overshoots the viewport on every side so any
+          browser-chrome miscalculation stays hidden behind the dark blur. */}
+      <div
+        onClick={onClose}
+        style={{
+          position: 'fixed', inset: '-100px', zIndex: 4000, overflow: 'hidden',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'rgba(12, 14, 30, 0.78)',
+          backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+          opacity: shown ? 1 : 0, transition: 'opacity 0.2s ease',
+        }}
+      >
+        <img
+          src={item.src}
+          alt={item.alt || ''}
+          draggable={false}
+          onClick={e => e.stopPropagation()}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={e => endPointer(e, false)}
+          onPointerCancel={e => endPointer(e, true)}
+          style={{
+            maxWidth: '94vw', maxHeight: '88vh', objectFit: 'contain', borderRadius: '8px',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
+            transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`,
+            transformOrigin: 'center center',
+            transition: active ? 'none' : 'transform 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
+            cursor: zoomed ? (active ? 'grabbing' : 'grab') : 'zoom-in',
+            userSelect: 'none', WebkitUserSelect: 'none', touchAction: 'none',
+          }}
+        />
+      </div>
+
+      {/* Controls live OUTSIDE the blurred scrim so they stay anchored to the
+          viewport (a backdrop-filter would otherwise become their containing block). */}
       <button
         onClick={onClose}
         aria-label="Close"
@@ -172,36 +196,17 @@ function LightboxOverlay({ item, onClose }) {
           background: 'rgba(255, 255, 255, 0.14)', border: '1px solid rgba(255, 255, 255, 0.25)',
           color: 'white', cursor: 'pointer',
           backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', zIndex: 4001,
+          opacity: shown ? 1 : 0, transition: 'opacity 0.2s ease',
         }}
       >
         <Icons.X />
       </button>
 
-      <img
-        src={item.src}
-        alt={item.alt || ''}
-        draggable={false}
-        onClick={e => e.stopPropagation()}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={e => endPointer(e, false)}
-        onPointerCancel={e => endPointer(e, true)}
-        style={{
-          maxWidth: '94vw', maxHeight: '88vh', objectFit: 'contain', borderRadius: '8px',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
-          transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`,
-          transformOrigin: 'center center',
-          transition: active ? 'none' : 'transform 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
-          cursor: zoomed ? (active ? 'grabbing' : 'grab') : 'zoom-in',
-          userSelect: 'none', WebkitUserSelect: 'none', touchAction: 'none',
-        }}
-      />
-
       {item.caption && (
-        <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', maxWidth: '90vw', textAlign: 'center', color: 'rgba(255,255,255,0.92)', fontSize: '13px', lineHeight: 1.4, background: 'rgba(0,0,0,0.4)', padding: '7px 14px', borderRadius: '999px', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', pointerEvents: 'none' }}>
+        <div style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', maxWidth: '90vw', textAlign: 'center', color: 'rgba(255,255,255,0.92)', fontSize: '13px', lineHeight: 1.4, background: 'rgba(0,0,0,0.4)', padding: '7px 14px', borderRadius: '999px', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', pointerEvents: 'none', zIndex: 4001, opacity: shown ? 1 : 0, transition: 'opacity 0.2s ease' }}>
           {item.caption}{' · '}<span style={{ opacity: 0.7 }}>{zoomed ? 'click to zoom out · drag or pinch' : 'click or pinch to zoom'}</span>
         </div>
       )}
-    </div>
+    </>
   );
 }

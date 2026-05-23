@@ -87,7 +87,7 @@ export default function Navigation({ openSpotlight, heroHeight }) {
               overflow: 'hidden'
             }}
           >
-            <span style={{ flexShrink: 0 }}><item.icon /></span>
+            <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}><item.icon /></span>
             <span style={{
               display: 'block',
               width: showLabels ? 'auto' : '0px',
@@ -111,7 +111,7 @@ export default function Navigation({ openSpotlight, heroHeight }) {
             overflow: 'hidden'
           }}
         >
-          <span style={{ flexShrink: 0 }}><Icons.Search /></span>
+          <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}><Icons.Search /></span>
           <span style={{
             display: 'flex', alignItems: 'center', gap: '4px',
             padding: showShortcut ? '2px 6px' : '0px',
