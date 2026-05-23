@@ -41,19 +41,35 @@ const DRAG_THRESHOLD = 4;
 
 function LightboxOverlay({ item, onClose }) {
   const [shown, setShown] = useState(false);
+  // `scale` mirrors the committed zoom so the caption text and cursor can react
+  // to it. It is updated only when a gesture ends — never per frame.
   const [scale, setScale] = useState(1);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [active, setActive] = useState(false); // mid-gesture → disable CSS transition
+  const [active, setActive] = useState(false); // mid-gesture → drives the cursor
 
+  const imgRef = useRef(null);
   const pointers = useRef(new Map()); // pointerId -> {x, y}
   const single = useRef(null);        // { x, y, panX, panY, moved }
   const pinch = useRef(null);         // { dist0, scale0, oFx, oFy }
-  const scaleRef = useRef(1);
+  const scaleRef = useRef(1);         // live scale — source of truth during gestures
   const panRef = useRef({ x: 0, y: 0 });
-  scaleRef.current = scale;
-  panRef.current = pan;
+
+  // Write the live scale/pan straight to the <img>, bypassing React. A pinch or
+  // pan then updates every frame without re-rendering the whole overlay — that
+  // per-frame re-render was the remaining flicker on iOS. `animate` turns on the
+  // snap transition (used for tap-to-zoom and the pinch-reset).
+  const applyTransform = (animate) => {
+    const el = imgRef.current;
+    if (!el) return;
+    el.style.transition = animate ? 'transform 0.25s cubic-bezier(0.32, 0.72, 0, 1)' : 'none';
+    const t = `translate3d(${panRef.current.x}px, ${panRef.current.y}px, 0) scale(${scaleRef.current})`;
+    el.style.transform = t;
+    el.style.webkitTransform = t;
+  };
+  // Snap into place and sync the committed scale into state (a single re-render).
+  const commit = (animate) => { applyTransform(animate); setScale(scaleRef.current); };
 
   useEffect(() => {
+    applyTransform(false); // identity transform on mount
     const id = requestAnimationFrame(() => setShown(true));
     return () => cancelAnimationFrame(id);
   }, []);
@@ -70,6 +86,7 @@ function LightboxOverlay({ item, onClose }) {
     // image-space offset of the pinch focal point (stays put as we scale)
     pinch.current = { dist0, scale0: s0, oFx: (mid.x - c.x - p0.x) / s0, oFy: (mid.y - c.y - p0.y) / s0 };
     single.current = null;
+    applyTransform(false); // cancel any in-flight snap transition before live updates
     setActive(true);
   };
 
@@ -96,9 +113,9 @@ function LightboxOverlay({ item, onClose }) {
       const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
       const c = center();
       const s1 = Math.max(MIN, Math.min(MAX, pinch.current.scale0 * (dist / pinch.current.dist0)));
-      setActive(true);
-      setScale(s1);
-      setPan({ x: mid.x - c.x - s1 * pinch.current.oFx, y: mid.y - c.y - s1 * pinch.current.oFy });
+      scaleRef.current = s1;
+      panRef.current = { x: mid.x - c.x - s1 * pinch.current.oFx, y: mid.y - c.y - s1 * pinch.current.oFy };
+      applyTransform(false);
     } else if (single.current) {
       const dx = e.clientX - single.current.x;
       const dy = e.clientY - single.current.y;
@@ -108,7 +125,8 @@ function LightboxOverlay({ item, onClose }) {
       }
       if (scaleRef.current > 1 && single.current.moved) {
         e.stopPropagation();
-        setPan({ x: single.current.panX + dx, y: single.current.panY + dy });
+        panRef.current = { x: single.current.panX + dx, y: single.current.panY + dy };
+        applyTransform(false);
       }
     }
   };
@@ -127,24 +145,28 @@ function LightboxOverlay({ item, onClose }) {
       pinch.current = null;
       const [rem] = [...pointers.current.values()];
       single.current = { x: rem.x, y: rem.y, panX: panRef.current.x, panY: panRef.current.y, moved: true };
-      setActive(false);
-      return;
+      return; // still mid-gesture — stay active
     }
 
-    // no pointers left
+    // no pointers left → gesture finished
     pinch.current = null;
     single.current = null;
     setActive(false);
-    if (cancelled) return;
+    if (cancelled) { setScale(scaleRef.current); return; }
 
     if (wasPinch) {
-      if (scaleRef.current <= 1.05) { setScale(1); setPan({ x: 0, y: 0 }); }
+      // a tiny residual zoom snaps back to fit; otherwise just sync state
+      if (scaleRef.current <= 1.05) { scaleRef.current = 1; panRef.current = { x: 0, y: 0 }; commit(true); }
+      else { setScale(scaleRef.current); }
       return;
     }
     // clean tap (no drag) toggles zoom
     if (s && !s.moved) {
-      if (scaleRef.current > 1) { setScale(1); setPan({ x: 0, y: 0 }); }
-      else { setScale(TAP_ZOOM); }
+      if (scaleRef.current > 1) { scaleRef.current = 1; panRef.current = { x: 0, y: 0 }; }
+      else { scaleRef.current = TAP_ZOOM; }
+      commit(true);
+    } else {
+      setScale(scaleRef.current); // a pan ended — keep position, sync state
     }
   };
 
@@ -165,6 +187,7 @@ function LightboxOverlay({ item, onClose }) {
         }}
       >
         <img
+          ref={imgRef}
           src={item.src}
           alt={item.alt || ''}
           draggable={false}
@@ -176,16 +199,12 @@ function LightboxOverlay({ item, onClose }) {
           style={{
             maxWidth: '94vw', maxHeight: '88vh', objectFit: 'contain', borderRadius: '8px',
             boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
-            // translate3d (not translate) + will-change/backface-visibility keep the
-            // image on its own GPU layer, so the rapid transform updates during a
-            // pinch/pan are composited rather than repainted each frame — without this
-            // it flickers while dragging on iOS.
-            transform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${scale})`,
-            WebkitTransform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${scale})`,
+            // transform + transition are driven imperatively via applyTransform(), not
+            // React, so a pinch/pan updates per frame without re-rendering this overlay.
+            // translate3d + will-change/backface-visibility keep the image GPU-composited.
             transformOrigin: 'center center',
             willChange: 'transform',
             backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
-            transition: active ? 'none' : 'transform 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
             cursor: zoomed ? (active ? 'grabbing' : 'grab') : 'zoom-in',
             userSelect: 'none', WebkitUserSelect: 'none', touchAction: 'none',
           }}
