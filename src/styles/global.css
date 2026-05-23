@@ -26,7 +26,10 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
-  overflow-x: clip;
+  /* `hidden` (not `clip`) on purpose: it propagates to the viewport, which keeps
+     mobile browsers from auto-hiding their toolbar on scroll. That toolbar would
+     otherwise slide over the fixed top nav, hiding it on scroll-down. */
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 ::selection { background: var(--color-primary); color: white; }
