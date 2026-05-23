@@ -117,6 +117,24 @@ export function requestHighlight(path, query, needle, anchor) {
   try { sessionStorage.setItem(STORE_KEY, JSON.stringify({ path, query, needle, anchor })); } catch { /* ignore */ }
 }
 
+// Wait until the page's images have loaded (or a safety timeout) so layout is
+// stable before we measure — otherwise late-loading images shift content and the
+// highlight can land in the wrong place.
+function whenImagesSettled(cb) {
+  const root = document.querySelector('article, main') || document.body;
+  const pending = [...root.querySelectorAll('img')].filter((i) => !i.complete);
+  if (pending.length === 0) { setTimeout(cb, 120); return; }
+  let done = 0;
+  let finished = false;
+  const finish = () => { if (finished) return; finished = true; setTimeout(cb, 80); };
+  const tick = () => { done += 1; if (done >= pending.length) finish(); };
+  pending.forEach((img) => {
+    img.addEventListener('load', tick, { once: true });
+    img.addEventListener('error', tick, { once: true });
+  });
+  setTimeout(finish, 1500); // safety cap so we never hang
+}
+
 // On a fresh page load, run any pending highlight that targets this page.
 // Returns true if it handled navigation (so callers can skip plain hash-scroll).
 export function consumePendingHighlight() {
@@ -129,6 +147,6 @@ export function consumePendingHighlight() {
   const there = (data.path || '').replace(/\/+$/, '') || '/';
   if (here !== there) return false;
   try { sessionStorage.removeItem(STORE_KEY); } catch { /* ignore */ }
-  setTimeout(() => scrollAndHighlight(data.query, data.needle, data.anchor), 300);
+  setTimeout(() => whenImagesSettled(() => scrollAndHighlight(data.query, data.needle, data.anchor)), 100);
   return true;
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Icons } from './Icons.jsx';
 import { useNavigation } from '../context/NavigationContext.jsx';
 import { portfolioData } from '../data/portfolio.js';
@@ -17,7 +17,9 @@ export default function Spotlight({ isOpen, onClose }) {
   const { navigateTo } = useNavigation();
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [animState, setAnimState] = useState('closed');
+  const [shown, setShown] = useState(false);   // drives the open/close animation
+  const [closing, setClosing] = useState(false);
+  const wasOpen = useRef(false);
   const inputRef = useRef(null);
   const resultsRef = useRef(null);
 
@@ -25,17 +27,31 @@ export default function Spotlight({ isOpen, onClose }) {
   const results = trimmed ? searchSite(trimmed) : [];
   const items = trimmed ? results : NAV_ACTIONS;
 
+  // Open/close lifecycle. Mounting is derived directly from `isOpen` (not from a
+  // state set in an effect) so that when the trigger opens us via flushSync, the
+  // input is in the DOM immediately and can be focused within the tap gesture.
   useEffect(() => {
-    if (isOpen && animState === 'closed') {
-      setAnimState('opening');
-      setTimeout(() => { setAnimState('open'); inputRef.current?.focus(); }, 50);
+    if (isOpen && !wasOpen.current) {
+      wasOpen.current = true;
       setQuery('');
       setSelectedIndex(0);
-    } else if (!isOpen && (animState === 'open' || animState === 'opening')) {
-      setAnimState('closing');
-      setTimeout(() => setAnimState('closed'), 200);
+      setClosing(false);
+      const id = requestAnimationFrame(() => setShown(true));
+      return () => cancelAnimationFrame(id);
     }
-  }, [isOpen, animState]);
+    if (!isOpen && wasOpen.current) {
+      wasOpen.current = false;
+      setShown(false);
+      setClosing(true);
+      const t = setTimeout(() => setClosing(false), 200);
+      return () => clearTimeout(t);
+    }
+  }, [isOpen]);
+
+  // Focus synchronously when opening — critical for the mobile keyboard to appear.
+  useLayoutEffect(() => {
+    if (isOpen) inputRef.current?.focus();
+  }, [isOpen]);
 
   useEffect(() => { setSelectedIndex(0); }, [query]);
 
@@ -45,22 +61,16 @@ export default function Spotlight({ isOpen, onClose }) {
     }
   }, [selectedIndex, items.length]);
 
-  const handleClose = useCallback(() => {
-    setAnimState('closing');
-    setTimeout(() => { setAnimState('closed'); onClose(); }, 200);
-  }, [onClose]);
-
   const execute = (item) => {
     if (item.type === 'navigation') {
       navigateTo(item.id);
     } else if (item.type === 'action') {
       if (item.id === 'email') window.location.href = `mailto:${portfolioData.personal.email}`;
     } else {
-      // search result → jump to the exact word and flash a highlight over it
       const here = window.location.pathname.replace(/\/+$/, '') || '/';
       const there = item.path.replace(/\/+$/, '') || '/';
       if (here === there) {
-        handleClose();
+        onClose();
         setTimeout(() => scrollAndHighlight(trimmed, item.needle, item.anchor), 220);
         return;
       }
@@ -68,26 +78,25 @@ export default function Spotlight({ isOpen, onClose }) {
       window.location.href = item.path + (item.anchor ? `#${item.anchor}` : '');
       return;
     }
-    handleClose();
+    onClose();
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowDown') { e.preventDefault(); setSelectedIndex(i => Math.min(i + 1, items.length - 1)); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); setSelectedIndex(i => Math.max(i - 1, 0)); }
     else if (e.key === 'Enter') { e.preventDefault(); if (items[selectedIndex]) execute(items[selectedIndex]); }
-    else if (e.key === 'Escape') { handleClose(); }
+    else if (e.key === 'Escape') { onClose(); }
   };
 
-  if (animState === 'closed') return null;
-  const isVisible = animState === 'open';
+  if (!isOpen && !closing) return null;
 
   return (
     <div
-      style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', zIndex: 3000, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '15vh', opacity: animState === 'closing' ? 0 : 1, transition: 'opacity 0.2s ease' }}
-      onClick={handleClose}
+      style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '100dvh', background: 'rgba(0, 0, 0, 0.3)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', zIndex: 3000, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '15dvh', opacity: shown ? 1 : 0, transition: 'opacity 0.2s ease' }}
+      onClick={onClose}
     >
       <div
-        style={{ width: '100%', maxWidth: '580px', margin: '0 20px', background: 'var(--color-bg-elevated)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl), 0 0 0 1px rgba(0,0,0,0.05)', overflow: 'hidden', transform: animState === 'closing' ? 'translateY(20px) scale(0.98)' : (isVisible ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.98)'), opacity: animState === 'closing' ? 0 : (isVisible ? 1 : 0), transition: 'all 0.2s cubic-bezier(0.32, 0.72, 0, 1)' }}
+        style={{ width: '100%', maxWidth: '580px', margin: '0 20px', background: 'var(--color-bg-elevated)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl), 0 0 0 1px rgba(0,0,0,0.05)', overflow: 'hidden', transform: shown ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.98)', transition: 'transform 0.2s cubic-bezier(0.32, 0.72, 0, 1)' }}
         onClick={e => e.stopPropagation()}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 18px', borderBottom: '1px solid var(--color-border)', height: '56px' }}>

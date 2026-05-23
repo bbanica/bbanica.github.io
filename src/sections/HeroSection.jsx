@@ -24,7 +24,7 @@ export default function HeroSection({ shaderKey, onHeightChange }) {
   }, [onHeightChange, height]);
 
   return (
-    <section ref={containerRef} style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <section ref={containerRef} style={{ minHeight: '100dvh', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       <ShaderCanvas containerRef={containerRef} fragmentShader={HERO_FRAGMENT} shaderKey={shaderKey} />
 
       <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 24px', maxWidth: '800px' }}>

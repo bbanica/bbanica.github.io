@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { flushSync } from 'react-dom';
 import { NavigationContext } from '../context/NavigationContext.jsx';
 import Navigation from '../components/Navigation.jsx';
 import Spotlight from '../components/Spotlight.jsx';
@@ -17,6 +18,7 @@ export default function CaseStudyChrome({ heroHeight = 0, children }) {
     window.location.href = section === 'home' ? '/' : `/#${section}`;
   }, []);
 
+  const openSpotlight = useCallback(() => { flushSync(() => setSpotlightOpen(true)); }, []);
   const toggleSpotlight = useCallback(() => setSpotlightOpen(prev => !prev), []);
   useKeyboardShortcut('k', toggleSpotlight, ['meta']);
   useKeyboardShortcut('k', toggleSpotlight, ['ctrl']);
@@ -33,7 +35,7 @@ export default function CaseStudyChrome({ heroHeight = 0, children }) {
 
   return (
     <NavigationContext.Provider value={{ currentSection: null, navigateTo }}>
-      <Navigation openSpotlight={() => setSpotlightOpen(true)} heroHeight={heroHeight} />
+      <Navigation openSpotlight={openSpotlight} heroHeight={heroHeight} />
       <Spotlight isOpen={spotlightOpen} onClose={() => setSpotlightOpen(false)} />
       {children}
       <Footer shaderKey={0} />

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { flushSync } from 'react-dom';
 import { NavigationContext } from '../context/NavigationContext.jsx';
 import Navigation from '../components/Navigation.jsx';
 import Spotlight from '../components/Spotlight.jsx';
@@ -27,6 +28,9 @@ export default function HomePage() {
     setTimeout(() => setIsProgrammaticScroll(false), 1000);
   }, []);
 
+  // flushSync so the spotlight input mounts + focuses within the tap gesture,
+  // which is what lets the mobile keyboard pop up immediately.
+  const openSpotlight = useCallback(() => { flushSync(() => setSpotlightOpen(true)); }, []);
   const toggleSpotlight = useCallback(() => setSpotlightOpen(prev => !prev), []);
 
   useKeyboardShortcut('k', toggleSpotlight, ['meta']);
@@ -65,7 +69,7 @@ export default function HomePage() {
   return (
     <NavigationContext.Provider value={{ currentSection, navigateTo }}>
       <Navigation
-        openSpotlight={() => setSpotlightOpen(true)}
+        openSpotlight={openSpotlight}
         heroHeight={heroHeight}
       />
       <Spotlight
