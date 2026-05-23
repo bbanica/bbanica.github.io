@@ -51,9 +51,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   50% { transform: translateY(-4px); opacity: 1; }
 }
 
-/* Mobile-safe viewport heights. svh (small viewport) keeps the hero stable so it
-   doesn't resize — and shake — as the browser chrome hides on scroll. lvh (large
-   viewport) makes fixed overlays always cover the full screen. Both fall back to
-   vh on older browsers. */
-.hero-fill { min-height: 100vh; min-height: 100svh; }
+/* Hero uses plain 100vh on purpose. It's static (no resize → no footer shake)
+   AND sized to the large viewport, which on iOS keeps the layout viewport in
+   sync with the document so the fixed top nav stays pinned during scroll. svh
+   (the small, address-bar-shown height) is shorter than the real scroll area and
+   leaves iOS attaching the fixed nav to a stale viewport — the nav then scrolls
+   away until a full scroll to the bottom forces the viewport to finalize. lvh on
+   the overlays keeps the blur covering the whole screen (scroll is locked while
+   they're open, so it's stable). */
+.hero-fill { min-height: 100vh; }
 .overlay-fill { height: 100vh; height: 100lvh; }
