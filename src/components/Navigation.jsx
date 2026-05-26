@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Icons } from './Icons.jsx';
 import { useNavigation } from '../context/NavigationContext.jsx';
 import { useWindowSize, useIsMac } from '../hooks.js';
+import { track } from '../lib/analytics.js';
 
 export default function Navigation({ openSpotlight, heroHeight }) {
   const { currentSection, navigateTo } = useNavigation();
@@ -25,6 +26,7 @@ export default function Navigation({ openSpotlight, heroHeight }) {
       if (next) root.setAttribute('data-theme', 'dark');
       else root.removeAttribute('data-theme');
       try { localStorage.setItem('theme', next ? 'dark' : 'light'); } catch { /* ignore */ }
+      track('theme_toggle', { mode: next ? 'dark' : 'light' });
       return next;
     });
   };

@@ -5,6 +5,7 @@ import { portfolioData } from '../data/portfolio.js';
 import { searchSite } from '../data/searchIndex.js';
 import { scrollAndHighlight, requestHighlight } from '../lib/highlight.js';
 import { useScrollLock } from '../hooks.js';
+import { track } from '../lib/analytics.js';
 
 const NAV_ACTIONS = [
   { id: 'home', type: 'navigation', title: 'Home', subtitle: 'Go to homepage', icon: Icons.Home },
@@ -65,6 +66,7 @@ export default function Spotlight({ isOpen, onClose }) {
   }, [selectedIndex, items.length]);
 
   const execute = (item) => {
+    if (trimmed) track('search_select', { search_term: trimmed });
     if (item.type === 'navigation') {
       navigateTo(item.id);
     } else if (item.type === 'action') {

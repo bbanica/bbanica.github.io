@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { Icons } from './Icons.jsx';
 import { useScrollLock } from '../hooks.js';
+import { track } from '../lib/analytics.js';
 
 // Fullscreen image viewer with:
 //  - tap/click the image to zoom in, click again to zoom out
@@ -13,7 +14,7 @@ export const useLightbox = () => useContext(LightboxContext);
 
 export function LightboxProvider({ children }) {
   const [item, setItem] = useState(null); // { src, caption, alt }
-  const open = useCallback((src, caption, alt) => setItem({ src, caption, alt }), []);
+  const open = useCallback((src, caption, alt) => { track('lightbox_open', { image: src }); setItem({ src, caption, alt }); }, []);
   const close = useCallback(() => setItem(null), []);
 
   // Lock page scrolling while open so the fixed scrim can't be scrolled away.
