@@ -9,7 +9,7 @@
 // SETUP: create a GA4 property (analytics.google.com → Admin → Create property →
 // add a "Web" data stream for danbanica.com), copy its Measurement ID, and paste
 // it below in place of the placeholder. Until then everything here no-ops.
-const GA_ID = 'G-XXXXXXXXXX';
+const GA_ID = 'G-HZM8LX6FMF';
 
 const configured = () => GA_ID && GA_ID.indexOf('XXXX') === -1;
 
