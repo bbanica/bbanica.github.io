@@ -1,23 +1,25 @@
 // Daily GA4 → email summary.
 //
-// Runs in GitHub Actions (.github/workflows/daily-analytics-email.yml), NOT in the
-// website bundle. Every credential comes from an Actions secret, so nothing
-// sensitive ever lives in the repo. It pulls yesterday's stats from the GA4 Data
-// API and emails a formatted summary via Resend (Node 20+ has global fetch, so no
-// email SDK is needed).
+// Authenticates as YOU via OAuth (your Google account already owns the property),
+// so nothing needs to be added to GA4. Runs in GitHub Actions, NOT in the website
+// bundle. Every credential comes from an Actions secret — nothing sensitive lives
+// in the repo. Pure REST + Node's built-in fetch, so there are no npm dependencies.
 //
 // Required env (all from GitHub Actions secrets):
-//   GA_PROPERTY_ID          numeric GA4 property id (Admin → Property Settings),
-//                           e.g. 123456789 — NOT the G-XXXX measurement id
-//   GA_SERVICE_ACCOUNT_KEY  full JSON of a Google service-account key (one line ok)
-//   RESEND_API_KEY          from resend.com
-//   REPORT_TO_EMAIL         where the summary is sent
-//   REPORT_FROM_EMAIL       optional; defaults to Resend's shared onboarding sender
-import { BetaAnalyticsDataClient } from '@google-analytics/data';
+//   GA_PROPERTY_ID        numeric GA4 property id (Admin → Property settings),
+//                         e.g. 123456789 — NOT the G-XXXX measurement id
+//   GOOGLE_CLIENT_ID      OAuth client id
+//   GOOGLE_CLIENT_SECRET  OAuth client secret
+//   GOOGLE_REFRESH_TOKEN  refresh token from the one-time OAuth consent
+//   RESEND_API_KEY        from resend.com
+//   REPORT_TO_EMAIL       where the summary is sent
+//   REPORT_FROM_EMAIL     optional; defaults to Resend's shared onboarding sender
 
 const {
   GA_PROPERTY_ID,
-  GA_SERVICE_ACCOUNT_KEY,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET,
+  GOOGLE_REFRESH_TOKEN,
   RESEND_API_KEY,
   REPORT_TO_EMAIL,
 } = process.env;
@@ -27,15 +29,46 @@ const REPORT_FROM_EMAIL = process.env.REPORT_FROM_EMAIL || 'onboarding@resend.de
 
 const need = (name, val) => { if (!val) { console.error(`Missing required env: ${name}`); process.exit(1); } };
 need('GA_PROPERTY_ID', GA_PROPERTY_ID);
-need('GA_SERVICE_ACCOUNT_KEY', GA_SERVICE_ACCOUNT_KEY);
+need('GOOGLE_CLIENT_ID', GOOGLE_CLIENT_ID);
+need('GOOGLE_CLIENT_SECRET', GOOGLE_CLIENT_SECRET);
+need('GOOGLE_REFRESH_TOKEN', GOOGLE_REFRESH_TOKEN);
 need('RESEND_API_KEY', RESEND_API_KEY);
 need('REPORT_TO_EMAIL', REPORT_TO_EMAIL);
 
-const client = new BetaAnalyticsDataClient({ credentials: JSON.parse(GA_SERVICE_ACCOUNT_KEY) });
-const property = `properties/${GA_PROPERTY_ID}`;
-const YESTERDAY = [{ startDate: 'yesterday', endDate: 'yesterday' }];
+// Trade the long-lived refresh token for a short-lived access token.
+async function getAccessToken() {
+  const res = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      client_id: GOOGLE_CLIENT_ID,
+      client_secret: GOOGLE_CLIENT_SECRET,
+      refresh_token: GOOGLE_REFRESH_TOKEN,
+      grant_type: 'refresh_token',
+    }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || !data.access_token) {
+    console.error('OAuth token refresh failed:', res.status, JSON.stringify(data));
+    process.exit(1);
+  }
+  return data.access_token;
+}
 
-const report = async (cfg) => (await client.runReport({ property, dateRanges: YESTERDAY, ...cfg }))[0];
+const YESTERDAY = [{ startDate: 'yesterday', endDate: 'yesterday' }];
+let TOKEN;
+
+async function report(cfg) {
+  const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${GA_PROPERTY_ID}:runReport`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${TOKEN}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ dateRanges: YESTERDAY, ...cfg }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) { console.error('GA4 report failed:', res.status, JSON.stringify(data)); process.exit(1); }
+  return data;
+}
+
 const rows = (resp) => (resp.rows || []).map((r) => ({
   dims: (r.dimensionValues || []).map((d) => d.value),
   mets: (r.metricValues || []).map((m) => m.value),
@@ -58,6 +91,7 @@ function table(title, headers, dataRows) {
 }
 
 async function main() {
+  TOKEN = await getAccessToken();
   const dateLabel = new Date(Date.now() - 86400000).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: 'America/Chicago' });
 
   const [totals, pages, geo, events, sources] = await Promise.all([
