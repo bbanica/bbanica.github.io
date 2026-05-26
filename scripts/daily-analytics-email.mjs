@@ -20,8 +20,10 @@ const {
   GA_SERVICE_ACCOUNT_KEY,
   RESEND_API_KEY,
   REPORT_TO_EMAIL,
-  REPORT_FROM_EMAIL = 'onboarding@resend.dev',
 } = process.env;
+// `||` (not a destructuring default) so an unset secret — which Actions passes as
+// an empty string, not undefined — still falls back to Resend's shared sender.
+const REPORT_FROM_EMAIL = process.env.REPORT_FROM_EMAIL || 'onboarding@resend.dev';
 
 const need = (name, val) => { if (!val) { console.error(`Missing required env: ${name}`); process.exit(1); } };
 need('GA_PROPERTY_ID', GA_PROPERTY_ID);
