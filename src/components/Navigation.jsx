@@ -51,7 +51,20 @@ export default function Navigation({ openSpotlight, heroHeight }) {
       const navEdge = navAtBottom ? window.innerHeight - navBottom : navBottom;
       // heroHeight > 0 guard: on case studies (heroHeight 0) an overscroll/pull-to-
       // refresh makes scrollY negative, which would otherwise flip the nav to blue.
-      setOnHero(heroHeight > 0 && heroBottom > navEdge);
+      let onShader = heroHeight > 0 && heroBottom > navEdge;
+      // Mobile bottom nav also passes over the FOOTER shader near the page end —
+      // the footer uses the same gradient as the hero, so the pill should swap back
+      // to its blue theme the moment they overlap. Works on every page (home + case
+      // studies) since the footer is shared. Desktop never overlaps, so it's gated
+      // to navAtBottom.
+      if (navAtBottom) {
+        const footer = document.querySelector('footer');
+        if (footer) {
+          const footerTopInViewport = footer.getBoundingClientRect().top;
+          if (footerTopInViewport <= window.innerHeight - navBottom) onShader = true;
+        }
+      }
+      setOnHero(onShader);
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll);
