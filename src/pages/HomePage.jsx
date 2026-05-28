@@ -25,7 +25,20 @@ export default function HomePage() {
     const targetScroll = section === 'home' ? 0 : (document.getElementById(`${section}-section`)?.offsetTop - 100 || 0);
     window.scrollTo({ top: targetScroll, behavior: 'smooth' });
 
-    setTimeout(() => setIsProgrammaticScroll(false), 1000);
+    // Keep the scroll-spy suppressed until the smooth scroll truly settles —
+    // the old 1s fixed timeout fired mid-flight on long scrolls (e.g. Home →
+    // About), so the spy briefly flipped to the section being passed through.
+    // `scrollend` is the canonical signal; the timeout is a safety net for
+    // browsers that don't have it and for unusually long scrolls.
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      window.removeEventListener('scrollend', finish);
+      setIsProgrammaticScroll(false);
+    };
+    window.addEventListener('scrollend', finish, { once: true });
+    setTimeout(finish, 2500);
   }, []);
 
   // flushSync so the spotlight input mounts + focuses within the tap gesture,

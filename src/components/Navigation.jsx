@@ -34,6 +34,10 @@ export default function Navigation({ openSpotlight, heroHeight }) {
   const showLabels = width >= 768;
   const showShortcut = width >= 640;
   const navBottom = 72;
+  // Move the nav to the bottom of the viewport at the mobile breakpoint for easier
+  // thumb-reach. Same pill, same padding — just anchored to the bottom instead of
+  // the top. (Top everywhere else.)
+  const navAtBottom = width < 768;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -94,11 +98,38 @@ export default function Navigation({ openSpotlight, heroHeight }) {
     // or blocking scroll/taps; the nav re-enables pointer events. No transform on the
     // wrapper — it would break sticky and become the lightbox's containing block.
     <div style={{
-      position: 'sticky', top: '20px', zIndex: 1000, height: 0,
+      // Desktop: sticky to the top (as before). Mobile: position:fixed at the bottom
+      // — sticky-bottom only catches elements that would otherwise scroll below the
+      // threshold, so it can't pull an element at the top of the tree down to the
+      // viewport bottom. Bottom-fixed is also reliable on iOS (the earlier flicker
+      // was a top-fixed + address-bar interaction), and translateZ + will-change
+      // promote the fixed pill onto its own GPU layer to harden against any stray
+      // scroll-time repaints.
+      ...(navAtBottom
+        ? {
+            position: 'fixed', bottom: '20px', left: 0, right: 0,
+            transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)',
+            willChange: 'transform',
+          }
+        : { position: 'sticky', top: '20px' }
+      ),
+      zIndex: 1000, height: 0,
       display: 'flex', justifyContent: 'center', alignItems: 'flex-start',
       pointerEvents: 'none'
     }}>
-      <nav style={{ pointerEvents: 'auto' }}>
+      {/* On mobile the wrapper is pinned at viewport bottom; translateY(-100%) renders
+          the pill ABOVE the pin so it sits at the bottom edge instead of overflowing
+          offscreen below. translateZ(0) is the same GPU-layer hint, applied to the
+          nav itself for the scroll-time stability the wrapper benefits from. */}
+      <nav style={{
+        pointerEvents: 'auto',
+        ...(navAtBottom ? {
+          transform: 'translateY(-100%) translateZ(0)',
+          WebkitTransform: 'translateY(-100%) translateZ(0)',
+          willChange: 'transform',
+          backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
+        } : {})
+      }}>
       <div style={{
         display: 'flex', alignItems: 'center', gap: '4px', padding: '8px',
         background: theme.bg,
