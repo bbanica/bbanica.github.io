@@ -4,25 +4,40 @@ import StaggerContainer from '../components/StaggerContainer.jsx';
 import { useWindowSize } from '../hooks.js';
 import { portfolioData } from '../data/portfolio.js';
 
-// Square logo well with graceful fallback. Drop a PNG at the path in
-// portfolio.experience[i].logo (square ~256×256 ideal); if the file is missing
-// or fails to load the card falls back to a neutral briefcase glyph so the row
-// keeps its layout instead of collapsing.
+// Real logos fill the slot edge-to-edge — border and radius live directly on the
+// <img> so there's no surrounding "well" peeking through (which looked like the
+// logo was floating, especially in dark mode). The fallback (when the file is
+// missing) keeps the wrapper because a glyph centered in a tinted well looks
+// intentional rather than empty.
 function CompanyLogo({ src, alt, size }) {
   const [failed, setFailed] = useState(false);
   const has = src && !failed;
+  if (has) {
+    return (
+      <img
+        src={src}
+        alt={alt || ''}
+        onError={() => setFailed(true)}
+        style={{
+          width: size, height: size, flexShrink: 0,
+          borderRadius: '10px',
+          border: '1px solid var(--color-border)',
+          objectFit: 'cover',
+          display: 'block',
+        }}
+      />
+    );
+  }
   return (
     <div style={{
       width: size, height: size, flexShrink: 0,
-      borderRadius: '10px', overflow: 'hidden',
+      borderRadius: '10px',
       border: '1px solid var(--color-border)',
       background: 'var(--color-bg)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       color: 'var(--color-text-tertiary)'
     }}>
-      {has
-        ? <img src={src} alt={alt || ''} onError={() => setFailed(true)} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '6px', display: 'block' }} />
-        : <Icons.Briefcase />}
+      <Icons.Briefcase />
     </div>
   );
 }

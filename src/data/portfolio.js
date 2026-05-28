@@ -97,8 +97,8 @@ export const portfolioData = {
     {
       // AI section is rendered as multi-paragraph; AboutSection splits on blank
       // lines and replaces **bold** runs with <strong>.
-      title: "AI",
-      content: `i use AI to help me build faster, not to think, and i am certainly not reliant on it. The quality of my work would not diminish if all AI ceased to exist tomorrow.
+      title: "My take on AI workflows",
+      content: `I use AI to help me build faster, not to think, and I am certainly not reliant on it. The quality of my work would not diminish if all AI ceased to exist tomorrow.
 
 The design process is inherently human, and the value of design is higher than ever when the average person can build whatever they can think of. Design goes far beyond just pretty visuals. It requires a masterful blend of business acumen, research, product vision, craft, super broad large-scale thinking., and more.
 
@@ -106,7 +106,7 @@ In the mind of a great designer, there's infinite context floating around. Exper
 
 When the average person prompts AI to make them something, they do not have the same mental model to pull from. Most don't think in the way that a designer, software architect, engineer, etc thinks. They have a different understanding of how things are shaped and used, and often times won't be able to foresee the major challenges that come with actually building a product.
 
-i use **my** design expertise in tandem with AI's ability to help pull together resources to build something that i know and i can verify will be good.`
+I use **my** design expertise in tandem with AI's ability to help pull together resources to build something that I know and I can verify will be good.`
     }
   ]
 };
