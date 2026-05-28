@@ -5,7 +5,7 @@ import { portfolioData } from '../data/portfolio.js';
 import { searchSite } from '../data/searchIndex.js';
 import { scrollAndHighlight, requestHighlight } from '../lib/highlight.js';
 import { useScrollLock } from '../hooks.js';
-import { track } from '../lib/analytics.js';
+import { track } from '../lib/events.js';
 
 const NAV_ACTIONS = [
   { id: 'home', type: 'navigation', title: 'Home', subtitle: 'Go to homepage', icon: Icons.Home },

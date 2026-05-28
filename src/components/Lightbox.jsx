@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { Icons } from './Icons.jsx';
 import { useScrollLock } from '../hooks.js';
-import { track } from '../lib/analytics.js';
+import { track } from '../lib/events.js';
 
 // Fullscreen image viewer with:
 //  - tap/click the image to zoom in, click again to zoom out

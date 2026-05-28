@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Icons } from './Icons.jsx';
 import { useNavigation } from '../context/NavigationContext.jsx';
 import { useWindowSize, useIsMac } from '../hooks.js';
-import { track } from '../lib/analytics.js';
+import { track } from '../lib/events.js';
 
 export default function Navigation({ openSpotlight, heroHeight }) {
   const { currentSection, navigateTo } = useNavigation();
@@ -43,14 +43,26 @@ export default function Navigation({ openSpotlight, heroHeight }) {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       const heroBottom = heroHeight - window.scrollY;
+      // The threshold is the y-coordinate of the nav's far edge. Top nav: 20+52 = 72.
+      // Bottom nav (mobile): the nav sits at viewport bottom − 20, so its TOP edge is
+      // at innerHeight − 72. Using innerHeight − 72 here means the theme flips when
+      // the hero's bottom passes the top edge of the bottom pill — visually the same
+      // moment the pill stops sitting over the shader.
+      const navEdge = navAtBottom ? window.innerHeight - navBottom : navBottom;
       // heroHeight > 0 guard: on case studies (heroHeight 0) an overscroll/pull-to-
       // refresh makes scrollY negative, which would otherwise flip the nav to blue.
-      setOnHero(heroHeight > 0 && heroBottom > navBottom);
+      setOnHero(heroHeight > 0 && heroBottom > navEdge);
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [heroHeight]);
+    // Recompute on resize so the threshold tracks innerHeight changes (address bar
+    // showing/hiding, rotation, etc.).
+    window.addEventListener('resize', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [heroHeight, navAtBottom]);
 
   const navItems = [
     { id: 'home', label: 'Home', icon: Icons.Home },

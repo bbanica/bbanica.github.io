@@ -4,6 +4,32 @@ import StaggerContainer from '../components/StaggerContainer.jsx';
 import { useWindowSize } from '../hooks.js';
 import { portfolioData } from '../data/portfolio.js';
 
+// Splits the accordion `content` on blank lines into paragraphs and replaces
+// **bold** runs with <strong>. Keeps single-paragraph entries (Background,
+// Approach, Interests) trivially equivalent to before while letting the AI
+// section breathe across multiple paragraphs.
+function renderContent(content) {
+  const paragraphs = content.split(/\n\n+/);
+  return paragraphs.map((para, i) => (
+    <p
+      key={i}
+      style={{
+        fontSize: '14px',
+        color: 'var(--color-text-secondary)',
+        lineHeight: 1.8,
+        marginTop: i === 0 ? 0 : '12px',
+      }}
+    >
+      {para.split(/(\*\*[^*]+\*\*)/g).map((chunk, j) => {
+        const m = chunk.match(/^\*\*([^*]+)\*\*$/);
+        return m
+          ? <strong key={j} style={{ color: 'var(--color-text)', fontWeight: 700 }}>{m[1]}</strong>
+          : <span key={j}>{chunk}</span>;
+      })}
+    </p>
+  ));
+}
+
 export default function AboutSection() {
   const [openIndex, setOpenIndex] = useState(0);
   const { width } = useWindowSize();
@@ -32,7 +58,9 @@ export default function AboutSection() {
               </button>
               <div style={{ display: 'grid', gridTemplateRows: isOpen ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s cubic-bezier(0.32, 0.72, 0, 1)' }}>
                 <div style={{ overflow: 'hidden' }}>
-                  <p style={{ padding: '0 18px 18px', fontSize: '14px', color: 'var(--color-text-secondary)', lineHeight: 1.8 }}>{item.content}</p>
+                  <div style={{ padding: '0 18px 18px' }}>
+                    {renderContent(item.content)}
+                  </div>
                 </div>
               </div>
             </div>
