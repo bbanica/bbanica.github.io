@@ -78,6 +78,11 @@ export default function ShaderCanvas({ containerRef, fragmentShader, shaderKey =
   }, [containerRef, fragmentShader, shaderKey]);
 
   return (
-    <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }} />
+    // The filter does double duty. It's the 10% darkening the old overlay applied,
+    // and — more importantly — any CSS filter forces the canvas through the normal
+    // compositing path every frame. Without one, the browser may hand this opaque,
+    // constantly-updating canvas straight to the display hardware on some frames,
+    // and the nav's backdrop-filter (which can't read pixels from that path) blinks.
+    <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, filter: 'brightness(0.9)' }} />
   );
 }

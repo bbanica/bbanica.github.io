@@ -74,8 +74,9 @@ const FOOTER_SHADE = `
 // backdrop-filter — that overlay flickered and popped in/out as the browser
 // re-composited it. Each pixel averages a Gaussian-weighted golden-angle spiral
 // of samples, rotated per pixel (interleaved gradient noise) so sharp edges in
-// the pattern don't ghost into visible stripes; `blur` is the Gaussian sigma in uv units (set from CSS px in
-// ShaderCanvas). The final * 0.9 replaces the overlay's rgba(0,0,0,0.1) tint.
+// the pattern don't ghost into visible stripes; `blur` is the Gaussian sigma in
+// uv units (set from CSS px in ShaderCanvas). The old overlay's 10% darkening now
+// lives on the canvas as a CSS filter (see ShaderCanvas for why).
 const blurred = (shadeSrc) => `
   precision highp float;
   varying vec2 uv;
@@ -95,7 +96,7 @@ const blurred = (shadeSrc) => `
       sum += shade(uv + vec2(cos(a), sin(a)) * r * blur) * w;
       wsum += w;
     }
-    gl_FragColor = vec4(sum / wsum * 0.9, 1.0);
+    gl_FragColor = vec4(sum / wsum, 1.0);
   }
 `;
 
