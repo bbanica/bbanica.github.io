@@ -3,6 +3,7 @@
 Drop square company logos (PNG, ~256×256, transparent background ideal) here.
 Filenames referenced by `src/data/portfolio.js` → `experience[].logo`:
 
+- `loves.png`
 - `paycom.png`
 - `bluvector.png`
 - `uw-formula.png`

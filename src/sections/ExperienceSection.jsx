@@ -98,7 +98,9 @@ export default function ExperienceSection() {
                       {r.sub && (
                         <p style={{ fontSize: '13px', fontStyle: 'italic', color: 'var(--color-text-tertiary)', marginTop: '4px' }}>{r.sub}</p>
                       )}
-                      <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', lineHeight: 1.7, marginTop: '8px' }}>{r.description}</p>
+                      {r.description && (
+                        <p style={{ fontSize: '14px', color: 'var(--color-text-secondary)', lineHeight: 1.7, marginTop: '8px' }}>{r.description}</p>
+                      )}
                     </div>
                   ))}
                 </div>

@@ -45,7 +45,12 @@ export default function HeroSection({ shaderKey, onHeightChange }) {
           fontWeight: 600,
           fontStyle: 'italic'
         }}>
-          lead product designer&nbsp; <span style={{ position: 'relative', display: 'inline-block' }}>
+          UX designer&nbsp; <a
+            href="https://www.loves.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ position: 'relative', display: 'inline-block', color: 'inherit', textDecoration: 'none' }}
+          >
             <span style={{
               position: 'absolute',
               inset: '0px -3px',
@@ -70,8 +75,8 @@ export default function HeroSection({ shaderKey, onHeightChange }) {
                 const highlight = e.currentTarget.previousSibling;
                 if (highlight) highlight.style.background = 'rgba(255, 255, 255, 0.15)';
               }}
-            >@ a fintech giant</span>
-          </span>
+            >@ Love's</span>
+          </a>
         </p>
         <p style={{
           fontSize: 'clamp(15px, 2.2vw, 18px)',

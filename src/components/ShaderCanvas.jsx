@@ -1,8 +1,15 @@
 import { useRef, useEffect } from 'react';
 import { VERTEX_SHADER } from '../shaders.js';
 
-// Renders an animated WebGL gradient into its parent (which must be position:relative),
-// plus the frosted-glass blur overlay that sits on top of it. Shared by the hero and footer.
+// Renders an animated, pre-blurred WebGL gradient into its parent (which must be
+// position:relative). The blur happens inside the fragment shader (see shaders.js),
+// so there's no backdrop-filter layer to flicker. Shared by the hero and footer.
+
+// Gaussian sigma of the blur, in CSS px (matches the old blur(40px) overlay).
+const BLUR_PX = 40;
+// The output is heavily blurred, so it can render well below CSS resolution and
+// let the browser upscale — keeps the 48-tap blur cheap.
+const RENDER_SCALE = 0.25;
 export default function ShaderCanvas({ containerRef, fragmentShader, shaderKey = 0 }) {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
@@ -33,12 +40,14 @@ export default function ShaderCanvas({ containerRef, fragmentShader, shaderKey =
     const posLoc = gl.getAttribLocation(program, 'pos');
     const aspectLoc = gl.getUniformLocation(program, 'aspect');
     const timeLoc = gl.getUniformLocation(program, 'time');
+    const blurLoc = gl.getUniformLocation(program, 'blur');
 
-    let W, H, t = 0;
+    let W, H, blurUv, t = 0;
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = Math.floor(container.offsetWidth * dpr);
-      H = Math.floor(container.offsetHeight * dpr);
+      W = Math.max(1, Math.floor(container.offsetWidth * RENDER_SCALE));
+      H = Math.max(1, Math.floor(container.offsetHeight * RENDER_SCALE));
+      // uv spans 2 units vertically across the container's CSS height.
+      blurUv = (BLUR_PX * 2) / Math.max(1, container.offsetHeight);
       canvas.width = W;
       canvas.height = H;
       canvas.style.width = container.offsetWidth + 'px';
@@ -56,6 +65,7 @@ export default function ShaderCanvas({ containerRef, fragmentShader, shaderKey =
       gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
       gl.uniform1f(aspectLoc, W / H);
       gl.uniform1f(timeLoc, t * 0.5);
+      gl.uniform1f(blurLoc, blurUv);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       animationRef.current = requestAnimationFrame(render);
     };
@@ -68,9 +78,6 @@ export default function ShaderCanvas({ containerRef, fragmentShader, shaderKey =
   }, [containerRef, fragmentShader, shaderKey]);
 
   return (
-    <>
-      <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }} />
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', background: 'rgba(0,0,0,0.1)' }} />
-    </>
+    <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }} />
   );
 }

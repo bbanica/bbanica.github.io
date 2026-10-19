@@ -1,7 +1,7 @@
 export const portfolioData = {
   personal: {
     name: "Dan Banica",
-    title: "Lead Product Designer",
+    title: "UX Designer II",
     tagline: "i build things and systems people want to keep using.",
     location: "Oklahoma",
     email: "hello@danbanica.com"
@@ -11,13 +11,25 @@ export const portfolioData = {
   // Single-role companies just have a one-item `roles` array.
   experience: [
     {
-      company: "Paycom",
-      logo: "/logos/paycom.png",
-      period: "May 2023 – Present",
+      company: "Love's Travel Stops",
+      logo: "/logos/loves.png",
+      period: "Oct 2026 – Present",
       roles: [
         {
-          role: "Lead Product Designer",
-          period: "Sep 2025 – Present",
+          role: "UX Designer II",
+          period: "Oct 2026 – Present",
+          description: ""
+        }
+      ]
+    },
+    {
+      company: "Paycom",
+      logo: "/logos/paycom.png",
+      period: "May 2023 – Oct 2026",
+      roles: [
+        {
+          role: "Product Designer II / Lead",
+          period: "Sep 2025 – Oct 2026",
           sub: "Platform, design systems, design engineering",
           description: "Lead role spanning platform UX, design systems, and design engineering. Captain of one of the original sprint teams for what became the most ambitious project in company history. Rollout design partner leading workshops, making systems decisions, and writing the code snippets that ship next to the specs. Mentoring three interns on the side."
         },
