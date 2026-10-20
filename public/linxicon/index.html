@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<!-- Same theme key as danbanica.com, so the visitor's light/dark choice carries over. -->
+<script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<title>Linxicon Playground — Dan Banica</title>
+<meta name="description" content="A word-association playground.">
+<link rel="icon" href="https://danbanica.com/favicon.svg" type="image/svg+xml">
+<script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+<style>
+  /* ---- danbanica.com design tokens (src/styles/global.css), verbatim ---- */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --color-bg: #FAFBFE;
+    --color-bg-elevated: #FFFFFF;
+    --color-text: #1a1a2e;
+    --color-text-secondary: #64648c;
+    --color-text-tertiary: #9999b3;
+    --color-primary: #2563eb;
+    --color-primary-light: #3b82f6;
+    --color-accent: #06b6d4;
+    --color-border: rgba(0,0,0,0.06);
+    --color-border-strong: rgba(0,0,0,0.1);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+    --shadow-xl: 0 20px 50px rgba(0,0,0,0.1);
+    --radius: 14px;
+    --radius-sm: 10px;
+    --radius-lg: 18px;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+    --nav-glass: rgba(255, 255, 255, 0.9);
+    --nav-glass-scrolled: rgba(255, 255, 255, 0.95);
+    --primary-tint: rgba(37, 99, 235, 0.1);
+    color-scheme: light dark;
+
+    /* ---- Replica-only tokens: one hue per scoring signal, tuned to sit with the palette ---- */
+    --sig-synonym: #059669;
+    --sig-wordnet: #d97706;
+    --sig-phrase: #4f46e5;
+    --sig-form: #c026d3;
+    --sig-conceptnet: var(--color-accent);
+    --sig-context: #65a30d;
+    --sig-embedding: var(--color-text-tertiary);
+    --start: var(--color-primary);
+    --end: #e11d48;
+    --success: #059669;
+    --danger: #e11d48;
+  }
+  :root[data-theme="dark"] {
+    --color-bg: #0f1017;
+    --color-bg-elevated: #191b24;
+    --color-text: #e9eaf2;
+    --color-text-secondary: #a6a8c4;
+    --color-text-tertiary: #75779a;
+    --color-primary: #6b9bff;
+    --color-primary-light: #87adff;
+    --color-accent: #2dd4ec;
+    --color-border: rgba(255, 255, 255, 0.10);
+    --color-border-strong: rgba(255, 255, 255, 0.18);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.55);
+    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.6);
+    --nav-glass: rgba(22, 23, 32, 0.72);
+    --nav-glass-scrolled: rgba(22, 23, 32, 0.85);
+    --primary-tint: rgba(107, 155, 255, 0.14);
+
+    --sig-synonym: #34d399;
+    --sig-wordnet: #fbbf24;
+    --sig-phrase: #818cf8;
+    --sig-form: #e879f9;
+    --sig-context: #a3e635;
+    --end: #fb7185;
+    --success: #34d399;
+    --danger: #fb7185;
+  }
+  html { scroll-behavior: smooth; background: var(--color-bg); }
+  body { font-family: var(--font-sans); background: var(--color-bg); color: var(--color-text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  main { overflow-x: clip; }
+  ::selection { background: var(--color-primary); color: white; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 10px; border: 2px solid var(--color-bg); }
+  [hidden] { display: none !important; }
+
+  /* ---- Floating nav pill (components/Navigation.jsx) ---- */
+  .nav-wrap { position: sticky; top: 20px; z-index: 1000; height: 0; display: flex; justify-content: center; align-items: flex-start; pointer-events: none; }
+  .nav { pointer-events: auto; display: flex; align-items: center; gap: 4px; padding: 8px; height: 52px;
+         background: var(--nav-glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+         border-radius: var(--radius); border: 1px solid var(--color-border); box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s ease; }
+  .nav.scrolled { background: var(--nav-glass-scrolled); box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+  .nav a, .nav button { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; color: var(--color-text-secondary); transition: all 0.3s ease; }
+  .nav a:hover, .nav button:hover { color: var(--color-text); }
+  .nav .divider { width: 1px; height: 24px; margin: 0 4px; background: var(--color-border); flex-shrink: 0; }
+  .nav.on-shader { background: rgba(40, 100, 200, 0.35); border-color: rgba(255,255,255,0.2); }
+  .nav.on-shader a, .nav.on-shader button { color: rgba(255,255,255,0.8); }
+  .nav.on-shader .divider { background: rgba(255,255,255,0.2); }
+  @media (max-width: 767px) {
+    .nav-wrap { position: fixed; top: auto; bottom: 20px; left: 0; right: 0; transform: translateZ(0); }
+    .nav { transform: translateY(-100%); }
+    .nav .label { display: none; }
+  }
+
+  /* ---- Page layout (case study article, widened for two boards) ---- */
+  .page { max-width: 1000px; margin: 0 auto; padding: 150px 24px 88px; }
+  @media (max-width: 767px) { .page { padding: 108px 20px 120px; } }
+  h1 { font-size: clamp(28px, 5vw, 40px); font-weight: 600; line-height: 1.08; letter-spacing: -0.015em; margin-bottom: 28px; }
+  hr { border: none; border-top: 1px solid var(--color-border); margin: 40px 0; }
+  @media (max-width: 767px) { hr { margin: 30px 0; } }
+  .eyebrow { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-tertiary); margin-bottom: 6px; }
+  section { scroll-margin-top: 90px; }
+  .sec-title { font-size: 26px; font-weight: 600; margin-bottom: 16px; letter-spacing: -0.01em; }
+  @media (max-width: 767px) { .sec-title { font-size: 22px; } }
+  .lib-group { margin: 20px 0 8px; }
+  .lib-group:first-of-type { margin-top: 0; }
+  .libs { padding: 0 18px; }
+  .lib { display: grid; grid-template-columns: minmax(200px, 280px) 1fr 16px; gap: 6px 20px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--color-border); transition: color 0.15s ease; }
+  .lib:first-child { border-top: none; }
+  .lib-name { font-size: 15px; font-weight: 600; color: var(--color-text); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .lib-desc { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+  .lib-arrow { color: var(--color-text-tertiary); align-self: center; transition: color 0.15s ease, transform 0.15s ease; }
+  .lib:hover .lib-name, .lib:hover .lib-arrow { color: var(--color-primary); }
+  .lib:hover .lib-arrow { transform: translateX(2px); }
+  @media (max-width: 767px) { .lib { grid-template-columns: 1fr 16px; } .lib-desc { grid-column: 1; } .lib-arrow { grid-row: 1; grid-column: 2; } }
+
+  /* ---- Cards, controls, tags (StatsGrid / JumpToSection / project-card styles) ---- */
+  .card { background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+  .controls { padding: 16px 18px; display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: flex-end; margin-bottom: 16px; }
+  .controls form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .field-label { width: 100%; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-tertiary); }
+  input { font: inherit; font-size: 15px; padding: 8px 12px; height: 40px; width: 150px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); outline: none; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+  input::placeholder { color: var(--color-text-tertiary); }
+  input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--primary-tint); }
+  @media (max-width: 767px) { .controls form { width: 100%; } input { flex: 1; min-width: 0; width: auto; } }
+  .btn { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; white-space: nowrap; transition: all 0.2s ease; }
+  .btn-primary { background: var(--primary-tint); color: var(--color-primary); }
+  .btn-primary:hover { background: var(--color-primary); color: white; }
+  .btn-secondary { color: var(--color-text-secondary); border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated); }
+  .btn-secondary:hover { color: var(--color-text); }
+  .btn:disabled { opacity: 0.5; cursor: wait; }
+  .msg { font-size: 14px; color: var(--danger); min-height: 1.4em; margin: -4px 0 12px; }
+  .loading { font-size: 14px; color: var(--color-text-secondary); margin: -4px 0 8px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; background: var(--color-bg); border-radius: var(--radius-sm); font-size: 11px; font-weight: 500; color: var(--color-text-secondary); white-space: nowrap; }
+  .card .tag { background: var(--color-bg); }
+  .legend .tag { background: var(--color-bg-elevated); border: 1px solid var(--color-border); }
+  .sw { display: inline-block; width: 14px; height: 3px; border-radius: 2px; }
+
+  /* ---- Boards ---- */
+  .boards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 860px) { .boards { grid-template-columns: 1fr; } }
+  .board { overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+  .board-head { padding: 16px 18px 12px; border-bottom: 1px solid var(--color-border); }
+  .board-head .eyebrow { margin-bottom: 4px; }
+  .board-head h3 { font-size: 17px; font-weight: 600; }
+  .board-head p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; min-height: 3.2em; }
+  @media (max-width: 860px) { .board-head p { min-height: 0; } }
+  .net-wrap { position: relative; }
+  .net { height: 440px; }
+  @media (max-width: 767px) { .net { height: 360px; } }
+  .reset-view { position: absolute; top: 10px; right: 10px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px;
+                font-size: 12px; font-weight: 500; color: var(--color-text-secondary); background: var(--color-bg-elevated);
+                border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); box-shadow: var(--shadow-sm); transition: color 0.15s ease; }
+  .reset-view:hover { color: var(--color-primary); }
+  .status { padding: 12px 18px; border-top: 1px solid var(--color-border); font-size: 14px; color: var(--color-text-secondary); min-height: 3.4em; }
+  .status b { color: var(--color-text); font-weight: 600; }
+  .status .win { color: var(--success); }
+  .diff { margin-top: 20px; padding: 16px 18px; font-size: 14px; color: var(--color-text-secondary); }
+  .diff b { color: var(--color-text); font-weight: 600; }
+  .diff ul { margin: 6px 0 10px; padding-left: 18px; }
+  .hint { font-size: 13px; color: var(--color-text-tertiary); margin-top: 12px; }
+
+  /* ---- Tables ---- */
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th { text-align: left; padding: 8px 10px; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-tertiary); border-bottom: 1px solid var(--color-border-strong); }
+  td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--color-border); vertical-align: top; font-variant-numeric: tabular-nums; color: var(--color-text-secondary); }
+  td b, td strong { color: var(--color-text); font-weight: 600; }
+  .scroll { overflow-x: auto; }
+  a.inspect { color: var(--color-text); font-weight: 500; cursor: pointer; border-bottom: 1px dotted var(--color-text-tertiary); transition: color 0.15s ease; }
+  a.inspect:hover { color: var(--color-primary); border-color: var(--color-primary); }
+  #detail { padding: 18px; }
+  #detail h3 { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+
+  /* ---- Debug panel ---- */
+  .dbg-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 1000px) { .dbg-cols { grid-template-columns: 1fr; } }
+  .dbg { padding: 20px 18px; min-width: 0; }
+  .dbg h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+  .dbg h4 { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-tertiary); margin: 22px 0 8px; }
+  .dbg .score-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font-size: 14px; color: var(--color-text-secondary); }
+  .dbg .big { font-size: clamp(26px, 3.4vw, 34px); font-weight: 700; color: var(--color-primary); letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .yes { color: var(--success); font-weight: 600; } .no { color: var(--danger); font-weight: 600; }
+  .rule { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; border-left: 3px solid var(--color-primary); padding-left: 14px; margin-top: 14px; }
+  .note, .def { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+  .dbg ol.note { padding-left: 18px; }
+  .dbg ol.note li { margin-bottom: 4px; }
+  .dbg tr.winner td { background: var(--primary-tint); }
+  .dbg tr.skipped td { opacity: 0.55; }
+  .status-word { font-size: 11px; color: var(--color-text-tertiary); }
+  .bar { position: relative; width: 84px; height: 6px; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 4px; display: inline-block; vertical-align: middle; margin-right: 8px; }
+  .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; }
+  .bar b { position: absolute; top: -4px; bottom: -4px; width: 2px; border-radius: 1px; background: var(--color-text); }
+  .raw { font-family: var(--font-mono); font-size: 11.5px; color: var(--color-text-tertiary); margin-top: 4px; line-height: 1.6; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chip small { color: var(--color-text-tertiary); font-weight: 400; }
+  details { margin-top: 10px; border-top: 1px solid var(--color-border); }
+  details summary { cursor: pointer; padding: 10px 0 2px; font-size: 14px; font-weight: 500; color: var(--color-text-secondary); list-style: none; display: flex; justify-content: space-between; transition: color 0.15s ease; }
+  details summary:hover { color: var(--color-primary); }
+  details summary::after { content: "⌄"; color: var(--color-text-tertiary); transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
+  details[open] summary::after { transform: rotate(180deg); }
+  .sense { margin-top: 6px; font-size: 14px; }
+  .sense b { font-family: var(--font-mono); font-size: 12.5px; color: var(--color-text); }
+
+  /* ---- Footer (components/Footer.jsx) ---- */
+  footer { position: relative; overflow: hidden; padding: 72px 24px 44px; }
+  @media (max-width: 767px) { footer { padding: 56px 20px 36px; } }
+  footer canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; filter: brightness(0.9); }
+  .footer-inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 2; }
+  .footer-cta { text-align: center; margin-bottom: 36px; }
+  .footer-cta h3 { font-size: clamp(26px, 5vw, 38px); font-weight: 600; color: white; margin-bottom: 24px; }
+  .footer-links { display: flex; justify-content: center; align-items: center; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
+  .footer-links a, .contact { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.85); font-size: 15px; font-weight: 500; transition: color 0.2s ease; }
+  .contact { font-size: 16px; color: rgba(255,255,255,0.9); }
+  .footer-links a:hover, .contact:hover { color: white; }
+  .contact span { display: inline-block; max-width: 80px; overflow: hidden; white-space: nowrap; transition: max-width 0.4s ease; }
+  .contact.revealed span { max-width: 300px; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 13px; color: rgba(255,255,255,0.6); flex-wrap: wrap; gap: 14px; }
+  .footer-bottom div { display: flex; align-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+
+<div class="nav-wrap">
+  <nav class="nav" id="nav">
+    <a href="https://danbanica.com/"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="label">Home</span></a>
+    <a href="https://danbanica.com/#work"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="label">Work</span></a>
+    <a href="https://danbanica.com/#experience"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg><span class="label">Experience</span></a>
+    <a href="https://danbanica.com/#about"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="label">About</span></a>
+    <div class="divider"></div>
+    <button id="themeToggle" type="button"></button>
+  </nav>
+</div>
+
+<main>
+<article class="page">
+  <h1>Linxicon playground</h1>
+
+  <section id="play">
+    <div class="card controls">
+      <form id="newForm">
+        <div class="field-label">New game · blank = random</div>
+        <input id="tl" placeholder="Start" autocomplete="off" aria-label="Start word">
+        <input id="br" placeholder="End" autocomplete="off" aria-label="End word">
+        <button class="btn btn-secondary">New game</button>
+      </form>
+      <form id="addForm">
+        <div class="field-label">Add a word</div>
+        <input id="word" placeholder="e.g. football" autocomplete="off" required minlength="3" maxlength="15" aria-label="Word to add">
+        <button class="btn btn-primary">Add</button>
+      </form>
+    </div>
+    <div class="loading" id="loading" role="status" aria-live="polite" hidden></div>
+    <div class="msg" id="msg" role="status" aria-live="polite"></div>
+
+    <p class="hint" style="margin:0 0 10px">Connect the blue word to the red one. Click a word for its scores or a link for its breakdown. Double-click a board or use Reset view to recenter.</p>
+    <div class="legend">
+      <span class="tag"><i class="sw" style="background:var(--sig-synonym)"></i>Synonym</span>
+      <span class="tag"><i class="sw" style="background:var(--sig-wordnet)"></i>WordNet relation</span>
+      <span class="tag"><i class="sw" style="background:var(--sig-phrase)"></i>Phrase</span>
+      <span class="tag"><i class="sw" style="background:var(--sig-form)"></i>Root / pattern</span>
+      <span class="tag"><i class="sw" style="background:var(--sig-conceptnet)"></i>ConceptNet</span>
+      <span class="tag"><i class="sw" style="background:var(--sig-context)"></i>Shared context</span>
+      <span class="tag"><i class="sw" style="background:var(--sig-embedding)"></i>Embedding</span>
+      <span class="tag"><i class="sw" style="background:var(--color-text);height:4px"></i>Shortest path</span>
+    </div>
+
+    <div class="boards">
+      <div class="card board">
+        <div class="board-head"><div class="eyebrow">linxicon.com</div><h3>Original rules</h3><p>Dictionary relations replace scores, and compound words block links.</p></div>
+        <div class="net-wrap"><div class="net" id="net-original"></div><button class="reset-view" type="button" data-board="original" title="Fit every word in view (or double-click the board)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>Reset view</button></div>
+        <div class="status" id="status-original"></div>
+      </div>
+      <div class="card board">
+        <div class="board-head"><div class="eyebrow">Rebuilt</div><h3>Improved rules</h3><p>The strongest of phrases, roots, patterns, ConceptNet, shared context and embeddings.</p></div>
+        <div class="net-wrap"><div class="net" id="net-improved"></div><button class="reset-view" type="button" data-board="improved" title="Fit every word in view (or double-click the board)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>Reset view</button></div>
+        <div class="status" id="status-improved"></div>
+      </div>
+    </div>
+    <div class="card diff" id="diff"></div>
+  </section>
+
+  <section id="scores" hidden>
+    <hr>
+    <h2 class="sec-title">Word scores</h2>
+    <div class="card scroll" id="detail"></div>
+  </section>
+
+  <hr>
+
+  <section id="inspect">
+    <h2 class="sec-title">How a link is scored</h2>
+    <div class="card controls">
+      <form id="inspectForm">
+        <div class="field-label">Inspect a pair</div>
+        <input id="ia" placeholder="e.g. ice" autocomplete="off" aria-label="First word">
+        <input id="ib" placeholder="e.g. water" autocomplete="off" aria-label="Second word">
+        <button class="btn btn-primary">Inspect</button>
+      </form>
+    </div>
+    <div id="debug" hidden></div>
+  </section>
+
+  <hr>
+
+  <section id="libraries">
+    <h2 class="sec-title">Libraries and data</h2>
+      <div class="eyebrow lib-group">Language and data</div>
+      <div class="card libs"><a class="lib" href="https://huggingface.co/Xenova/all-MiniLM-L6-v2" target="_blank" rel="noopener noreferrer"><div class="lib-name">all-MiniLM-L6-v2 <span class="tag">fp16</span></div><div class="lib-desc">The sentence-embedding model behind the “embedding” score, run in your browser. It turns each word (and each word plus its definitions) into a vector; linxicon.com says it uses the same model.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://wordnet.princeton.edu" target="_blank" rel="noopener noreferrer"><div class="lib-name">WordNet <span class="tag">3.0</span></div><div class="lib-desc">Dictionary of meanings and relations: synonyms, derived forms, “kind of”, part/whole and compounds. It also supplies the definitions for shared-context profiles and decides which words are playable.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://github.com/commonsense/conceptnet-numberbatch" target="_blank" rel="noopener noreferrer"><div class="lib-name">ConceptNet Numberbatch <span class="tag">19.08</span></div><div class="lib-desc">Common-sense word vectors. They drive the “ConceptNet” score, match words inside shared context, add words WordNet lacks (paperless), and their term list supplies curated phrases.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://conceptnet.io" target="_blank" rel="noopener noreferrer"><div class="lib-name">ConceptNet <span class="tag">5.7</span></div><div class="lib-desc">The common-sense knowledge graph Numberbatch is built from.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://dumps.wikimedia.org/enwiki/latest/" target="_blank" rel="noopener noreferrer"><div class="lib-name">Wikipedia article titles</div><div class="lib-desc">Every English article title, filtered to two-word phrases (“fantasy football”, “transfer of power”) for the phrase signal.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
+      <div class="eyebrow lib-group">In your browser</div>
+      <div class="card libs"><a class="lib" href="https://huggingface.co/docs/transformers.js" target="_blank" rel="noopener noreferrer"><div class="lib-name">Transformers.js <span class="tag">4.3.0</span></div><div class="lib-desc">Runs MiniLM locally in a background thread, so no server is needed.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://onnxruntime.ai/docs/tutorials/web/" target="_blank" rel="noopener noreferrer"><div class="lib-name">ONNX Runtime Web <span class="tag">1.31</span></div><div class="lib-desc">Does the model’s math in WebAssembly, loaded by Transformers.js.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://visjs.github.io/vis-network/docs/network/" target="_blank" rel="noopener noreferrer"><div class="lib-name">vis-network <span class="tag">9.1.9</span></div><div class="lib-desc">Draws, animates, zooms and pans the boards. It’s the same library linxicon.com uses, which is why the zoom matches.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
+      <div class="eyebrow lib-group">Building and checking the data (Python)</div>
+      <div class="card libs"><a class="lib" href="https://www.sbert.net" target="_blank" rel="noopener noreferrer"><div class="lib-name">sentence-transformers <span class="tag">6.1.0</span></div><div class="lib-desc">Runs MiniLM in the Python reference engine that the browser version is tested against.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://pytorch.org" target="_blank" rel="noopener noreferrer"><div class="lib-name">PyTorch <span class="tag">2.14.1</span></div><div class="lib-desc">Does the model’s math under sentence-transformers.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://huggingface.co/docs/transformers" target="_blank" rel="noopener noreferrer"><div class="lib-name">Hugging Face Transformers <span class="tag">5.20.2</span></div><div class="lib-desc">The model architecture and tokenizer sentence-transformers builds on.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://huggingface.co/docs/huggingface_hub" target="_blank" rel="noopener noreferrer"><div class="lib-name">Hugging Face Hub <span class="tag">1.33.0</span></div><div class="lib-desc">Downloads the model weights.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://www.nltk.org" target="_blank" rel="noopener noreferrer"><div class="lib-name">NLTK <span class="tag">3.10.3</span></div><div class="lib-desc">Python access to WordNet; the browser’s WordNet lookups are exported from it and checked against it.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://numpy.org" target="_blank" rel="noopener noreferrer"><div class="lib-name">NumPy <span class="tag">2.5.4</span></div><div class="lib-desc">Vector math for the reference engine, and the compact int8 format the ConceptNet vectors ship in.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a><a class="lib" href="https://docs.python.org/3/library/http.server.html" target="_blank" rel="noopener noreferrer"><div class="lib-name">Python standard library <span class="tag">3.14</span></div><div class="lib-desc">http.server previews the page locally; gzip and json write the data files.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
+      <div class="eyebrow lib-group">Research only</div>
+      <div class="card libs"><a class="lib" href="https://github.com/first20hours/google-10000-english" target="_blank" rel="noopener noreferrer"><div class="lib-name">google-10000-english</div><div class="lib-desc">Common English words, used to sample random pairs when probing linxicon.com’s scoring.</div><svg class="lib-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
+  </section>
+</article>
+</main>
+
+<footer id="footer">
+  <canvas id="footerShader"></canvas>
+  <div class="footer-inner">
+    <div class="footer-cta">
+      <h3>Let's chat</h3>
+      <button class="contact" id="contact" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg>
+        <span>Contact</span>
+      </button>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/bbanica-wa/" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg> LinkedIn</a>
+        <a href="https://danbanica.com/dan-banica-resume.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Résumé</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Dan Banica</span>
+      <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Oklahoma</span></div>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+// Footer gradient: a port of components/ShaderCanvas.jsx using the site's own shaders.js.
+import { VERTEX_SHADER, FOOTER_FRAGMENT } from "./static/shaders.js";
+const BLUR_PX = 40, RENDER_SCALE = 0.25;
+const container = document.getElementById("footer"), canvas = document.getElementById("footerShader");
+const gl = canvas.getContext("webgl", { antialias: false });
+if (gl) {
+  const shader = (src, type) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  const program = gl.createProgram();
+  gl.attachShader(program, shader(VERTEX_SHADER, gl.VERTEX_SHADER));
+  gl.attachShader(program, shader(FOOTER_FRAGMENT, gl.FRAGMENT_SHADER));
+  gl.linkProgram(program);
+  const vbo = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+  const posLoc = gl.getAttribLocation(program, "pos"), aspectLoc = gl.getUniformLocation(program, "aspect");
+  const timeLoc = gl.getUniformLocation(program, "time"), blurLoc = gl.getUniformLocation(program, "blur");
+  let W, H, blurUv, t = 0;
+  const resize = () => {
+    W = Math.max(1, Math.floor(container.offsetWidth * RENDER_SCALE));
+    H = Math.max(1, Math.floor(container.offsetHeight * RENDER_SCALE));
+    blurUv = (BLUR_PX * 2) / Math.max(1, container.offsetHeight);
+    canvas.width = W; canvas.height = H;
+    gl.viewport(0, 0, W, H);
+  };
+  resize(); window.addEventListener("resize", resize);
+  const frame = () => {
+    t += 0.016;
+    gl.useProgram(program);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+    gl.uniform1f(aspectLoc, W / H); gl.uniform1f(timeLoc, t * 0.5); gl.uniform1f(blurLoc, blurUv);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(frame);
+  };
+  frame();
+}
+</script>
+
+<script>
+const MODES = ["original", "improved"];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const $ = id => document.getElementById(id);
+const FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif";
+let state = null, lastExplain = null, lastDetail = null;
+
+// ---- Word engine ----
+// Everything runs in this browser: engine/worker.js loads WordNet, ConceptNet, the phrase
+// lists and the MiniLM model (about 95 MB the first time, cached after), then scores words
+// in a background thread so the page stays responsive.
+const worker = new Worker("engine/worker.js", { type: "module" });
+const pending = new Map();
+let nextId = 0;
+const LOAD_STEPS = ["WordNet", "ConceptNet", "phrases", "word weights", "language model"];
+const ask = (type, args = {}) => new Promise((resolve, reject) => {
+  const id = nextId++;
+  pending.set(id, { resolve, reject });
+  worker.postMessage({ id, type, ...args });
+});
+worker.onmessage = ({ data }) => {
+  if (data.type === "progress") return showProgress(data);
+  const p = pending.get(data.id);
+  pending.delete(data.id);
+  data.ok ? p.resolve(data.data) : p.reject(new Error(data.error));
+};
+worker.onerror = e => showLoading(`The word engine couldn't start (${e.message || "unknown error"}). Try reloading the page.`);
+function showLoading(text) { $("loading").hidden = !text; $("loading").textContent = text || ""; }
+function showProgress({ step, loaded, total }) {
+  const pct = total ? ` ${Math.round((loaded / total) * 100)}%` : "";
+  showLoading(`Loading the word engine, step ${LOAD_STEPS.indexOf(step) + 1} of ${LOAD_STEPS.length}: ${step}${pct}… `
+    + "The first visit downloads about 95 MB; after that it loads from your browser's cache.");
+}
+const setBusy = busy => document.querySelectorAll("main button").forEach(b => b.disabled = busy);
+
+// The current game is saved in this browser so a reload brings it back.
+const SAVE_KEY = "linxicon-game";
+function saveGame(type, args, data) {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch (e) {}
+  if (type === "new" || type === "init" || !saved) saved = { tl: data.improved.tl, br: data.improved.br, tried: [] };
+  if (type === "add" && Object.keys(data.errors || {}).length < MODES.length) saved.tried.push(args.word);
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(saved)); } catch (e) {}
+}
+const boards = {};
+
+// ---- Site chrome: theme toggle, nav states, contact reveal ----
+const ICON_MOON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+const ICON_SUN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+const isDark = () => document.documentElement.getAttribute("data-theme") === "dark";
+function paintToggle() {
+  const t = $("themeToggle"), label = isDark() ? "Switch to light mode" : "Switch to dark mode";
+  t.innerHTML = isDark() ? ICON_SUN : ICON_MOON;
+  t.setAttribute("aria-label", label); t.title = label;
+}
+$("themeToggle").onclick = () => {
+  const root = document.documentElement;
+  if (isDark()) root.removeAttribute("data-theme"); else root.setAttribute("data-theme", "dark");
+  try { localStorage.setItem("theme", isDark() ? "dark" : "light"); } catch (e) {}
+  paintToggle();
+  if (state) render();
+  if (lastDetail) showDetail(lastDetail);
+  if (lastExplain) paintExplain();
+};
+paintToggle();
+
+function onScroll() {
+  const nav = $("nav");
+  nav.classList.toggle("scrolled", window.scrollY > 50);
+  // Mobile: the bottom pill swaps to its blue theme while it sits over the footer shader.
+  const atBottom = window.innerWidth < 768;
+  nav.classList.toggle("on-shader", atBottom && $("footer").getBoundingClientRect().top <= window.innerHeight - 72);
+}
+window.addEventListener("scroll", onScroll); window.addEventListener("resize", onScroll); onScroll();
+
+$("contact").onclick = e => {
+  const btn = e.currentTarget;
+  if (btn.classList.contains("revealed")) { window.location.href = "mailto:hello@danbanica.com"; return; }
+  btn.classList.add("revealed"); btn.querySelector("span").textContent = "hello@danbanica.com";
+};
+$("year").textContent = new Date().getFullYear();
+
+// ---- Boards ----
+// Zoom and pan behave like linxicon.com (same vis-network defaults: a fixed 10% step per
+// wheel/pinch event, capped at 10×). Like the original, the view fits once when a game
+// starts and on double-click, never on its own afterwards, and labels are resized by
+// 1/zoom so words keep their on-screen size while only the spacing changes.
+// Unlike the original, the view can't be panned or zoomed away from the words: it
+// springs back on release, and "Reset view" refits it. The original pins the start and
+// end words to the corners so its first fit covers the board; this one doesn't pin, so
+// if a word you add settles off-screen, the view refits once to show it.
+const isMobile = () => matchMedia("(max-width: 767px)").matches;
+const PAD = 120;  // canvas units the view may wander past the outermost word
+
+function scaleLabels(b) {
+  // Port of the original's label scaling: 16px (14 on mobile), 1px smaller past 20 words.
+  let size = isMobile() ? 14 : 16;
+  if (b.nodes.length > 20) size -= 1;
+  const scale = b.net.getScale();
+  b.net.setOptions({ nodes: { font: { size: size / scale } }, edges: { font: { size: 11 / scale } } });
+}
+
+function fitView(b, animate) {
+  b.net.fit(animate ? { animation: { duration: 300, easingFunction: "easeInOutQuad" } } : undefined);
+  scaleLabels(b);
+  if (animate) setTimeout(() => scaleLabels(b), 320);
+}
+
+function clampView(b, animate) {
+  const ids = b.nodes.getIds();
+  if (!ids.length) return;
+  const pos = Object.values(b.net.getPositions(ids));
+  const xs = pos.map(p => p.x), ys = pos.map(p => p.y);
+  const [minX, maxX, minY, maxY] = [Math.min(...xs) - PAD, Math.max(...xs) + PAD, Math.min(...ys) - PAD, Math.max(...ys) + PAD];
+  const { clientWidth: w, clientHeight: h } = b.el;
+  const minScale = Math.min(w / (maxX - minX), h / (maxY - minY), 1) * 0.8;  // just past "everything fits"
+  const scale = b.net.getScale(), c = b.net.getViewPosition();
+  const target = { x: Math.min(Math.max(c.x, minX), maxX), y: Math.min(Math.max(c.y, minY), maxY) };
+  const nextScale = Math.max(scale, minScale);
+  if (nextScale !== scale || target.x !== c.x || target.y !== c.y) {
+    b.net.moveTo({ position: target, scale: nextScale, animation: animate ? { duration: 250, easingFunction: "easeOutQuad" } : false });
+    if (nextScale !== scale) scaleLabels(b);
+  }
+}
+
+for (const mode of MODES) {
+  const nodes = new vis.DataSet(), edges = new vis.DataSet(), el = $("net-" + mode);
+  const net = new vis.Network(el, { nodes, edges }, {
+    physics: { solver: "repulsion", repulsion: { nodeDistance: 160, springLength: 150, centralGravity: 0.2, damping: 0.09 } },
+    nodes: { shape: "box", margin: { top: 8, bottom: 8, left: 12, right: 12 }, borderWidth: 1.5, shapeProperties: { borderRadius: 10 },
+             font: { face: FONT, size: 16 }, shadow: { enabled: true, color: "rgba(0,0,0,0.06)", size: 8, x: 0, y: 2 } },
+    edges: { smooth: false, font: { face: FONT, size: 11, strokeWidth: 4 } },
+    interaction: { hover: true, keyboard: { enabled: false } },
+  });
+  const b = { nodes, edges, net, el, needsFit: true, added: null };
+  net.on("click", e => {
+    if (e.nodes[0]) showDetail(e.nodes[0]);
+    else if (e.edges[0]) inspect(...e.edges[0].split("-"));
+  });
+  net.on("doubleClick", () => fitView(b, false));
+  net.on("zoom", () => { scaleLabels(b); clampView(b, false); });
+  net.on("dragEnd", e => { if (!e.nodes.length) clampView(b, true); });
+  net.on("resize", () => scaleLabels(b));
+  net.on("stabilized", () => {
+    if (b.needsFit) { b.needsFit = false; fitView(b, false); return; }
+    if (b.added && b.nodes.get(b.added)) {
+      const p = net.canvasToDOM(net.getPositions([b.added])[b.added]);
+      if (p.x < 0 || p.y < 0 || p.x > el.clientWidth || p.y > el.clientHeight) fitView(b, true);
+    }
+    b.added = null;
+  });
+  boards[mode] = b;
+}
+document.querySelectorAll(".reset-view").forEach(btn => btn.onclick = () => fitView(boards[btn.dataset.board], true));
+
+const KIND_COLOR = { synonym: "--sig-synonym", phrase: "--sig-phrase", root: "--sig-form", pattern: "--sig-form",
+                     conceptnet: "--sig-conceptnet", context: "--sig-context", embedding: "--sig-embedding" };
+const edgeColor = e => css(KIND_COLOR[e.reason.split(":")[0]] || "--sig-wordnet");
+
+function render() {
+  const bg = css("--color-bg-elevated"), text = css("--color-text");
+  for (const mode of MODES) {
+    const s = state[mode], { nodes, edges } = boards[mode];
+    const onPath = new Set(s.path);
+    const pathEdges = new Set(s.path.slice(1).map((w, i) => [w, s.path[i]].sort().join("-")));
+    nodes.update(s.words.map(w => {
+      const c = w === s.tl ? css("--start") : w === s.br ? css("--end") : onPath.has(w) ? text : css("--color-border-strong");
+      const f = w === s.tl ? css("--start") : w === s.br ? css("--end") : text;
+      return { id: w, label: w, color: { border: c, background: bg, highlight: { border: css("--color-primary"), background: bg }, hover: { border: css("--color-primary"), background: bg } },
+               font: { color: f }, borderWidth: onPath.has(w) || w === s.tl || w === s.br ? 2 : 1.5 };
+    }));
+    nodes.remove(nodes.getIds().filter(id => !s.words.includes(id)));
+    const ids = new Set(s.edges.map(e => e.id));
+    edges.remove(edges.getIds().filter(id => !ids.has(id)));
+    edges.update(s.edges.map(e => ({
+      id: e.id, from: e.a, to: e.b, label: e.score.toFixed(2),
+      color: { color: pathEdges.has(e.id) ? text : edgeColor(e), highlight: css("--color-primary"), hover: css("--color-primary") },
+      width: pathEdges.has(e.id) ? 3.5 : 1.5, font: { color: css("--color-text-tertiary"), strokeColor: bg },
+    })));
+    $("status-" + mode).innerHTML = s.won
+      ? `<span class="win">Connected</span> in <b>${s.path.length} words</b>: ${s.path.join(" → ")}. Average link ${s.avgScore.toFixed(2)} · ${s.words.length}/${s.maxWords} on the board.`
+      : `Not connected yet · ${s.words.length}/${s.maxWords} words, ${s.edges.length} links.`;
+  }
+  renderDiff();
+}
+
+function renderDiff() {
+  const [o, i] = MODES.map(m => new Map(state[m].edges.map(e => [e.id, e])));
+  const only = (a, b) => [...a.values()].filter(e => !b.has(e.id));
+  const fmt = e => `<li>${e.a} – ${e.b}: ${e.score.toFixed(2)} (${e.reason})</li>`;
+  const oo = only(o, i), ii = only(i, o);
+  const changed = [...i.values()].filter(e => o.has(e.id) && Math.abs(o.get(e.id).score - e.score) > 0.005);
+  const fmtChange = e => { const p = o.get(e.id); return `<li>${e.a} – ${e.b}: ${p.score.toFixed(2)} (${p.reason}) → ${e.score.toFixed(2)} (${e.reason})</li>`; };
+  $("diff").innerHTML = !oo.length && !ii.length && !changed.length ? "Both boards have the same links and scores."
+    : (ii.length ? `<b>Only on the improved board</b><ul>${ii.map(fmt).join("")}</ul>` : "")
+    + (oo.length ? `<b>Only on the original board</b><ul>${oo.map(fmt).join("")}</ul>` : "")
+    + (changed.length ? `<b>Same link, different score</b> (original → improved)<ul>${changed.map(fmtChange).join("")}</ul>` : "");
+}
+
+function showDetail(word) {
+  lastDetail = word;
+  const rows = MODES.map(m => state[m].pairs.filter(p => p.a === word || p.b === word));
+  const other = p => p.a === word ? p.b : p.a;
+  const byWord = new Map(rows[1].map(p => [other(p), { imp: p }]));
+  rows[0].forEach(p => (byWord.get(other(p)) || byWord.set(other(p), {}).get(other(p))).orig = p);
+  const linked = m => new Set(state[m].edges.filter(e => e.a === word || e.b === word).map(other));
+  const [lo, li] = MODES.map(linked);
+  const cell = (p, l) => p ? `${l ? "<b>" : ""}${p.score.toFixed(3)}${l ? " ✓</b>" : ""} <span class="tag"><i class="sw" style="background:${edgeColor(p)}"></i>${p.reason}</span>` : "";
+  const list = [...byWord.entries()].sort((x, y) => y[1].imp.score - x[1].imp.score);
+  $("scores").hidden = false;
+  $("detail").innerHTML = `<h3>${word}</h3><p class="note" style="margin-bottom:10px">Scores to every other word on the board. ✓ = linked, threshold ${state.improved.threshold}. Click a word to inspect the pair.</p>
+    <table><tr><th>Word</th><th>Original</th><th>Improved</th></tr>
+    ${list.map(([w, r]) => `<tr><td><a class="inspect" onclick="inspect('${word}','${w}')">${w}</a></td><td>${cell(r.orig, lo.has(w))}</td><td>${cell(r.imp, li.has(w))}</td></tr>`).join("")}</table>`;
+}
+
+async function api(type, args = {}) {
+  setBusy(true);
+  try {
+    const data = await ask(type, args);
+    if (!data) return false;
+    const errs = Object.entries(data.errors || {});
+    const label = m => m[0].toUpperCase() + m.slice(1) + " board";
+    $("msg").textContent = errs.length === 2 && errs[0][1] === errs[1][1] ? errs[0][1]
+      : errs.map(([m, e]) => `${label(m)}: ${e}`).join(" · ");
+    if (["new", "restore", "init"].includes(type)) MODES.forEach(m => { boards[m].nodes.clear(); boards[m].edges.clear(); boards[m].needsFit = true; });
+    state = data; render(); saveGame(type, args, data);
+    return true;
+  } catch (e) {
+    $("msg").textContent = e.message;
+    return false;
+  } finally {
+    setBusy(false);
+  }
+}
+
+const esc = t => String(t).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const num = v => typeof v === "number" ? v.toFixed(3) : esc(v);
+const bar = (v, color) => `<span class="bar"><i style="width:${Math.min(v, 1) * 100}%;background:${color}"></i><b style="left:${state.improved.threshold * 100}%"></b></span>`;
+const KIND_OF = name => name.startsWith("wordnet: ") ? (name.endsWith("synonym") ? "synonym" : "wordnet") : name.split(" ")[0];
+
+async function inspect(a, b) {
+  let data;
+  try { data = await ask("explain", { a, b }); } catch (e) { $("msg").textContent = e.message; return; }
+  $("ia").value = a; $("ib").value = b;
+  lastExplain = { a, b, data };
+  paintExplain();
+  $("inspect").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function paintExplain() {
+  const { a, b, data } = lastExplain;
+  $("debug").hidden = false;
+  $("debug").innerHTML = `<div class="dbg-cols">${MODES.map(m => renderExplain(data[m])).join("")}</div>`;
+}
+
+function renderExplain(e) {
+  const t = state.improved.threshold;
+  const links = e.score >= t;
+  const notPlayable = Object.entries(e.playable).filter(([, ok]) => !ok).map(([w]) => w);
+  const color = s => css(KIND_COLOR[KIND_OF(s.name)] || "--sig-wordnet");
+  const rows = e.signals.map(s => `<tr class="${s.status}">
+      <td><b>${esc(s.name)}</b><div class="status-word">${esc(s.status)}${s.note ? ": " + esc(s.note) : ""}</div></td>
+      <td style="white-space:nowrap">${bar(s.value, color(s))}${num(s.value)}</td>
+      <td>${esc(s.detail)}${Object.keys(s.raw).length ? `<div class="raw">${Object.entries(s.raw).map(([k, v]) => `${esc(k)} = ${num(v)}`).join("<br>")}</div>` : ""}</td>
+    </tr>`).join("");
+  const board = e.board ? `<h4>On this board</h4>
+      <div class="note">${e.board.linked ? '<span class="yes">Linked</span>' : '<span class="no">Not linked</span>'}: ${esc(e.board.why)}${e.board.on_path ? " · <b>on the shortest path</b>" : ""}</div>
+      <div class="note">${Object.entries(e.board.rank).map(([w, r]) => r.rank ? `${esc(w)}: #${r.rank} of its ${r.of} links above threshold (keeps the top ${e.board.max_links})` : `${esc(w)}: not ranked (below threshold)`).join("<br>")}</div>`
+    : `<h4>On this board</h4><div class="note">Add both words to the board to see whether this link survives the ${t} threshold and the top-5 rule.</div>`;
+  return `<div class="card dbg">
+    <div class="eyebrow">${e.mode === "original" ? "linxicon.com" : "Rebuilt"}</div>
+    <h3>${e.mode === "original" ? "Original rules" : "Improved rules"}</h3>
+    <div class="score-line"><span class="big">${num(e.score)}</span>${links ? `<span class="yes">≥ ${t}, can link</span>` : `<span class="no">&lt; ${t}, no link</span>`}<span>Winning signal: <b style="color:var(--color-text)">${esc(e.reason)}</b></span></div>
+    ${notPlayable.length ? `<div class="no" style="margin-top:8px;font-size:14px">Not playable on this board: ${notPlayable.map(esc).join(", ")}</div>` : ""}
+    <p class="rule">${esc(e.rule)}</p>
+    <h4>Signals</h4>
+    <div class="scroll"><table><tr><th>Signal</th><th>Score</th><th>Evidence & raw numbers</th></tr>${rows}</table></div>
+    ${board}
+    ${e.context ? renderContext(e.context, e.a, e.b) : ""}
+  </div>`;
+}
+
+function renderContext(c, a, b) {
+  const best = c.best;
+  if (!best) return `<h4>Shared context</h4><div class="note">No meaning of one of the words has at least 4 profile words ConceptNet knows, so there's nothing to compare.</div>`;
+  const src = s => `<span class="status-word">${esc(s)}</span>`;
+  const matches = best.matches.slice(0, 15).map(([x, sx, y, sy, cos, w]) =>
+    `<tr><td><b>${esc(x)}</b> ${src(sx)}</td><td><b>${esc(y)}</b> ${src(sy)}</td><td>${cos.toFixed(2)}</td><td>${w.toFixed(1)}</td><td>${(cos * w).toFixed(2)}</td></tr>`).join("");
+  const chips = prof => `<div class="chips">${prof.map(([w, s, wt]) => `<span class="tag">${esc(w)} <small class="chip">${esc(s)} · ${wt.toFixed(1)}</small></span>`).join("")}</div>`;
+  return `<h4>Shared context: how it was computed</h4>
+    <ol class="note">
+      <li>Each word is split into up to 4 meanings (WordNet senses). Each meaning gets a profile: definition and example words (<i>gloss</i>), synonyms, broader categories, and phrase partners from ConceptNet (<i>phrase</i>).</li>
+      <li>Every meaning of “${esc(a)}” (${c.senses_a}) is compared with every meaning of “${esc(b)}” (${c.senses_b}): ${c.tried.length} pairs had big enough profiles.</li>
+      <li>Each profile word finds its closest word on the other side (ConceptNet cosine), weighted by IDF so generic words count less. Precision is the weighted average for ${esc(a)}'s words, recall for ${esc(b)}'s, and F1 is their harmonic mean.</li>
+      <li>The best meaning pair's F1 becomes the score.</li>
+    </ol>
+    <div class="sense"><b>${esc(best.sense_a)}</b> <span class="def">${esc(best.def_a)}</span></div>
+    <div class="sense"><b>${esc(best.sense_b)}</b> <span class="def">${esc(best.def_b)}</span></div>
+    <div class="raw">profile sizes ${best.size_a} × ${best.size_b} · precision ${best.precision.toFixed(3)} · recall ${best.recall.toFixed(3)} · F1 ${best.f1.toFixed(3)}</div>
+    <h4>Strongest matches</h4>
+    <div class="scroll"><table><tr><th>${esc(a)}</th><th>Closest in ${esc(b)}</th><th>Cosine</th><th>Weight</th><th>Cos × weight</th></tr>${matches}</table></div>
+    <details><summary>All meaning pairs tried</summary><table>${c.tried.map(t => `<tr><td>${esc(t.sense_a)}</td><td>${esc(t.sense_b)}</td><td>${t.f1.toFixed(3)}</td></tr>`).join("")}</table></details>
+    <details><summary>Profile of ${esc(best.sense_a)} · ${best.profile_a.length} words</summary>${chips(best.profile_a)}</details>
+    <details><summary>Profile of ${esc(best.sense_b)} · ${best.profile_b.length} words</summary>${chips(best.profile_b)}</details>`;
+}
+
+$("inspectForm").onsubmit = e => { e.preventDefault(); inspect($("ia").value.trim().toLowerCase(), $("ib").value.trim().toLowerCase()); };
+$("newForm").onsubmit = e => { e.preventDefault(); $("scores").hidden = true; lastDetail = null; api("new", { tl: $("tl").value, br: $("br").value }); };
+$("addForm").onsubmit = async e => {
+  e.preventDefault();
+  const w = $("word").value.trim().toLowerCase(); $("word").value = "";
+  MODES.forEach(m => boards[m].added = w);
+  await api("add", { word: w }); $("word").focus();
+};
+(async () => {
+  setBusy(true);
+  showProgress({ step: "WordNet" });
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(SAVE_KEY)); } catch (e) {}
+  const restored = saved && await api("restore", saved);
+  if (!restored) await api("init");
+  if (state) showLoading("");
+})();
+</script>
+</body>
+</html>
